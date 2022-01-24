@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/providers/login_form_provider.dart';
 import 'package:recorridos_app/ui/input_decorations.dart';
@@ -12,6 +14,7 @@ import 'package:get_mac/get_mac.dart';
 
 bool? checar;
 bool activobtn = false;
+var respuesta;
 
 class LoginScreen extends StatelessWidget {
   String? codigo;
@@ -54,6 +57,24 @@ class _LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<_LoginForm> {
+  Future<String>? datos;
+  Future<String> traerusuarios() async {
+    print("entre");
+    var url =
+        Uri.parse("https://pruebasmatch.000webhostapp.com/traer_usuarios.php");
+    respuesta = await http.post(url, body: {
+      "codigo": "5555",
+    });
+    return respuesta.body;
+  }
+
+  @override
+  initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
   final LocalAuthentication _localAuthentication = LocalAuthentication();
 
   String _message = "Not Authorized";
@@ -107,6 +128,7 @@ class _LoginFormState extends State<_LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    print(traerusuarios());
     final loginForm = Provider.of<LoginFormProvider>(context);
 
     return Container(
@@ -118,6 +140,18 @@ class _LoginFormState extends State<_LoginForm> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              FutureBuilder<String>(
+                  future: traerusuarios(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<dynamic> datos = jsonDecode(snapshot.data!);
+                      print(datos);
+                      return Text('algo');
+                    } else {
+                      CircularProgressIndicator();
+                    }
+                    return CircularProgressIndicator();
+                  }),
               TextFormField(
                 autocorrect: false,
                 decoration: InputDecorations.authInputDecoration(
