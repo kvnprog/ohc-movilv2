@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/widgets/list_menu_widget.dart';
 
-void main() => runApp(BitacoraRecorridos());
-
 class BitacoraRecorridos extends StatelessWidget {
   //List item = List<Widget>.generate(20, (index) => ListMenuItem());
 
@@ -10,26 +8,21 @@ class BitacoraRecorridos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Material App',
-      home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             title: const Text('Incidencias en recorrido'),
           ),
           body: Container(
             child: Column(
-              children: [_personal_Widget()],
+              children: [
+                _personalWidget()
+              ],
             ),
-          )),
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[850],
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.amber),
-      ),
+          ),
     );
   }
 
-  Widget _personal_Widget() {
+  Widget _personalWidget() {
     final data = item.length;
     return Column(children: [
       Container(
