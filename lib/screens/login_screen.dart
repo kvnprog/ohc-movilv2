@@ -130,7 +130,6 @@ class _LoginFormState extends State<_LoginForm> {
   List<String> usersActiveArray = [];
   @override
   Widget build(BuildContext context) {
-    print(traerusuarios());
     final loginForm = Provider.of<LoginFormProvider>(context);
     return Column(
       children: [
@@ -159,9 +158,8 @@ class _LoginFormState extends State<_LoginForm> {
                     }),
                   );
                 } else {
-                  CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
-                return CircularProgressIndicator();
               }),
         ),
         const SizedBox(height: 50)
