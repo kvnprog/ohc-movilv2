@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:recorridos_app/data/places_data_class.dart';
 import 'package:recorridos_app/screens/alert_page.dart';
 import 'package:recorridos_app/screens/list_bitacora_recorridos.dart';
+import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/services/provider_listener_service.dart';
@@ -53,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         seconds: 1,
         loaderColor: Colors.black,
         navigateAfterFuture: _waitForValue(),
-        //navigateAfterSeconds: BitacoraRecorridos(),
+        //navigateAfterSeconds: PlacesInteraction(item: Places(icon: Icons.person_off, isActive: false, name: 'prueba'), numeroDeIncidencias: 2,),
         image: Image.asset(
           'assets/walk.gif',
           width: 260,

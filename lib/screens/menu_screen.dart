@@ -81,7 +81,7 @@ class MenuHome extends StatelessWidget {
           onTap: (){
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (BuildContext context)=>Contacto()
+                builder: (BuildContext context)=>HomeToursScreen()
               )
             );
           },
@@ -98,7 +98,6 @@ class MenuHome extends StatelessWidget {
           selectedTileColor: Colors.grey[600],
           onTap: (){
 
-            Navigator.of(context).pop();
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context)=>BitacoraRecorridos()

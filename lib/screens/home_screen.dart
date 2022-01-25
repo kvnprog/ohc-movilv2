@@ -83,7 +83,6 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('status is $status');
     if (status != 'nulo') {
       if (status != 'finished') {
         _stepsAvailable(Mode.defaultTheme, 7, [
@@ -103,62 +102,39 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         _distance = 120.0;
       }
 
-      return WillPopScope(
-        onWillPop: () {
-          return Future(() => false);
-        },
-        child: ChangeNotifierProvider(
-          create: (_) => ProviderListener(),
-          child: Consumer<ProviderListener>(
-            builder: (context, provider, child) => MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Material App',
-              home: Scaffold(
-                resizeToAvoidBottomInset: false,
-                appBar: AppBar(
-                  title: const Text('Recorridos'),
-                  elevation: 0,
-                  actions: <Widget>[
-                    IconButton(
-                        onPressed: () => Navigator.of(context).pop('login'),
-                        icon: const Icon(
-                          Icons.login_outlined,
-                          color: Colors.black,
-                          size: 30,
-                        )),
+      return ChangeNotifierProvider(
+        create: (_) => ProviderListener(),
+        child: Consumer<ProviderListener>(
+          builder: (context, provider, child) => Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                title: const Text('Recorridos'),
+                elevation: 0,
+                actions: <Widget>[
+                  IconButton(
+                      onPressed: () => Navigator.of(context).pop('login'),
+                      icon: const Icon(
+                        Icons.login_outlined,
+                        color: Colors.black,
+                        size: 30,
+                      )),
+                ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    _showGridPlaces(provider),
+
+                    //menú de interacción para generar incidencias
+                    //_deleteIncidenceOptions(provider, size),
+                    //NewInteractionMenu()
                   ],
                 ),
-                body: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      //menú desplegable para elegir recorrido o incidencia normal
-                      if (tourIsActive == false) _dropDownOptions(),
-
-                      const SizedBox(height: 35),
-
-                      //lista de lugares disponibles para recorrer
-                      if (_opcionSeleccionada == 'Recorrido' &&
-                          isCanceled != null)
-                        _insertPlaces(),
-                      if (status != 'finished') _insertPlaces(),
-
-                      const SizedBox(height: 10),
-
-                      //menú de interacción para generar incidencias
-                      _deleteIncidenceOptions(provider, size),
-                    ],
-                  ),
-                ),
-                floatingActionButton: _floatingActionButtonOptions(provider),
               ),
-              theme: ThemeData(
-                scaffoldBackgroundColor: Colors.grey[850],
-                appBarTheme: const AppBarTheme(backgroundColor: Colors.amber),
-              ),
+              //floatingActionButton: _floatingActionButtonOptions(provider),
             ),
           ),
-        ),
       );
     } else {
       _waitForValue();
@@ -265,31 +241,34 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     );
   }
 
-  Widget _dropDownOptions() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        //const Icon(Icons.select_all),
-        const SizedBox(width: 30.0),
-        Container(
-          key: isFinished(6),
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
-          child: DropdownButton(
-              value: _opcionSeleccionada,
-              items: getItemsDropDown(),
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              underline: Container(
-                color: Colors.white,
-              ),
-              onChanged: (opt) {
-                setState(() {
-                  _opcionSeleccionada = opt;
-                });
-              }),
-        )
-      ],
+  Widget _showGridPlaces(ProviderListener provider){
+    return Container(
+      height: 250,
+      width: double.infinity,
+      child: GridView.count(
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 5,
+        shrinkWrap: true,
+          crossAxisCount: 3,
+          children: List.generate(dataList.arrayPlaces.length, (index) {
+            return PlacesInteraction(
+                    fun: () {
+                      setState(() {});
+                      Places itemUpdated = provider.placeSelected = verMasListas(index);
+                      return itemUpdated;
+                    },
+                    item: verMasListas(index),
+                    func: () {
+                      if (hasBeenCanceled == true) {
+                        ProviderListener changeItemConfiguration =
+                            Provider.of<ProviderListener>(context, listen: false);
+                        return changeItemConfiguration.setBoolValue = null;
+                      }
+                    },
+                    numeroDeIncidencias: interactionMenuArray.length,
+            );
+          }),
+      ),
     );
   }
 
@@ -335,11 +314,11 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               ],
             ),
           )),
+    
     ]);
   }
 
-  Widget _deleteIncidenceOptions(
-      ProviderListener provider, MediaQueryData size) {
+  Widget _deleteIncidenceOptions(ProviderListener provider, MediaQueryData size) {
     if (provider.itemIsReady?.timeEnd != null) {
       if (interactionMenuArray.isNotEmpty) {
         interactionMenuArray.removeRange(0, interactionMenuArray.length);

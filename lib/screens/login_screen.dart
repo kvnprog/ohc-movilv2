@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () {
           return Future(() => false);
-      },
+        },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: AuthBackground(
