@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:recorridos_app/widgets/list_menu_widget.dart';
 import 'package:http/http.dart' as http;
 
+<<<<<<< HEAD
 void main() => runApp(BitacoraRecorridos());
 
 class BitacoraRecorridos extends StatefulWidget {
   BitacoraRecorridos({Key? key}) : super(key: key);
+=======
+class BitacoraRecorridos extends StatelessWidget {
+  //List item = List<Widget>.generate(20, (index) => ListMenuItem());
+>>>>>>> c1ffd9a14afbf1120325dcfdf1fc5b3ed6d19fb7
 
   @override
   State<BitacoraRecorridos> createState() => _BitacoraRecorridosState();
@@ -33,16 +38,14 @@ class _BitacoraRecorridosState extends State<BitacoraRecorridos> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Material App',
-      home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             title: const Text('Incidencias en recorrido'),
           ),
           body: Container(
             child: Column(
               children: [
+<<<<<<< HEAD
                 FutureBuilder<dynamic>(
                     future: incidencias(),
                     builder: (context, snapshot) {
@@ -53,18 +56,22 @@ class _BitacoraRecorridosState extends State<BitacoraRecorridos> {
                       }
                       return CircularProgressIndicator();
                     }),
+=======
+                _personalWidget()
+>>>>>>> c1ffd9a14afbf1120325dcfdf1fc5b3ed6d19fb7
               ],
             ),
-          )),
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[850],
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.amber),
-      ),
+          ),
     );
   }
 
+<<<<<<< HEAD
   Widget lista_incidencias(List<dynamic> datos) {
     final data = datos.length;
+=======
+  Widget _personalWidget() {
+    final data = item.length;
+>>>>>>> c1ffd9a14afbf1120325dcfdf1fc5b3ed6d19fb7
     return Column(children: [
       Container(
           height: 710,

@@ -25,26 +25,31 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MediaQueryData size = MediaQuery.of(context);
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: AuthBackground(
-          childr: Column(children: [
-        SizedBox(height: size.size.height / 3),
-        CardContainer(
-          child: Column(children: [
-            const SizedBox(height: 10),
-            Text('Login', style: Theme.of(context).textTheme.headline4),
-            const SizedBox(height: 30),
-
-// ChangeNotifierProvider fue importado del package provider
-            ChangeNotifierProvider(
-              create: (_) => LoginFormProvider(),
-              child: _LoginForm(codigo: codigo),
-            )
-          ]),
-        ),
-        const SizedBox(height: 50),
-      ])),
+    return WillPopScope(
+      onWillPop: () {
+          return Future(() => false);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: AuthBackground(
+            childr: Column(children: [
+          SizedBox(height: size.size.height / 3),
+          CardContainer(
+            child: Column(children: [
+              const SizedBox(height: 10),
+              Text('Login', style: Theme.of(context).textTheme.headline4),
+              const SizedBox(height: 30),
+    
+    // ChangeNotifierProvider fue importado del package provider
+              ChangeNotifierProvider(
+                create: (_) => LoginFormProvider(),
+                child: _LoginForm(codigo: codigo),
+              )
+            ]),
+          ),
+          const SizedBox(height: 50),
+        ])),
+      ),
     );
   }
 }
@@ -236,9 +241,10 @@ class UsersActive extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => HomeToursScreen(
-                        usuario: usuario,
-                        acciones: respuesta.body,
+                      //builder: (BuildContext context) => HomeToursScreen(
+                      builder: (BuildContext context) => MenuHome(
+                        //usuario: usuario,
+                        //acciones: respuesta.body,
                       ),
                     ),
                   );
@@ -247,6 +253,7 @@ class UsersActive extends StatelessWidget {
         ),
       ),
     );
+  
   }
 
   List<String> _correctPositionedName() {
