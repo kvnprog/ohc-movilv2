@@ -150,7 +150,7 @@ class _LoginFormState extends State<_LoginForm> {
                   return GridView.count(
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
-                    crossAxisCount: 4,
+                    crossAxisCount: 3,
                     children: List.generate(usersActiveArray.length, (index) {
                       return UsersActive(
                         cheepName: usersActiveArray[index],
@@ -159,9 +159,9 @@ class _LoginFormState extends State<_LoginForm> {
                     }),
                   );
                 } else {
-                  CircularProgressIndicator();
+                  return Image.asset('assets/loading-38.gif');
                 }
-                return CircularProgressIndicator();
+                
               }),
         ),
         const SizedBox(height: 50)
@@ -187,8 +187,7 @@ class UsersActive extends StatelessWidget {
   Random random = Random();
   @override
   Widget build(BuildContext context) {
-    Color color = Color.fromARGB(
-        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+    Color color = Color.fromARGB(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
     return Container(
       child: ClipOval(
         child: Material(
@@ -201,12 +200,31 @@ class UsersActive extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.white,
-                  child: Text(
-                    cheepName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      decorationColor: Colors.black,
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      Text(
+                        _correctPositionedName()[0],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          decorationColor: Colors.black,
+                          fontSize: 12.5
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                                   
+                      Text(
+                        _correctPositionedName()[1],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          decorationColor: Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+
+                    ],
                   ),
                 ),
               ),
@@ -214,7 +232,8 @@ class UsersActive extends StatelessWidget {
                 await checkingForBioMetrics();
                 await _authenticateMe();
                 var url = Uri.parse(
-                    "https://pruebasmatch.000webhostapp.com/traer_acciones.php");
+                    "https://pruebasmatch.000webhostapp.com/traer_acciones.php"
+                );
                 var respuesta = await http.post(url, body: {});
 
                 if (checar == true) {
@@ -236,8 +255,12 @@ class UsersActive extends StatelessWidget {
     );
   }
 
-  //huella
+  List<String> _correctPositionedName(){
+    var prueba = cheepName.split(" ");
+    return prueba;
+  }
 
+  //huella
   Future<bool> checkingForBioMetrics() async {
     bool canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
     return canCheckBiometrics;
