@@ -149,7 +149,7 @@ class _LoginFormState extends State<_LoginForm> {
                   return GridView.count(
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
-                    crossAxisCount: 4,
+                    crossAxisCount: 3,
                     children: List.generate(usersActiveArray.length, (index) {
                       return UsersActive(
                         cheepName: usersActiveArray[index],
@@ -158,7 +158,7 @@ class _LoginFormState extends State<_LoginForm> {
                     }),
                   );
                 } else {
-                  return const CircularProgressIndicator();
+                  return Image.asset('assets/loading-38.gif');
                 }
               }),
         ),
@@ -199,12 +199,27 @@ class UsersActive extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
                   foregroundColor: Colors.white,
-                  child: Text(
-                    cheepName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      decorationColor: Colors.black,
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        _correctPositionedName()[0],
+                        style: const TextStyle(
+                            color: Colors.white,
+                            decorationColor: Colors.black,
+                            fontSize: 12.5),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        _correctPositionedName()[1],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          decorationColor: Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -234,8 +249,12 @@ class UsersActive extends StatelessWidget {
     );
   }
 
-  //huella
+  List<String> _correctPositionedName() {
+    var prueba = cheepName.split(" ");
+    return prueba;
+  }
 
+  //huella
   Future<bool> checkingForBioMetrics() async {
     bool canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
     return canCheckBiometrics;
