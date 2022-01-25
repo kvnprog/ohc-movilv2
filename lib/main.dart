@@ -52,8 +52,8 @@ class _MyAppState extends State<MyApp> {
       home: SplashScreen(
         seconds: 1,
         loaderColor: Colors.black,
-        navigateAfterFuture: _waitForValue(),
-        //navigateAfterSeconds: BitacoraRecorridos(),
+        // navigateAfterFuture: _waitForValue(),
+        navigateAfterSeconds: BitacoraRecorridos(),
         image: Image.asset(
           'assets/walk.gif',
           width: 260,

@@ -1,12 +1,35 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/widgets/list_menu_widget.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(BitacoraRecorridos());
 
-class BitacoraRecorridos extends StatelessWidget {
-  //List item = List<Widget>.generate(20, (index) => ListMenuItem());
+class BitacoraRecorridos extends StatefulWidget {
+  BitacoraRecorridos({Key? key}) : super(key: key);
 
+  @override
+  State<BitacoraRecorridos> createState() => _BitacoraRecorridosState();
+}
+
+class _BitacoraRecorridosState extends State<BitacoraRecorridos> {
+  //List item = List<Widget>.generate(20, (index) => ListMenuItem());
   List item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  List<dynamic>? datos;
+
+  Future<String> incidencias() async {
+    var url = Uri.parse(
+        "https://pruebasmatch.000webhostapp.com/traer_incidencias24.php");
+    var respuesta = await http.post(url, body: {});
+    return respuesta.body;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +42,18 @@ class BitacoraRecorridos extends StatelessWidget {
           ),
           body: Container(
             child: Column(
-              children: [_personal_Widget()],
+              children: [
+                FutureBuilder<dynamic>(
+                    future: incidencias(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        print(snapshot.data);
+                        datos = jsonDecode(snapshot.data!);
+                        return lista_incidencias(datos!);
+                      }
+                      return CircularProgressIndicator();
+                    }),
+              ],
             ),
           )),
       theme: ThemeData(
@@ -29,8 +63,8 @@ class BitacoraRecorridos extends StatelessWidget {
     );
   }
 
-  Widget _personal_Widget() {
-    final data = item.length;
+  Widget lista_incidencias(List<dynamic> datos) {
+    final data = datos.length;
     return Column(children: [
       Container(
           height: 710,
@@ -39,7 +73,7 @@ class BitacoraRecorridos extends StatelessWidget {
             shrinkWrap: true,
             itemCount: data,
             itemBuilder: (BuildContext context, int index) {
-              return ListMenuItem();
+              return ListMenuItem(datos: datos[index]);
             },
           )),
     ]);
