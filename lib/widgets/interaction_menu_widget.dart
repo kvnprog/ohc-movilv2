@@ -90,188 +90,191 @@ class _InteractionMenuState extends State<InteractionMenu> {
       _actionType.add(element);
     }
 
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => ProviderListener())],
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 25, left: 5, right: 5),
-        width: double.infinity,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: <Widget>[
-              TextField(
-                controller: comentario,
-                textCapitalization: TextCapitalization.sentences,
-                decoration: const InputDecoration(
-                  hintText: 'Ingrese un comentario',
-                  icon: Icon(
-                    Icons.comment_sharp,
-                    color: Colors.amber,
+    return SingleChildScrollView(
+      child: MultiProvider(
+        providers: [ChangeNotifierProvider(create: (_) => ProviderListener())],
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 25, left: 5, right: 5),
+          width: double.infinity,
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  controller: comentario,
+                  textCapitalization: TextCapitalization.sentences,
+                  decoration: const InputDecoration(
+                    hintText: 'Ingrese un comentario',
+                    icon: Icon(
+                      Icons.comment_sharp,
+                      color: Colors.amber,
+                    ),
+                    hintMaxLines: 3,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.amber),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.amber, width: 2)),
                   ),
-                  hintMaxLines: 3,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.amber),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.amber, width: 2)),
                 ),
-              ),
-              SizedBox(height: height),
-              const Divider(),
-              (fotopreview == '')
-                  ? (const Text(''))
-                  : (Transform.rotate(
-                      angle: 0,
-                      child: Transform.scale(
-                          scale: 0.70,
-                          child: Image.file(
-                            File(fotopreview),
-                          )))),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  /*  //acciones a mostrar
-                MaterialButton(
-                  onPressed: (){
-                    
-                  },
-                  color: Colors.amber,
-                  elevation: 1,
-                  child: Row(
-                    children: const [
-                      Icon(Icons.warning_outlined),
-                      SizedBox(width: 5),
-                      Text('Acción')
-                    ],
-                  ),
-                ), */
-                  _dropDownOptions(),
-                  // capturar foto de la incidencia
+                SizedBox(height: height),
+                const Divider(),
+                (fotopreview == '')
+                    ? (const Text(''))
+                    : (Transform.rotate(
+                        angle: 0,
+                        child: Transform.scale(
+                            scale: 0.70,
+                            child: Image.file(
+                              File(fotopreview),
+                            )))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /*  //acciones a mostrar
                   MaterialButton(
-                    onPressed: widget.btnsave
-                        ? () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const DisplayPictureScreen(),
-                              ),
-                            ).then((value) {
-                              if (value == null) {
-                                if (fotopreview != '') {
-                                  print("imagen ${fotopreview}");
+                    onPressed: (){
+                      
+                    },
+                    color: Colors.amber,
+                    elevation: 1,
+                    child: Row(
+                      children: const [
+                        Icon(Icons.warning_outlined),
+                        SizedBox(width: 5),
+                        Text('Acción')
+                      ],
+                    ),
+                  ), */
+                    _dropDownOptions(),
+                    // capturar foto de la incidencia
+                    MaterialButton(
+                      onPressed: widget.btnsave
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DisplayPictureScreen(),
+                                ),
+                              ).then((value) {
+                                if (value == null) {
+                                  if (fotopreview != '') {
+                                    print("imagen ${fotopreview}");
+                                  }
+                                } else {
+                                  fotopreview = value;
                                 }
-                              } else {
-                                fotopreview = value;
+
+                                // print(widget.index);
+                                // var acciones = json.decode(widget.acciones);
+                                var acciones = ['', '', ''];
+                                for (var element in acciones) {
+                                  _actionType.remove(element);
+                                }
+                                setState(() {});
+                              });
+                            }
+                          : (null),
+                      color: Colors.amber,
+                      elevation: 1,
+                      child: Row(
+                        children: const [
+                          Icon(Icons.camera_alt_sharp),
+                          SizedBox(width: 5),
+                          Text('Foto'),
+                        ],
+                      ),
+                    ),
+
+                    //guardar la incidencia
+                    MaterialButton(
+                      onPressed: widget.btnsave
+                          ? () async {
+                              // print(widget.usuario);
+                              // print(widget.key);
+
+                              // print(widget.lugar);
+                              var url = Uri.parse(
+                                  "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
+                              print("soy yo ${widget.tipo}");
+                              Future<void> pedirdatos() async {
+                                if (widget.tipo == "Recorrido") {
+                                  await http.post(url, body: {
+                                    "comentario": "${comentario.text}",
+                                    "imagen": base64Image,
+                                    "usuario": widget.usuario,
+                                    "recorrido": widget.recorrido,
+                                    "tipo_inc": _opcionSeleccionada,
+                                    "lugar": widget.lugar
+                                  });
+                                } else {
+                                  await http.post(url, body: {
+                                    "comentario": "${comentario.text}",
+                                    "imagen": base64Image,
+                                    "usuario": widget.usuario,
+                                    "recorrido": '-1',
+                                    "tipo_inc": _opcionSeleccionada,
+                                    "lugar": '-1'
+                                  });
+                                }
+
+                                // final List json = jsonDecode(respuesta.body.toString());
                               }
 
-                              // print(widget.index);
+                              if (fotopreview != '') {
+                                imageBytes =
+                                    File(fotopreview).readAsBytesSync();
+                                base64Image = base64Encode(imageBytes!);
+                              } else {
+                                base64Image = '';
+                              }
+                              btnload = false;
                               // var acciones = json.decode(widget.acciones);
                               var acciones = ['', '', ''];
                               for (var element in acciones) {
                                 _actionType.remove(element);
                               }
                               setState(() {});
-                            });
-                          }
-                        : (null),
-                    color: Colors.amber,
-                    elevation: 1,
-                    child: Row(
-                      children: const [
-                        Icon(Icons.camera_alt_sharp),
-                        SizedBox(width: 5),
-                        Text('Foto'),
-                      ],
-                    ),
-                  ),
 
-                  //guardar la incidencia
-                  MaterialButton(
-                    onPressed: widget.btnsave
-                        ? () async {
-                            // print(widget.usuario);
-                            // print(widget.key);
+                              await pedirdatos();
+                              btnload = true;
+                              widget.btnsave = false;
 
-                            // print(widget.lugar);
-                            var url = Uri.parse(
-                                "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
-                            print("soy yo ${widget.tipo}");
-                            Future<void> pedirdatos() async {
-                              if (widget.tipo == "Recorrido") {
-                                await http.post(url, body: {
-                                  "comentario": "${comentario.text}",
-                                  "imagen": base64Image,
-                                  "usuario": widget.usuario,
-                                  "recorrido": widget.recorrido,
-                                  "tipo_inc": _opcionSeleccionada,
-                                  "lugar": widget.lugar
-                                });
-                              } else {
-                                await http.post(url, body: {
-                                  "comentario": "${comentario.text}",
-                                  "imagen": base64Image,
-                                  "usuario": widget.usuario,
-                                  "recorrido": '-1',
-                                  "tipo_inc": _opcionSeleccionada,
-                                  "lugar": '-1'
-                                });
+                              for (var element in acciones) {
+                                _actionType.remove(element);
                               }
 
-                              // final List json = jsonDecode(respuesta.body.toString());
+                              setState(() {});
                             }
-
-                            if (fotopreview != '') {
-                              imageBytes = File(fotopreview).readAsBytesSync();
-                              base64Image = base64Encode(imageBytes!);
-                            } else {
-                              base64Image = '';
-                            }
-                            btnload = false;
-                            // var acciones = json.decode(widget.acciones);
-                            var acciones = ['', '', ''];
-                            for (var element in acciones) {
-                              _actionType.remove(element);
-                            }
-                            setState(() {});
-
-                            await pedirdatos();
-                            btnload = true;
-                            widget.btnsave = false;
-
-                            for (var element in acciones) {
-                              _actionType.remove(element);
-                            }
-
-                            setState(() {});
-                          }
-                        : (null),
-                    disabledColor: Colors.greenAccent[400],
-                    color: Colors.amber,
-                    elevation: 1,
-                    child: Row(
-                      children: [
-                        widget.btnsave
-                            ? btnload
-                                ? const Icon(Icons.save_sharp)
-                                : const SizedBox(
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                      color: Colors.black,
-                                    ),
-                                    height: 15,
-                                    width: 15,
-                                  )
-                            : const Text('Guardado'),
-                      ],
+                          : (null),
+                      disabledColor: Colors.greenAccent[400],
+                      color: Colors.amber,
+                      elevation: 1,
+                      child: Row(
+                        children: [
+                          widget.btnsave
+                              ? btnload
+                                  ? const Icon(Icons.save_sharp)
+                                  : const SizedBox(
+                                      child: CircularProgressIndicator(
+                                        backgroundColor: Colors.white,
+                                        color: Colors.black,
+                                      ),
+                                      height: 15,
+                                      width: 15,
+                                    )
+                              : const Text('Guardado'),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

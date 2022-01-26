@@ -224,14 +224,14 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                       }
                     }
 
-                    // interactionMenuArray.add(InteractionMenu(
-                    //     tipo: _opcionSeleccionada,
-                    //     lugar: lugar,
-                    //     acciones: widget.acciones!,
-                    //     isNewMenuRequest: menuRequest,
-                    //     recorrido: recorrido,
-                    //     usuario: widget.usuario,
-                    //     btnsave: true));
+                    interactionMenuArray.add(InteractionMenu(
+                        tipo: _opcionSeleccionada,
+                        lugar: lugar,
+                        acciones: widget.acciones!,
+                        isNewMenuRequest: menuRequest,
+                        recorrido: recorrido,
+                        usuario: widget.usuario,
+                        btnsave: true));
                   } else {
                     // _showToast(context, 'Solo se puede Agregar 10 Incidencias');
                   }
