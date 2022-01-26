@@ -123,11 +123,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
             body: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
-                children: [
-                  _showGridPlaces(provider),
-                  
-                  _incidencesInteracion()
-                ],
+                children: [_showGridPlaces(provider), _incidencesInteracion()],
               ),
             ),
             //floatingActionButton: _floatingActionButtonOptions(provider),
@@ -142,6 +138,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   Widget _showGridPlaces(ProviderListener provider) {
     _itemStatus(provider);
+    print("hola");
     return Container(
       height: 250,
       width: double.infinity,
@@ -165,24 +162,23 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     );
   }
 
-  Widget _incidencesInteracion(){
+  Widget _incidencesInteracion() {
     return Container(
       height: 400,
       child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: 1,
-        itemBuilder: (BuildContext context, index){
-        return InteractionMenu(
-            acciones: "hola",
-            isNewMenuRequest: true,
-            btnsave: true,
-            tipo: "1"
-        );
-      }),
+          shrinkWrap: true,
+          itemCount: 1,
+          itemBuilder: (BuildContext context, index) {
+            return InteractionMenu(
+                acciones: widget.acciones!,
+                isNewMenuRequest: true,
+                btnsave: true,
+                tipo: "1");
+          }),
     );
   }
 
-  _itemStatus(ProviderListener provider){
+  _itemStatus(ProviderListener provider) {
     print('el estatus del item es ${provider.itemIsReady}');
   }
 
@@ -275,7 +271,6 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     }
     return mainArray;
   }
-
 
   set setTimeValue(String newTimeValue) {
     timeValue = newTimeValue;

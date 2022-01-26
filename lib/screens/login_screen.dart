@@ -27,8 +27,8 @@ class LoginScreen extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () {
-          return Future(() => false);
-        },
+        return Future(() => false);
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: AuthBackground(
@@ -39,8 +39,8 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Text('Login', style: Theme.of(context).textTheme.headline4),
               const SizedBox(height: 30),
-    
-    // ChangeNotifierProvider fue importado del package provider
+
+              // ChangeNotifierProvider fue importado del package provider
               ChangeNotifierProvider(
                 create: (_) => LoginFormProvider(),
                 child: _LoginForm(codigo: codigo),
@@ -243,8 +243,7 @@ class UsersActive extends StatelessWidget {
                     MaterialPageRoute(
                       //builder: (BuildContext context) => HomeToursScreen(
                       builder: (BuildContext context) => MenuHome(
-                        //usuario: usuario,
-                        //acciones: respuesta.body,
+                        acciones: respuesta.body,
                       ),
                     ),
                   );
@@ -253,7 +252,6 @@ class UsersActive extends StatelessWidget {
         ),
       ),
     );
-  
   }
 
   List<String> _correctPositionedName() {

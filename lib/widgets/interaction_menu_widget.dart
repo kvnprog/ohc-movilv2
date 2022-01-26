@@ -82,9 +82,9 @@ class _InteractionMenuState extends State<InteractionMenu> {
 
   @override
   Widget build(BuildContext context) {
-    // var acciones = json.decode(widget.acciones);
+    var acciones = json.decode(widget.acciones);
 
-    List<String> acciones = ['', '', ''];
+    // List<String> acciones = ['', '', ''];
 
     for (var element in acciones) {
       _actionType.add(element);
@@ -99,10 +99,9 @@ class _InteractionMenuState extends State<InteractionMenu> {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(25))),
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             children: <Widget>[
-
               TextField(
                 controller: comentario,
                 textCapitalization: TextCapitalization.sentences,
@@ -120,9 +119,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-
               const SizedBox(height: 15),
-
               TextField(
                 controller: comentario,
                 textCapitalization: TextCapitalization.sentences,
@@ -140,7 +137,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-
               (fotopreview == '')
                   ? (const Text(''))
                   : (Transform.rotate(
@@ -153,7 +149,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-               
+                  // capturar foto de la incidencia
+
                   _dropDownOptions(),
                   // capturar foto de la incidencia
                   MaterialButton(
@@ -175,8 +172,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                               }
 
                               // print(widget.index);
-                              // var acciones = json.decode(widget.acciones);
-                              var acciones = ['', '', ''];
+                              var acciones = json.decode(widget.acciones);
+                              // var acciones = ['', '', ''];
                               for (var element in acciones) {
                                 _actionType.remove(element);
                               }
@@ -195,9 +192,9 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     ),
                   ),
 
-                  //guardar la incidencia
                   MaterialButton(
-                    onPressed: widget.btnsave ? () async {
+                    onPressed: widget.btnsave
+                        ? () async {
                             // print(widget.usuario);
                             // print(widget.key);
 
@@ -236,8 +233,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                               base64Image = '';
                             }
                             btnload = false;
-                            // var acciones = json.decode(widget.acciones);
-                            var acciones = ['', '', ''];
+                            var acciones = json.decode(widget.acciones);
+
                             for (var element in acciones) {
                               _actionType.remove(element);
                             }
@@ -252,90 +249,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                             }
 
                             setState(() {});
-                          }: (null),
-
-                    disabledColor: Colors.green,
-                    color: Colors.greenAccent[400],
-                    elevation: 1,
-                    child: Row(
-                      children: [
-                        widget.btnsave
-                            ? btnload
-                                ? const Icon(Icons.save_sharp)
-                                : const SizedBox(
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                      color: Colors.black,
-                                    ),
-                                    height: 15,
-                                    width: 15,
-                                )
-                            : const Text('Guardado'),
-                      ],
-                    ),
-                  ),
-                 
-                ],
-              ),
-             //botón de eliminar
-                  MaterialButton(
-                    onPressed: widget.btnsave ? () async {
-                            // print(widget.usuario);
-                            // print(widget.key);
-
-                            // print(widget.lugar);
-                            var url = Uri.parse(
-                                "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
-                            print("soy yo ${widget.tipo}");
-                            Future<void> pedirdatos() async {
-                              if (widget.tipo == "Recorrido") {
-                                await http.post(url, body: {
-                                  "comentario": "${comentario.text}",
-                                  "imagen": base64Image,
-                                  "usuario": widget.usuario,
-                                  "recorrido": widget.recorrido,
-                                  "tipo_inc": _opcionSeleccionada,
-                                  "lugar": widget.lugar
-                                });
-                              } else {
-                                await http.post(url, body: {
-                                  "comentario": "${comentario.text}",
-                                  "imagen": base64Image,
-                                  "usuario": widget.usuario,
-                                  "recorrido": '-1',
-                                  "tipo_inc": _opcionSeleccionada,
-                                  "lugar": '-1'
-                                });
-                              }
-
-                              // final List json = jsonDecode(respuesta.body.toString());
-                            }
-
-                            if (fotopreview != '') {
-                              imageBytes = File(fotopreview).readAsBytesSync();
-                              base64Image = base64Encode(imageBytes!);
-                            } else {
-                              base64Image = '';
-                            }
-                            btnload = false;
-                            // var acciones = json.decode(widget.acciones);
-                            var acciones = ['', '', ''];
-                            for (var element in acciones) {
-                              _actionType.remove(element);
-                            }
-                            setState(() {});
-
-                            await pedirdatos();
-                            btnload = true;
-                            widget.btnsave = false;
-
-                            for (var element in acciones) {
-                              _actionType.remove(element);
-                            }
-
-                            setState(() {});
-                          }: (null),
-
+                          }
+                        : (null),
                     disabledColor: Colors.red,
                     color: Colors.orange[400],
                     elevation: 1,
@@ -351,18 +266,102 @@ class _InteractionMenuState extends State<InteractionMenu> {
                                     ),
                                     height: 15,
                                     width: 15,
-                                )
+                                  )
                             : const Text('Guardado'),
                       ],
                     ),
                   ),
-                 
+
+                  //guardar la incidencia
+                  MaterialButton(
+                    onPressed: widget.btnsave
+                        ? () async {
+                            // print(widget.usuario);
+                            // print(widget.key);
+
+                            // print(widget.lugar);
+                            var url = Uri.parse(
+                                "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
+                            print("soy yo ${widget.tipo}");
+                            Future<void> pedirdatos() async {
+                              if (widget.tipo == "Recorrido") {
+                                await http.post(url, body: {
+                                  "comentario": "${comentario.text}",
+                                  "imagen": base64Image,
+                                  "usuario": widget.usuario,
+                                  "recorrido": widget.recorrido,
+                                  "tipo_inc": _opcionSeleccionada,
+                                  "lugar": widget.lugar
+                                });
+                              } else {
+                                await http.post(url, body: {
+                                  "comentario": "${comentario.text}",
+                                  "imagen": base64Image,
+                                  "usuario": widget.usuario,
+                                  "recorrido": '-1',
+                                  "tipo_inc": _opcionSeleccionada,
+                                  "lugar": '-1'
+                                });
+                              }
+
+                              // final List json = jsonDecode(respuesta.body.toString());
+                            }
+
+                            if (fotopreview != '') {
+                              imageBytes = File(fotopreview).readAsBytesSync();
+                              base64Image = base64Encode(imageBytes!);
+                            } else {
+                              base64Image = '';
+                            }
+                            btnload = false;
+                            var acciones = json.decode(widget.acciones);
+
+                            for (var element in acciones) {
+                              _actionType.remove(element);
+                            }
+                            setState(() {});
+
+                            await pedirdatos();
+                            btnload = true;
+                            widget.btnsave = false;
+
+                            for (var element in acciones) {
+                              _actionType.remove(element);
+                            }
+
+                            setState(() {});
+                          }
+                        : (null),
+                    disabledColor: Colors.greenAccent[400],
+                    color: Colors.amber,
+                    elevation: 1,
+                    child: Row(
+                      children: [
+                        widget.btnsave
+                            ? btnload
+                                ? const Icon(Icons.save_sharp)
+                                : const SizedBox(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Colors.white,
+                                      color: Colors.black,
+                                    ),
+                                    height: 15,
+                                    width: 15,
+                                  )
+                            : const Text('Guardado'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  //botón de eliminar
 
   Widget _dropDownOptions() {
     return widget.btnsave
@@ -391,8 +390,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     onChanged: (opt) {
                       _opcionSeleccionada = opt;
                       setState(() {
-                        // var acciones = json.decode(widget.acciones);
-                        var acciones = ['', '', ''];
+                        var acciones = json.decode(widget.acciones);
+
                         for (var element in acciones) {
                           _actionType.remove(element);
                         }
