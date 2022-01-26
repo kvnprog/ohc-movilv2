@@ -5,3 +5,4 @@ export 'package:recorridos_app/widgets/card_container.dart';
 export 'package:recorridos_app/widgets/expandable_fab_widget.dart';
 export 'package:recorridos_app/widgets/action_button_widget.dart';
 export 'package:recorridos_app/widgets/newInteractionMenu.dart';
+export 'package:recorridos_app/widgets/home_shortcuts.dart';

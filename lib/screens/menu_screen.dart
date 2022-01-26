@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/screens/screens.dart';
+import 'package:recorridos_app/widgets/widgets.dart';
 
 
 class MenuHome extends StatelessWidget {
@@ -11,15 +12,16 @@ class MenuHome extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Main Home Menu',
       home: Scaffold(
-  appBar: AppBar(
-    title: const Text('Home'),
-  ),
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
 
-  drawer: Drawer(
+        drawer: Drawer(
     backgroundColor: Colors.grey[800],
     child: ListView(
       padding: EdgeInsets.zero,
       children:  <Widget>[
+
         DrawerHeader(
           decoration: const BoxDecoration(
             color: Colors.amber,
@@ -47,8 +49,7 @@ class MenuHome extends StatelessWidget {
             ],
           )
         ),
-
-//     Home
+     
         ListTile(
           leading: const Icon(Icons.home),
           title: const Text('Home'),
@@ -121,8 +122,21 @@ class MenuHome extends StatelessWidget {
         ),
 
       ],
+
+
     ),
   ),
+  
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                ShortCutAccess()
+              ],
+            ),
+          ),
+        )
   ),
    theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[850],
