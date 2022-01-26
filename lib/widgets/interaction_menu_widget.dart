@@ -146,14 +146,15 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           child: Image.file(
                             File(fotopreview),
                           )))),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // capturar foto de la incidencia
 
-                  _dropDownOptions(),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                    _dropDownOptions(),
                   // capturar foto de la incidencia
-                  MaterialButton(
+                    MaterialButton(
                     onPressed: widget.btnsave
                         ? () {
                             Navigator.push(
@@ -192,88 +193,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     ),
                   ),
 
-                  MaterialButton(
-                    onPressed: widget.btnsave
-                        ? () async {
-                            // print(widget.usuario);
-                            // print(widget.key);
-
-                            // print(widget.lugar);
-                            var url = Uri.parse(
-                                "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
-                            print("soy yo ${widget.tipo}");
-                            Future<void> pedirdatos() async {
-                              if (widget.tipo == "Recorrido") {
-                                await http.post(url, body: {
-                                  "comentario": "${comentario.text}",
-                                  "imagen": base64Image,
-                                  "usuario": widget.usuario,
-                                  "recorrido": widget.recorrido,
-                                  "tipo_inc": _opcionSeleccionada,
-                                  "lugar": widget.lugar
-                                });
-                              } else {
-                                await http.post(url, body: {
-                                  "comentario": "${comentario.text}",
-                                  "imagen": base64Image,
-                                  "usuario": widget.usuario,
-                                  "recorrido": '-1',
-                                  "tipo_inc": _opcionSeleccionada,
-                                  "lugar": '-1'
-                                });
-                              }
-
-                              // final List json = jsonDecode(respuesta.body.toString());
-                            }
-
-                            if (fotopreview != '') {
-                              imageBytes = File(fotopreview).readAsBytesSync();
-                              base64Image = base64Encode(imageBytes!);
-                            } else {
-                              base64Image = '';
-                            }
-                            btnload = false;
-                            var acciones = json.decode(widget.acciones);
-
-                            for (var element in acciones) {
-                              _actionType.remove(element);
-                            }
-                            setState(() {});
-
-                            await pedirdatos();
-                            btnload = true;
-                            widget.btnsave = false;
-
-                            for (var element in acciones) {
-                              _actionType.remove(element);
-                            }
-
-                            setState(() {});
-                          }
-                        : (null),
-                    disabledColor: Colors.red,
-                    color: Colors.orange[400],
-                    elevation: 1,
-                    child: Row(
-                      children: [
-                        widget.btnsave
-                            ? btnload
-                                ? const Icon(Icons.delete)
-                                : const SizedBox(
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                      color: Colors.black,
-                                    ),
-                                    height: 15,
-                                    width: 15,
-                                  )
-                            : const Text('Guardado'),
-                      ],
-                    ),
-                  ),
-
                   //guardar la incidencia
-                  MaterialButton(
+                    MaterialButton(
                     onPressed: widget.btnsave
                         ? () async {
                             // print(widget.usuario);
@@ -352,17 +273,94 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       ],
                     ),
                   ),
+                
                 ],
               ),
+
+                //eliminar la incidencia
+                  MaterialButton( onPressed: widget.btnsave? () async {
+                            // print(widget.usuario);
+                            // print(widget.key);
+
+                            // print(widget.lugar);
+                            var url = Uri.parse(
+                                "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
+                            print("soy yo ${widget.tipo}");
+                            Future<void> pedirdatos() async {
+                              if (widget.tipo == "Recorrido") {
+                                await http.post(url, body: {
+                                  "comentario": "${comentario.text}",
+                                  "imagen": base64Image,
+                                  "usuario": widget.usuario,
+                                  "recorrido": widget.recorrido,
+                                  "tipo_inc": _opcionSeleccionada,
+                                  "lugar": widget.lugar
+                                });
+                              } else {
+                                await http.post(url, body: {
+                                  "comentario": "${comentario.text}",
+                                  "imagen": base64Image,
+                                  "usuario": widget.usuario,
+                                  "recorrido": '-1',
+                                  "tipo_inc": _opcionSeleccionada,
+                                  "lugar": '-1'
+                                });
+                              }
+
+                              // final List json = jsonDecode(respuesta.body.toString());
+                            }
+
+                            if (fotopreview != '') {
+                              imageBytes = File(fotopreview).readAsBytesSync();
+                              base64Image = base64Encode(imageBytes!);
+                            } else {
+                              base64Image = '';
+                            }
+                            btnload = false;
+                            var acciones = json.decode(widget.acciones);
+
+                            for (var element in acciones) {
+                              _actionType.remove(element);
+                            }
+                            setState(() {});
+
+                            await pedirdatos();
+                            btnload = true;
+                            widget.btnsave = false;
+
+                            for (var element in acciones) {
+                              _actionType.remove(element);
+                            }
+
+                            setState(() {});
+                          }: (null),
+                    disabledColor: Colors.red,
+                    color: Colors.orange[400],
+                    elevation: 1,
+                    child: Row(
+                      children: [
+                        widget.btnsave
+                            ? btnload
+                                ? const Icon(Icons.delete)
+                                : const SizedBox(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Colors.white,
+                                      color: Colors.black,
+                                    ),
+                                    height: 15,
+                                    width: 15,
+                                  )
+                            : const Text('Guardado'),
+                      ],
+                    ),
+              ),                
+            
             ],
           ),
         ),
       ),
     );
   }
-
-  //botón de eliminar
-
   Widget _dropDownOptions() {
     return widget.btnsave
         ? Row(
