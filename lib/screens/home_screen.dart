@@ -280,7 +280,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           itemCount: 1,
           itemBuilder: (BuildContext context, index) {
             return InteractionMenu(
-                acciones: "hola",
+                acciones: widget.acciones!,
                 isNewMenuRequest: true,
                 btnsave: true,
                 tipo: "1");

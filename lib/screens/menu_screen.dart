@@ -5,7 +5,8 @@ import 'package:recorridos_app/widgets/btnpoint.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 
 class MenuHome extends StatelessWidget {
-  const MenuHome({Key? key}) : super(key: key);
+  final String acciones;
+  const MenuHome({Key? key, required this.acciones}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,9 @@ class MenuHome extends StatelessWidget {
                   textColor: Colors.white,
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => MenuHome()));
+                        builder: (BuildContext context) => MenuHome(
+                              acciones: acciones,
+                            )));
                   },
                 ),
                 const Divider(
@@ -75,7 +78,9 @@ class MenuHome extends StatelessWidget {
                   textColor: Colors.white,
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => HomeToursScreen()));
+                        builder: (BuildContext context) => HomeToursScreen(
+                              acciones: acciones,
+                            )));
                   },
                 ),
                 ListTile(
@@ -115,9 +120,9 @@ class MenuHome extends StatelessWidget {
                     shortcutTitle: 'Ver incidencias de últimas 24 hrs.',
                     shortcutIcon: Icons.file_copy_outlined,
                     widgetsListActions: [
-
                       ListTile(
-                        leading: const Icon(Icons.remove_red_eye_outlined, size: 20),
+                        leading:
+                            const Icon(Icons.remove_red_eye_outlined, size: 20),
                         title: const Text('Ver incidencias'),
                         style: ListTileStyle.list,
                         focusColor: Colors.white,
@@ -125,8 +130,7 @@ class MenuHome extends StatelessWidget {
                         minLeadingWidth: 2.0,
                         textColor: Colors.black,
                         selectedTileColor: Colors.white,
-                        selectedColor: Colors.amber,              
-
+                        selectedColor: Colors.amber,
                         onTap: () {
                           print('soy el objeto');
                         },
