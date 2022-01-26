@@ -13,7 +13,7 @@ class PlacesInteraction extends StatefulWidget {
   int numeroDeIncidencias;
 
   PlacesInteraction({Key? key, 
-    required this.item,
+    required this.item, 
     required this.numeroDeIncidencias,
     this.fun,
     this.func
@@ -40,7 +40,6 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
       providers: [ChangeNotifierProvider(create: (_) => ProviderListener())],
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           itemClickeable(changeItemConfiguration),
           Text(
@@ -55,88 +54,92 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
     );
   }
    
-    Stack itemClickeable(ProviderListener changeItemConfiguration) {
-    return Stack(
-            children: [
-              Container(
-                child: ClipOval(
-                  child: Material(
-                    color: colorEnabled,
-                    child: InkWell(
-                      splashColor: colorActive,
-    
-                      child: SizedBox(
-                        width: 65,
-                        height: 65,
-                        child: Icon(widget.item.icon),
-                      ),
-
-                      onTap: (){
-                        setState(() {});
-                        final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';
-                        
-                        //verifica si hay un item seleccionado para así no seleccionar otros sin antes haber finalizado el actual
-                          if(changeItemConfiguration.itemIsReady == null){
-                            print("if 1");
-                            colorActive = Colors.amber;
-                            //colorEnabled = Colors.grey;
-                            changeItemConfiguration.setBoolValue = widget.item;
-                            widget.fun!();
-                            changeItemConfiguration.placeAffected;
-                            widget.item.timeStart = time;
-                          }else{
-                            //se activa para darle una hora final a un item 
-                            if(changeItemConfiguration.itemIsReady!.name == widget.item.name){
-                                print("if 2");
-                                widget.fun!();
-                                widget.item.timeEnd = time;
-                                
-                                changeItemConfiguration.placeAffected;
-                                setState(() {
-                                  colorActive = Colors.transparent;
-                                  color = Colors.blue;
-                                  //colorEnabled = Colors.white10;
-                                });
-                                if(widget.item.numeroDeIncidencias == 0){
-                                  widget.item.numeroDeIncidencias = widget.numeroDeIncidencias;
-                                }else{
-                                  print('ya tiene incidencias generadas así que no se guardan');
-                                }
-                                print('hay ${widget.numeroDeIncidencias} incidencias hechas en ${widget.item.name}');
-                                
-                             
-                            }else{
-                              //agrega un valor de inicio a un item que no ha sido inicializado
-                              if(changeItemConfiguration.itemIsReady!.timeEnd != null){
-                                print("if 3");
-                                changeItemConfiguration.setBoolValue = widget.item;
-                                widget.fun!();
-                                changeItemConfiguration.placeAffected;
-                                widget.item.timeStart = time;
-                              }
-                            }
-                          }
-                      },
-                    ),
-                  ),
-                ),
-        ),
-        Container(
-          width: 20,
-          height: 20,
+  itemClickeable(ProviderListener changeItemConfiguration) {
+    String itemName = widget.item.name;
+    String cheepName = itemName.characters.take(3).toString();
+      return GestureDetector(
+        child: Container(
+          width: 100,
+          height: 100,
           decoration: BoxDecoration(
-              color: isIconActive(),
-              border: Border.all(
-                color: Colors.grey[850]!,
-                width: 2.5,
-              ),
-              shape: BoxShape.circle),
+          color: isIconActive(),
+          borderRadius: const BorderRadius.all(Radius.circular(20.0)),
         ),
-      ],
-    );
-  }
+        child: Center(
+          child: Text(cheepName.toUpperCase(), textAlign: TextAlign.center, style: const TextStyle(
+            color: Colors.black,
+            fontSize: 30
+          ),
+        )),
+      ),
+      onTap: (){
+          setState(() {});
+          print('evaluando');
+          final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';    
 
-    //metodo que dibuja el color del icono mostrando si está activo o no
+          if(widget.item.timeEnd != null && widget.item.timeStart != null && widget.item.isActive == false){
+            
+            if(changeItemConfiguration.itemIsReady!.timeEnd != null){
+              widget.item.isActive = false;
+              widget.item.timeStart = time;
+              widget.item.timeEnd = null; 
+              //changeItemConfiguration.setBoolValue = widget.item;
+            }
+          }
+
+          //verifica si hay un item seleccionado para así no seleccionar otros sin antes haber finalizado el actual
+            if(changeItemConfiguration.itemIsReady == null){
+              print("if 1");
+              //colorEnabled = Colors.grey;
+              changeItemConfiguration.setBoolValue = widget.item;
+              widget.fun!();
+              changeItemConfiguration.placeAffected;
+              widget.item.timeStart = time;
+          }else{
+          //se activa para darle una hora final a un item 
+            if(changeItemConfiguration.itemIsReady!.name == widget.item.name){
+              print("if 2");              
+              //esto hace que puedan volver al ultimo lugar seleccionado
+              if(color == Colors.blue){
+                  widget.item.isActive = true;
+                  widget.item.timeStart = time;
+                  widget.item.timeEnd = null; 
+              }else{
+              print('es el else');
+              widget.fun!();
+              widget.item.timeEnd = time;            
+              changeItemConfiguration.placeAffected;
+              setState(() {
+              colorActive = Colors.transparent;
+              color = Colors.blue;
+            });
+              }
+          if(widget.item.numeroDeIncidencias == 0){
+                widget.item.numeroDeIncidencias = widget.numeroDeIncidencias;
+          }else{
+            print('ya tiene incidencias generadas así que no se guardan');
+          }
+            print('hay ${widget.numeroDeIncidencias} incidencias hechas en ${widget.item.name}');
+          
+        }else{
+    //agrega un valor de inicio a un item que no ha sido inicializado
+          if(changeItemConfiguration.itemIsReady!.timeEnd != null){
+            print('actual item ${widget.item} y el otro es ${changeItemConfiguration.itemIsReady}');
+            print("if 3");
+              changeItemConfiguration.setBoolValue = widget.item;
+              widget.fun!();
+              changeItemConfiguration.placeAffected;
+              widget.item.timeStart = time;
+          }
+
+        }
+      }
+    },
+  
+  );    
+}
+
+  //metodo que dibuja el color del icono mostrando si está activo o no
     Color isIconActive(){
      if (widget.item.isActive) {
       color = Colors.greenAccent[400]!;

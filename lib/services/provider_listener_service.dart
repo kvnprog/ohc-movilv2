@@ -16,7 +16,6 @@ class ProviderListener extends ChangeNotifier{
   set setBoolValue( Places? mIsReady ){
     itemIsReady= mIsReady;
   }
-
   
   get placeAffected{
     if (_mplaceItem?.isActive == false) {
