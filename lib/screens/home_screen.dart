@@ -127,9 +127,6 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                   _showGridPlaces(provider),
                   
                   _incidencesInteracion()
-                  //menú de interacción para generar incidencias
-                  //_deleteIncidenceOptions(provider, size),
-                  //NewInteractionMenu()
                 ],
               ),
             ),
@@ -143,105 +140,8 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     }
   }
 
-  //Functions and Methods
-  Widget _floatingActionButtonOptions(ProviderListener provider) {
-    late bool initialOpen;
-
-    status == 'finished' ? initialOpen = false : initialOpen = true;
-
-    return Container(
-      key: isFinished(0),
-      width: 200,
-      height: 190,
-      child: ExpandableFab(
-        initialOpen: initialOpen,
-        distance: _distance,
-        children: [
-          //iniciar/finalizar el recorrido
-          if (_opcionSeleccionada == 'Recorrido')
-            ActionButton(
-              key: isFinished(1),
-              onPressed: () async {
-                setState(() {});
-                if (iconData.icon == const Icon(Icons.play_arrow).icon) {
-                  _mostrarAlerta(context);
-                } else {
-                  //botón de detener
-                  await terminarrecorrido();
-                  iconData = const Icon(Icons.play_arrow);
-                  getTimeValue;
-                  isCanceled = true;
-                  tourIsActive = false;
-                  setState(() {});
-                  provider.itemIsReady = null;
-                  menuRequest = true;
-                  interactionMenuArray.removeRange(
-                      0, interactionMenuArray.length);
-                }
-              },
-              icon: iconData,
-            ),
-
-          //eliminar un campo de incidencia
-          if (isActive == true && isCanceled == false ||
-              _opcionSeleccionada != 'Recorrido' ||
-              status != 'finished')
-            ActionButton(
-              key: isFinished(2),
-              icon: const Icon(Icons.delete_forever),
-              onPressed: () {
-                //2
-                setState(() {});
-                int index = interactionMenuArray.length - 1;
-                if (index != -1) {
-                  if (interactionMenuArray[index].btnsave == true) {
-                    interactionMenuArray.removeAt(index);
-                    contador -= 1;
-                  }
-                }
-              },
-            ),
-
-          //agregar nuevo campo de crear incidencia
-          if (isActive == true && isCanceled == false ||
-              _opcionSeleccionada != 'Recorrido' ||
-              status != 'finished')
-            ActionButton(
-              key: isFinished(3),
-              onPressed: () {
-                setState(() {});
-                if (provider.itemIsReady != null ||
-                    _opcionSeleccionada != 'Recorrido') {
-                  if (contador != 9) {
-                    contador += 1;
-                    var lugar;
-                    for (var element in dataList.arrayPlaces) {
-                      if (element.isActive == true) {
-                        lugar = element.name;
-                      }
-                    }
-
-                    // interactionMenuArray.add(InteractionMenu(
-                    //     tipo: _opcionSeleccionada,
-                    //     lugar: lugar,
-                    //     acciones: widget.acciones!,
-                    //     isNewMenuRequest: menuRequest,
-                    //     recorrido: recorrido,
-                    //     usuario: widget.usuario,
-                    //     btnsave: true));
-                  } else {
-                    // _showToast(context, 'Solo se puede Agregar 10 Incidencias');
-                  }
-                }
-              }, //_sh_showAction(context, 0),
-              icon: const Icon(Icons.new_label_sharp),
-            ),
-        ],
-      ),
-    );
-  }
-
   Widget _showGridPlaces(ProviderListener provider) {
+    _itemStatus(provider);
     return Container(
       height: 250,
       width: double.infinity,
@@ -258,13 +158,6 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               return itemUpdated;
             },
             item: verMasListas(index),
-            func: () {
-              if (hasBeenCanceled == true) {
-                ProviderListener changeItemConfiguration =
-                    Provider.of<ProviderListener>(context, listen: false);
-                return changeItemConfiguration.setBoolValue = null;
-              }
-            },
             numeroDeIncidencias: interactionMenuArray.length,
           );
         }),
@@ -287,6 +180,10 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         );
       }),
     );
+  }
+
+  _itemStatus(ProviderListener provider){
+    print('el estatus del item es ${provider.itemIsReady}');
   }
 
   Key? isFinished(int position) {
@@ -379,59 +276,6 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     return mainArray;
   }
 
-  void _mostrarAlerta(BuildContext context) {
-    late String message;
-
-    if (iconData.icon == const Icon(Icons.stop).icon) {
-      message = 'Detener recorrido';
-    } else {
-      message = 'Iniciar recorrido';
-    }
-
-    showDialog(
-        context: context,
-        //se puede cerrar haciendo click al rededor de la pantalla
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            title: const Text('Estás por iniciar un nuevo recorrido'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const <Widget>[
-                Text(
-                    'Si aceptas, el tiempo empezará a contar inmediatamente y finalizará hasta que detengas el recorrido.'),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(message),
-                onPressed: () async {
-                  String time =
-                      "${TimeOfDay.now().hour}:${TimeOfDay.now().minute}";
-                  recorrido = await crearrecorrido();
-                  setState(() {});
-                  Navigator.of(context).pop();
-                  iconData = const Icon(Icons.stop);
-                  isCanceled = false;
-                  setTimeValue = time;
-                  isActive = true;
-                  tourIsActive = true;
-
-                  menuRequest = true;
-                  interactionMenuArray.removeRange(
-                      0, interactionMenuArray.length);
-                },
-              ),
-              TextButton(
-                child: const Text('Cancelar'),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          );
-        });
-  }
 
   set setTimeValue(String newTimeValue) {
     timeValue = newTimeValue;
