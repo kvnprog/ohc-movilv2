@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-class ListMenuItem extends StatelessWidget {
+class ListWidget extends StatelessWidget {
   List<dynamic>? datos;
-  ListMenuItem({Key? key, this.datos}) : super(key: key);
+  ListWidget({Key? key, this.datos}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
