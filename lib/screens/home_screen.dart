@@ -179,7 +179,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
   }
 
   _itemStatus(ProviderListener provider) {
-    print('el estatus del item es ${provider.itemIsReady}');
+    print('${provider.itemIsReady!.name}');
   }
 
   Key? isFinished(int position) {
