@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ShortCutAccess extends StatelessWidget {
-  const ShortCutAccess({Key? key}) : super(key: key);
+  String shortcutTitle;
+  IconData shortcutIcon;
+  List<Widget> widgetsListActions;
+  ShortCutAccess({
+    Key? key,
+    required this.shortcutIcon,
+    required this.shortcutTitle,
+    required this.widgetsListActions
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +36,15 @@ class ShortCutAccess extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('Título del shortcut', style: TextStyle(
-                  color: Colors.grey[200]
-                ),),
-                const Icon(Icons.access_time_rounded, size: 50, color: Colors.amber,)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                  child: Text(shortcutTitle, style: TextStyle(
+                    color: Colors.grey[200]
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
+                ),
+                Icon(shortcutIcon, size: 50, color: Colors.amber,)
               ],
             ),
           ),
@@ -40,16 +53,15 @@ class ShortCutAccess extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 3),
             width: 160,
+            height: 200,
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: 5,
+              itemCount: 1,
               itemBuilder: (BuildContext context, index){
 
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text('Item name position')
-                  ],
+                  children: widgetsListActions,
                 );
               }),
           )

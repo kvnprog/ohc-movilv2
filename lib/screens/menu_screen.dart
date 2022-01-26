@@ -111,8 +111,29 @@ class MenuHome extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  ShortCutAccess(),
-                  BtnPoint(),
+                  ShortCutAccess(
+                    shortcutTitle: 'Ver incidencias de últimas 24 hrs.',
+                    shortcutIcon: Icons.file_copy_outlined,
+                    widgetsListActions: [
+
+                      ListTile(
+                        leading: const Icon(Icons.remove_red_eye_outlined, size: 20),
+                        title: const Text('Ver incidencias'),
+                        style: ListTileStyle.list,
+                        focusColor: Colors.white,
+                        iconColor: Colors.white,
+                        minLeadingWidth: 2.0,
+                        textColor: Colors.black,
+                        selectedTileColor: Colors.white,
+                        selectedColor: Colors.amber,              
+
+                        onTap: () {
+                          print('soy el objeto');
+                        },
+                      ),
+                    ],
+                  ),
+                  //BtnPoint(),
                 ],
               ),
             ),
