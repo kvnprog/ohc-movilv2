@@ -8,7 +8,7 @@ import 'package:recorridos_app/data/places_array_data_class.dart';
 import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/services/provider_listener_service.dart';
 
-List<String> fotopreview = ['', '', '', '', '', '', '', '', '', ''];
+String fotopreview = '';
 String resultado = '';
 List<int>? imageBytes;
 String? base64Image;
@@ -18,17 +18,28 @@ class InteractionMenu extends StatefulWidget {
   final String acciones;
   final String? lugar;
   final String? estado;
-  final index;
+
   final recorrido;
   bool btnsave;
   bool isNewMenuRequest;
   String tipo;
 
+  // InteractionMenu(
+  //     {Key? key,
+  //     this.lugar,
+  //     this.usuario,
+  //     this.recorrido,
+  //     this.estado,
+  //     required this.acciones,
+  //     required this.isNewMenuRequest,
+  //     required this.btnsave,
+  //     required this.tipo})
+  //     : super(key: key);
+
   InteractionMenu(
       {Key? key,
       this.lugar,
       this.usuario,
-      this.index,
       this.recorrido,
       this.estado,
       required this.acciones,
@@ -61,8 +72,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
     super.initState();
     final provider = Provider.of<ProviderListener>(context, listen: false);
     if (provider.itemIsReady != null) {
-      if (widget.isNewMenuRequest && fotopreview[widget.index] != '') {
-        fotopreview[widget.index] = '';
+      if (widget.isNewMenuRequest && fotopreview != '') {
+        fotopreview = '';
       }
     }
   }
@@ -71,7 +82,9 @@ class _InteractionMenuState extends State<InteractionMenu> {
 
   @override
   Widget build(BuildContext context) {
-    var acciones = json.decode(widget.acciones);
+    // var acciones = json.decode(widget.acciones);
+
+    List<String> acciones = ['', '', ''];
 
     for (var element in acciones) {
       _actionType.add(element);
@@ -108,14 +121,14 @@ class _InteractionMenuState extends State<InteractionMenu> {
               ),
               SizedBox(height: height),
               const Divider(),
-              (fotopreview[widget.index] == '')
+              (fotopreview == '')
                   ? (const Text(''))
                   : (Transform.rotate(
                       angle: 0,
                       child: Transform.scale(
                           scale: 0.70,
                           child: Image.file(
-                            File(fotopreview[widget.index]),
+                            File(fotopreview),
                           )))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,16 +161,16 @@ class _InteractionMenuState extends State<InteractionMenu> {
                               ),
                             ).then((value) {
                               if (value == null) {
-                                if (fotopreview[widget.index] != '') {
-                                  print("imagen ${fotopreview[widget.index]}");
+                                if (fotopreview != '') {
+                                  print("imagen ${fotopreview}");
                                 }
                               } else {
-                                fotopreview[widget.index] = value;
+                                fotopreview = value;
                               }
 
-                              print(widget.index);
-                              var acciones = json.decode(widget.acciones);
-
+                              // print(widget.index);
+                              // var acciones = json.decode(widget.acciones);
+                              var acciones = ['', '', ''];
                               for (var element in acciones) {
                                 _actionType.remove(element);
                               }
@@ -211,16 +224,15 @@ class _InteractionMenuState extends State<InteractionMenu> {
                               // final List json = jsonDecode(respuesta.body.toString());
                             }
 
-                            if (fotopreview[widget.index] != '') {
-                              imageBytes = File(fotopreview[widget.index])
-                                  .readAsBytesSync();
+                            if (fotopreview != '') {
+                              imageBytes = File(fotopreview).readAsBytesSync();
                               base64Image = base64Encode(imageBytes!);
                             } else {
                               base64Image = '';
                             }
                             btnload = false;
-                            var acciones = json.decode(widget.acciones);
-
+                            // var acciones = json.decode(widget.acciones);
+                            var acciones = ['', '', ''];
                             for (var element in acciones) {
                               _actionType.remove(element);
                             }
@@ -293,8 +305,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     onChanged: (opt) {
                       _opcionSeleccionada = opt;
                       setState(() {
-                        var acciones = json.decode(widget.acciones);
-
+                        // var acciones = json.decode(widget.acciones);
+                        var acciones = ['', '', ''];
                         for (var element in acciones) {
                           _actionType.remove(element);
                         }

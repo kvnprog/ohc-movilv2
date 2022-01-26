@@ -106,35 +106,39 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         create: (_) => ProviderListener(),
         child: Consumer<ProviderListener>(
           builder: (context, provider, child) => Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: AppBar(
-                title: const Text('Recorridos'),
-                elevation: 0,
-                actions: <Widget>[
-                  IconButton(
-                      onPressed: () => Navigator.of(context).pop('login'),
-                      icon: const Icon(
-                        Icons.login_outlined,
-                        color: Colors.black,
-                        size: 30,
-                      )),
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              title: const Text('Recorridos'),
+              elevation: 0,
+              actions: <Widget>[
+                IconButton(
+                    onPressed: () => Navigator.of(context).pop('login'),
+                    icon: const Icon(
+                      Icons.login_outlined,
+                      color: Colors.black,
+                      size: 30,
+                    )),
+              ],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  _showGridPlaces(provider),
+                  InteractionMenu(
+                      acciones: "hola",
+                      isNewMenuRequest: true,
+                      btnsave: true,
+                      tipo: "1")
+                  //menú de interacción para generar incidencias
+                  //_deleteIncidenceOptions(provider, size),
+                  //NewInteractionMenu()
                 ],
               ),
-              body: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    _showGridPlaces(provider),
-
-                    //menú de interacción para generar incidencias
-                    //_deleteIncidenceOptions(provider, size),
-                    //NewInteractionMenu()
-                  ],
-                ),
-              ),
-              //floatingActionButton: _floatingActionButtonOptions(provider),
             ),
+            //floatingActionButton: _floatingActionButtonOptions(provider),
           ),
+        ),
       );
     } else {
       _waitForValue();
@@ -220,15 +224,14 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                       }
                     }
 
-                    interactionMenuArray.add(InteractionMenu(
-                        tipo: _opcionSeleccionada,
-                        lugar: lugar,
-                        acciones: widget.acciones!,
-                        isNewMenuRequest: menuRequest,
-                        index: contador,
-                        recorrido: recorrido,
-                        usuario: widget.usuario,
-                        btnsave: true));
+                    // interactionMenuArray.add(InteractionMenu(
+                    //     tipo: _opcionSeleccionada,
+                    //     lugar: lugar,
+                    //     acciones: widget.acciones!,
+                    //     isNewMenuRequest: menuRequest,
+                    //     recorrido: recorrido,
+                    //     usuario: widget.usuario,
+                    //     btnsave: true));
                   } else {
                     // _showToast(context, 'Solo se puede Agregar 10 Incidencias');
                   }
@@ -241,7 +244,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     );
   }
 
-  Widget _showGridPlaces(ProviderListener provider){
+  Widget _showGridPlaces(ProviderListener provider) {
     return Container(
       height: 250,
       width: double.infinity,
@@ -249,25 +252,25 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         mainAxisSpacing: 10,
         crossAxisSpacing: 5,
         shrinkWrap: true,
-          crossAxisCount: 3,
-          children: List.generate(dataList.arrayPlaces.length, (index) {
-            return PlacesInteraction(
-                    fun: () {
-                      setState(() {});
-                      Places itemUpdated = provider.placeSelected = verMasListas(index);
-                      return itemUpdated;
-                    },
-                    item: verMasListas(index),
-                    func: () {
-                      if (hasBeenCanceled == true) {
-                        ProviderListener changeItemConfiguration =
-                            Provider.of<ProviderListener>(context, listen: false);
-                        return changeItemConfiguration.setBoolValue = null;
-                      }
-                    },
-                    numeroDeIncidencias: interactionMenuArray.length,
-            );
-          }),
+        crossAxisCount: 3,
+        children: List.generate(dataList.arrayPlaces.length, (index) {
+          return PlacesInteraction(
+            fun: () {
+              setState(() {});
+              Places itemUpdated = provider.placeSelected = verMasListas(index);
+              return itemUpdated;
+            },
+            item: verMasListas(index),
+            func: () {
+              if (hasBeenCanceled == true) {
+                ProviderListener changeItemConfiguration =
+                    Provider.of<ProviderListener>(context, listen: false);
+                return changeItemConfiguration.setBoolValue = null;
+              }
+            },
+            numeroDeIncidencias: interactionMenuArray.length,
+          );
+        }),
       ),
     );
   }
@@ -314,11 +317,11 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               ],
             ),
           )),
-    
     ]);
   }
 
-  Widget _deleteIncidenceOptions(ProviderListener provider, MediaQueryData size) {
+  Widget _deleteIncidenceOptions(
+      ProviderListener provider, MediaQueryData size) {
     if (provider.itemIsReady?.timeEnd != null) {
       if (interactionMenuArray.isNotEmpty) {
         interactionMenuArray.removeRange(0, interactionMenuArray.length);
