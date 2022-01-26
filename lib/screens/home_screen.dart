@@ -125,11 +125,8 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               child: Column(
                 children: [
                   _showGridPlaces(provider),
-                  InteractionMenu(
-                      acciones: "hola",
-                      isNewMenuRequest: true,
-                      btnsave: true,
-                      tipo: "1")
+
+                  _incidencesInteracion()
                   //menú de interacción para generar incidencias
                   //_deleteIncidenceOptions(provider, size),
                   //NewInteractionMenu()
@@ -185,26 +182,6 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               icon: iconData,
             ),
 
-          //eliminar un campo de incidencia
-          if (isActive == true && isCanceled == false ||
-              _opcionSeleccionada != 'Recorrido' ||
-              status != 'finished')
-            ActionButton(
-              key: isFinished(2),
-              icon: const Icon(Icons.delete_forever),
-              onPressed: () {
-                //2
-                setState(() {});
-                int index = interactionMenuArray.length - 1;
-                if (index != -1) {
-                  if (interactionMenuArray[index].btnsave == true) {
-                    interactionMenuArray.removeAt(index);
-                    contador -= 1;
-                  }
-                }
-              },
-            ),
-
           //agregar nuevo campo de crear incidencia
           if (isActive == true && isCanceled == false ||
               _opcionSeleccionada != 'Recorrido' ||
@@ -238,6 +215,26 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                 }
               }, //_sh_showAction(context, 0),
               icon: const Icon(Icons.new_label_sharp),
+            ),
+
+          //eliminar un campo de incidencia
+          if (isActive == true && isCanceled == false ||
+              _opcionSeleccionada != 'Recorrido' ||
+              status != 'finished')
+            ActionButton(
+              key: isFinished(2),
+              icon: const Icon(Icons.delete_forever),
+              onPressed: () {
+                //2
+                setState(() {});
+                int index = interactionMenuArray.length - 1;
+                if (index != -1) {
+                  if (interactionMenuArray[index].btnsave == true) {
+                    interactionMenuArray.removeAt(index);
+                    contador -= 1;
+                  }
+                }
+              },
             ),
         ],
       ),
@@ -275,71 +272,19 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     );
   }
 
-  Widget _insertPlaces() {
-    final lenghtData = dataList.arrayPlaces.length;
-    placesArray();
-    return Column(children: [
-      Container(
-          key: isFinished(5),
-          width: double.infinity,
-          height: 100,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-
-            itemCount: lenghtData,
-            //itemCount: whichIndex(),
-
-            itemBuilder: (BuildContext context, int index) => ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(right: 33.0),
-              children: [
-                PlacesInteraction(
-                  fun: () {
-                    setState(() {});
-                    ProviderListener changeItemConfiguration =
-                        Provider.of<ProviderListener>(context, listen: false);
-                    Places itemUpdated = changeItemConfiguration.placeSelected =
-                        verMasListas(index);
-                    return itemUpdated;
-                  },
-                  item: verMasListas(index),
-                  func: () {
-                    if (hasBeenCanceled == true) {
-                      ProviderListener changeItemConfiguration =
-                          Provider.of<ProviderListener>(context, listen: false);
-                      return changeItemConfiguration.setBoolValue = null;
-                    }
-                  },
-                  numeroDeIncidencias: interactionMenuArray.length,
-                ),
-              ],
-            ),
-          )),
-    ]);
-  }
-
-  Widget _deleteIncidenceOptions(
-      ProviderListener provider, MediaQueryData size) {
-    if (provider.itemIsReady?.timeEnd != null) {
-      if (interactionMenuArray.isNotEmpty) {
-        interactionMenuArray.removeRange(0, interactionMenuArray.length);
-        contador = 0;
-        menuRequest = true;
-      }
-    }
-    return SizedBox(
-      child: Container(
-        key: isFinished(4),
-        height: size.size.height / 1.8,
-        child: ListView(
+  Widget _incidencesInteracion() {
+    return Container(
+      height: 400,
+      child: ListView.builder(
           shrinkWrap: true,
-          children: [
-            for (var menu in interactionMenuArray) menu,
-          ],
-        ),
-      ),
+          itemCount: 1,
+          itemBuilder: (BuildContext context, index) {
+            return InteractionMenu(
+                acciones: "hola",
+                isNewMenuRequest: true,
+                btnsave: true,
+                tipo: "1");
+          }),
     );
   }
 

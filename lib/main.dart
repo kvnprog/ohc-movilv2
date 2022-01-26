@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         seconds: 1,
         loaderColor: Colors.black,
         navigateAfterFuture: _waitForValue(),
-        //  navigateAfterSeconds: BitacoraRecorridos(),
+        //navigateAfterSeconds: HomeToursScreen(),
         //navigateAfterSeconds: PlacesInteraction(item: Places(icon: Icons.person_off, isActive: false, name: 'prueba'), numeroDeIncidencias: 2,),
         image: Image.asset(
           'assets/walk.gif',
