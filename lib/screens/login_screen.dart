@@ -163,7 +163,7 @@ class _LoginFormState extends State<_LoginForm> {
                     }),
                   );
                 } else {
-                  return Image.asset('assets/loading-38.gif');
+                  return Image.asset('assets/loading-38.gif', color: Colors.black,);
                 }
               }),
         ),

@@ -101,6 +101,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
               print("if 2");              
               //esto hace que puedan volver al ultimo lugar seleccionado
               if(color == Colors.blue){
+                  widget.fun!();
                   widget.item.isActive = true;
                   widget.item.timeStart = time;
                   widget.item.timeEnd = null; 
