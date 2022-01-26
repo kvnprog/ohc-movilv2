@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 class ListMenuItem extends StatelessWidget {
   List<dynamic>? datos;
-  ListMenuItem({Key? key, this.datos}) : super(key: key);
+
+  ListMenuItem({
+    Key? key,
+    this.datos,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,6 @@ class ListMenuItem extends StatelessWidget {
           Text('${datos![0]}'),
           Text('${datos![1]}'),
           Text('${datos![2]}'),
-
         ],
       ),
     );

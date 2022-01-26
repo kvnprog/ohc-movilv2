@@ -5,13 +5,15 @@ import 'package:flutter_intro/flutter_intro.dart';
 import 'package:provider/provider.dart';
 import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/services/provider_listener_service.dart';
+import 'package:recorridos_app/widgets/btnpoint.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const HomeToursScreen());
 var contador = 0;
-var recorrido;
+var recorrido = "-1";
+var lugar = 'algo';
 bool menuRequest = false;
 int setpsAvailable = 0;
 
@@ -24,14 +26,12 @@ enum Mode {
 class HomeToursScreen extends StatefulWidget {
   final String? usuario;
   final String? acciones;
-  final Mode? mode;
-  const HomeToursScreen({Key? key, this.usuario, this.mode, this.acciones})
+
+  const HomeToursScreen({Key? key, this.usuario, this.acciones})
       : super(key: key);
 
   @override
-  State<HomeToursScreen> createState() => _HomeToursScreenState(
-        mode: mode,
-      );
+  State<HomeToursScreen> createState() => _HomeToursScreenState();
 }
 
 class _HomeToursScreenState extends State<HomeToursScreen> {
@@ -121,9 +121,13 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(5),
               child: Column(
-                children: [_showGridPlaces(provider), _incidencesInteracion()],
+                children: [
+                  _showGridPlaces(provider),
+                  _incidencesInteracion(),
+                  BtnPoint()
+                ],
               ),
             ),
             //floatingActionButton: _floatingActionButtonOptions(provider),
@@ -138,7 +142,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   Widget _showGridPlaces(ProviderListener provider) {
     _itemStatus(provider);
-    print("hola");
+
     return Container(
       height: 250,
       width: double.infinity,
@@ -170,6 +174,9 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           itemCount: 1,
           itemBuilder: (BuildContext context, index) {
             return InteractionMenu(
+                recorrido: recorrido,
+                usuario: widget.usuario,
+                lugar: lugar,
                 acciones: widget.acciones!,
                 isNewMenuRequest: true,
                 btnsave: true,
@@ -178,8 +185,19 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     );
   }
 
-  _itemStatus(ProviderListener provider) {
-    print('${provider.itemIsReady!.name}');
+  _itemStatus(ProviderListener provider) async {
+    if (provider.itemIsReady != null) {
+      if (provider.itemIsReady!.timeStart != null &&
+          provider.itemIsReady!.timeEnd == null) {
+        recorrido = await crearrecorrido();
+        lugar = provider.itemIsReady!.name;
+        print(recorrido);
+      } else {
+        var termino = await terminarrecorrido();
+        recorrido = "-1";
+        lugar = 'algo';
+      }
+    }
   }
 
   Key? isFinished(int position) {
@@ -236,7 +254,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         "https://pruebasmatch.000webhostapp.com/terminar_recorrido.php");
     var respuesta =
         await http.post(url, body: {"index": recorrido, "informacion": jsons});
-    print(jsons);
+    // print(jsons);
     return respuesta.body;
   }
 

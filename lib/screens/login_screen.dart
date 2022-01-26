@@ -163,7 +163,10 @@ class _LoginFormState extends State<_LoginForm> {
                     }),
                   );
                 } else {
-                  return Image.asset('assets/loading-38.gif', color: Colors.black,);
+                  return Image.asset(
+                    'assets/loading-38.gif',
+                    color: Colors.black,
+                  );
                 }
               }),
         ),
@@ -242,9 +245,8 @@ class UsersActive extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       //builder: (BuildContext context) => HomeToursScreen(
-                      builder: (BuildContext context) => MenuHome(
-                        acciones: respuesta.body,
-                      ),
+                      builder: (BuildContext context) =>
+                          MenuHome(acciones: respuesta.body, usuario: usuario),
                     ),
                   );
                 }

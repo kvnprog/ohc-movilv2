@@ -6,7 +6,9 @@ import 'package:recorridos_app/widgets/widgets.dart';
 
 class MenuHome extends StatelessWidget {
   final String acciones;
-  const MenuHome({Key? key, required this.acciones}) : super(key: key);
+  final String? usuario;
+  const MenuHome({Key? key, required this.acciones, this.usuario})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +82,7 @@ class MenuHome extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) => HomeToursScreen(
                               acciones: acciones,
+                              usuario: usuario,
                             )));
                   },
                 ),
