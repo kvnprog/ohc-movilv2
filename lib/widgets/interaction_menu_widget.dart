@@ -393,9 +393,10 @@ class _InteractionMenuState extends State<InteractionMenu> {
                         }
                       });
                     }),
+              
               ),
             ],
-          )
+        )
         : Row();
   }
 

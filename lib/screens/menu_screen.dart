@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/screens/list_bitacora_inicio.dart';
 import 'package:recorridos_app/widgets/btnpoint.dart';
+import 'package:recorridos_app/widgets/list_widget.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 
 class MenuHome extends StatelessWidget {
@@ -97,7 +98,7 @@ class MenuHome extends StatelessWidget {
                   selectedTileColor: Colors.grey[600],
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => BitacoraInicio()));
+                        builder: (BuildContext context) => ListWidget()));
                   },
                 ),
                 ListTile(
