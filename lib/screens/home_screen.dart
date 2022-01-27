@@ -16,6 +16,7 @@ var recorrido = "-1";
 var lugar = 'algo';
 bool menuRequest = false;
 int setpsAvailable = 0;
+int cambio = 0;
 
 enum Mode {
   defaultTheme,
@@ -126,7 +127,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                 children: [
                   _showGridPlaces(provider),
                   _incidencesInteracion(),
-                  BtnPoint()
+                  BtnPoint(recorrido: recorrido)
                 ],
               ),
             ),
@@ -142,7 +143,6 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   Widget _showGridPlaces(ProviderListener provider) {
     _itemStatus(provider);
-
     return Container(
       height: 250,
       width: double.infinity,
@@ -155,7 +155,9 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           return PlacesInteraction(
             fun: () {
               setState(() {});
+
               Places itemUpdated = provider.placeSelected = verMasListas(index);
+
               return itemUpdated;
             },
             item: verMasListas(index),
@@ -189,13 +191,19 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     if (provider.itemIsReady != null) {
       if (provider.itemIsReady!.timeStart != null &&
           provider.itemIsReady!.timeEnd == null) {
-        recorrido = await crearrecorrido();
-        lugar = provider.itemIsReady!.name;
+        print(recorrido);
+        if (cambio == 0) {
+          recorrido = await crearrecorrido();
+          lugar = provider.itemIsReady!.name;
+          cambio = 1;
+        }
+
         print(recorrido);
       } else {
         var termino = await terminarrecorrido();
         recorrido = "-1";
         lugar = 'algo';
+        cambio = 0;
       }
     }
   }

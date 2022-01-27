@@ -53,6 +53,7 @@ class InteractionMenu extends StatefulWidget {
 }
 
 class _InteractionMenuState extends State<InteractionMenu> {
+  PlacesArrayAvailableData dataList = PlacesArrayAvailableData();
   final comentario = TextEditingController();
   final responsable = TextEditingController();
   double height = 15;
@@ -71,6 +72,10 @@ class _InteractionMenuState extends State<InteractionMenu> {
   @override
   void initState() {
     super.initState();
+    var acciones = json.decode(widget.acciones);
+    for (var element in acciones) {
+      _actionType.remove(element);
+    }
     final provider = Provider.of<ProviderListener>(context, listen: false);
     if (provider.itemIsReady != null) {
       if (widget.isNewMenuRequest && fotopreview != '') {
@@ -79,11 +84,13 @@ class _InteractionMenuState extends State<InteractionMenu> {
     }
   }
 
-  PlacesArrayAvailableData dataList = PlacesArrayAvailableData();
-
   @override
   Widget build(BuildContext context) {
     var acciones = json.decode(widget.acciones);
+
+    for (var element in acciones) {
+      _actionType.remove(element);
+    }
 
     // List<String> acciones = ['', '', ''];
 
@@ -106,6 +113,21 @@ class _InteractionMenuState extends State<InteractionMenu> {
               TextField(
                 controller: responsable,
                 textCapitalization: TextCapitalization.sentences,
+                onTap: () {
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                onChanged: (responsable) {
+                  // print(widget.index);
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
                 decoration: const InputDecoration(
                   hintText: 'Responsable de la incidencia',
                   icon: Icon(
@@ -124,6 +146,21 @@ class _InteractionMenuState extends State<InteractionMenu> {
               TextField(
                 controller: comentario,
                 textCapitalization: TextCapitalization.sentences,
+                onTap: () {
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                onChanged: (comentario) {
+                  // print(widget.index);
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
                 decoration: const InputDecoration(
                   hintText: 'Ingrese un comentario',
                   icon: Icon(
@@ -206,7 +243,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       //   print("soy yo ${widget.tipo}");
                       Future<void> pedirdatos() async {
                         //     if (widget.tipo == "Recorrido") {
-                        await http.post(url, body: {
+                        var resultado = await http.post(url, body: {
                           "responsable": "${responsable.text}",
                           "comentario": "${comentario.text}",
                           "imagen": base64Image,
@@ -215,6 +252,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "tipo_inc": _opcionSeleccionada,
                           "lugar": lugar
                         });
+
+                        print(resultado.body);
                       }
                       //     } else {
                       //       await http.post(url, body: {
@@ -250,6 +289,9 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       for (var element in acciones) {
                         _actionType.remove(element);
                       }
+                      fotopreview = '';
+                      comentario.text = '';
+                      responsable.text = '';
 
                       setState(() {});
                     },
@@ -280,60 +322,13 @@ class _InteractionMenuState extends State<InteractionMenu> {
               MaterialButton(
                 onPressed: widget.btnsave
                     ? () async {
-                        // print(widget.usuario);
-                        // print(widget.key);
-
-                        // print(widget.lugar);
-                        var url = Uri.parse(
-                            "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
-                        print("soy yo ${widget.tipo}");
-                        Future<void> pedirdatos() async {
-                          // if (widget.tipo == "Recorrido") {
-                          print(widget.recorrido);
-                          await http.post(url, body: {
-                            "comentario": "${comentario.text}",
-                            "imagen": base64Image,
-                            "usuario": widget.usuario,
-                            "recorrido": widget.recorrido,
-                            "tipo_inc": _opcionSeleccionada,
-                            "lugar": widget.lugar
-                          });
-                          //  } else {
-                          //   await http.post(url, body: {
-                          //     "comentario": "${comentario.text}",
-                          //     "imagen": base64Image,
-                          //     "usuario": widget.usuario,
-                          //     "recorrido": '-1',
-                          //     "tipo_inc": _opcionSeleccionada,
-                          //     "lugar": '-1'
-                          //   });
-                          // }
-
-                          // final List json = jsonDecode(respuesta.body.toString());
-                        }
-
-                        if (fotopreview != '') {
-                          imageBytes = File(fotopreview).readAsBytesSync();
-                          base64Image = base64Encode(imageBytes!);
-                        } else {
-                          base64Image = '';
-                        }
-                        btnload = false;
-                        var acciones = json.decode(widget.acciones);
+                        fotopreview = '';
+                        comentario.text = '';
+                        responsable.text = '';
 
                         for (var element in acciones) {
                           _actionType.remove(element);
                         }
-                        setState(() {});
-
-                        await pedirdatos();
-                        btnload = true;
-                        widget.btnsave = false;
-
-                        for (var element in acciones) {
-                          _actionType.remove(element);
-                        }
-
                         setState(() {});
                       }
                     : (null),
