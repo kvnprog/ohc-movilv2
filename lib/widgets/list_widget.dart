@@ -105,7 +105,7 @@ class _ListWidgetState extends State<ListWidget> {
     ),
     
       Container(
-          height: 600,
+          height: 500,
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,

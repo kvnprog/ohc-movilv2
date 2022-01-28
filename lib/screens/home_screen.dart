@@ -60,6 +60,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
   bool isActive = false;
   bool tourIsActive = false;
   int stepsCount = 1;
+  bool isCheckAvailable = false;
 
   String status = 'nulo';
 
@@ -120,36 +121,22 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
             appBar: AppBar(
               title: const Text('Recorridos'),
               elevation: 0,
-              actions: <Widget>[
-                IconButton(
-                    onPressed: () => Navigator.of(context).pop('login'),
-                    icon: const Icon(
-                      Icons.login_outlined,
-                      color: Colors.black,
-                      size: 30,
-                    )),
-              ],
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(5),
-              child: Column(
+            body: ListView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
                 children: [
-                  // FutureBuilder(
-                  //   future: dataList.inicializar('5555'),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.connectionState == ConnectionState.done) {
-                  //       return _showGridPlaces(provider);
-                  //     } else {
-                  //       return _showGridPlaces(provider);
-                  //     }
-                  //   },
-                  // ),
-                  _showGridPlaces(provider),
-                  _incidencesInteracion(),
-                  BtnPoint(recorrido: recorrido)
-                ],
-              ),
-            ),
+                  Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                      children: [
+                        _showGridPlaces(provider),
+                        _incidencesInteracion(),
+                        if (isCheckAvailable) BtnPoint(recorrido: recorrido)
+                      ],
+                    ),
+                  ),
+                ]),
             //floatingActionButton: _floatingActionButtonOptions(provider),
           ),
         ),
@@ -209,6 +196,12 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   _itemStatus(ProviderListener provider) async {
     if (provider.itemIsReady != null) {
+      if (provider.itemIsReady!.name == 'recorrido' &&
+          provider.itemIsReady!.isActive) {
+        isCheckAvailable = true;
+      } else {
+        isCheckAvailable = false;
+      }
       if (provider.itemIsReady!.timeStart != null &&
           provider.itemIsReady!.timeEnd == null) {
         print(recorrido);

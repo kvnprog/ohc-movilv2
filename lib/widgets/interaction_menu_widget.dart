@@ -24,18 +24,6 @@ class InteractionMenu extends StatefulWidget {
   bool isNewMenuRequest;
   String tipo;
 
-  // InteractionMenu(
-  //     {Key? key,
-  //     this.lugar,
-  //     this.usuario,
-  //     this.recorrido,
-  //     this.estado,
-  //     required this.acciones,
-  //     required this.isNewMenuRequest,
-  //     required this.btnsave,
-  //     required this.tipo})
-  //     : super(key: key);
-
   InteractionMenu(
       {Key? key,
       this.lugar,
@@ -107,7 +95,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(25))),
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             children: <Widget>[
               TextField(
@@ -319,25 +307,26 @@ class _InteractionMenuState extends State<InteractionMenu> {
               ),
 
               //eliminar la incidencia
-              MaterialButton(
-                onPressed: widget.btnsave
-                    ? () async {
-                        fotopreview = '';
-                        comentario.text = '';
-                        responsable.text = '';
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MaterialButton(
+                    onPressed: widget.btnsave
+                        ? () async {
+                            fotopreview = '';
+                            comentario.text = '';
+                            responsable.text = '';
 
-                        for (var element in acciones) {
-                          _actionType.remove(element);
-                        }
-                        setState(() {});
-                      }
-                    : (null),
-                disabledColor: Colors.red,
-                color: Colors.orange[400],
-                elevation: 1,
-                child: Row(
-                  children: [
-                    widget.btnsave
+                            for (var element in acciones) {
+                              _actionType.remove(element);
+                            }
+                            setState(() {});
+                          }
+                        : (null),
+                    disabledColor: Colors.red,
+                    color: Colors.orange[400],
+                    elevation: 1,
+                    child: widget.btnsave
                         ? btnload
                             ? const Icon(Icons.delete)
                             : const SizedBox(
@@ -349,8 +338,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                                 width: 15,
                               )
                         : const Text('Guardado'),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
