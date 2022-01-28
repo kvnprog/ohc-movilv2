@@ -39,6 +39,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Text('Login', style: Theme.of(context).textTheme.headline4),
               const SizedBox(height: 30),
+              const Text('Usuarios Activos', style: TextStyle(fontSize: 18)),
 
               // ChangeNotifierProvider fue importado del package provider
               ChangeNotifierProvider(
@@ -139,7 +140,7 @@ class _LoginFormState extends State<_LoginForm> {
     return Column(
       children: [
         Container(
-          height: 300,
+          height: 180,
           width: 400,
           child: FutureBuilder<String>(
               future: traerusuarios(),
@@ -175,12 +176,6 @@ class _LoginFormState extends State<_LoginForm> {
     );
   }
 
-  //mostrar solo las dos primeras iniciales del nombre
-  String _extractCheepName(int index) {
-    String mCheepName = usersActiveArray[index];
-    final mFinalName = mCheepName.characters.take(2);
-    return mFinalName.toUpperCase().toString();
-  }
 }
 
 class UsersActive extends StatelessWidget {
@@ -234,25 +229,33 @@ class UsersActive extends StatelessWidget {
               onTap: () async {
                 await checkingForBioMetrics();
                 await _authenticateMe();
-                var url = Uri.parse(
-                    "https://pruebasmatch.000webhostapp.com/traer_acciones.php");
+                var url = Uri.parse("https://pruebasmatch.000webhostapp.com/traer_acciones.php");
                 var respuesta = await http.post(url, body: {});
-
+                
                 if (checar == true) {
-                  String usuario = await checarusuario(codigo);
+                  String usuario = await checarusuario(codigo); 
                   print(usuario);
-                  Navigator.push(
-                    context,
+                  Navigator.push( context,
                     MaterialPageRoute(
                       //builder: (BuildContext context) => HomeToursScreen(
                       builder: (BuildContext context) =>
-                          MenuHome(acciones: respuesta.body, usuario: usuario),
+                      MenuHome(acciones: respuesta.body, usuario: usuario),
                     ),
                   );
                 }
               }),
         ),
       ),
+    );
+  }
+
+  Future loadImageProgress(){
+    return Future.delayed(
+      const Duration(seconds: 5),
+        (){
+          print(' me ejecuto');
+        return Image.asset('assets/loading-38.gif');
+      }
     );
   }
 

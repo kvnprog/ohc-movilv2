@@ -25,6 +25,8 @@ class MenuHome extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
+
+
                 DrawerHeader(
                     decoration: const BoxDecoration(
                       color: Colors.amber,
@@ -33,13 +35,25 @@ class MenuHome extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _userIcon(),
+                        Row(
+                          children: [
+                            _userIcon(),
+
+                             IconButton(
+                              onPressed: () => Navigator.of(context).pop('login'),
+                              icon: const Icon(
+                                Icons.login_outlined,
+                                color: Colors.black,
+                                size: 30,
+                            )),
+                          ],
+                        ),
                         Row(
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   'Ángel Romano',
                                   style: TextStyle(fontSize: 25),
                                 ),
@@ -53,6 +67,8 @@ class MenuHome extends StatelessWidget {
                         )
                       ],
                     )),
+
+
                 ListTile(
                   leading: const Icon(Icons.home),
                   title: const Text('Home'),
@@ -101,7 +117,9 @@ class MenuHome extends StatelessWidget {
                         builder: (BuildContext context) => ListWidget()));
                   },
                 ),
-                ListTile(
+
+                
+                /*ListTile(
                   leading: const Icon(Icons.upload_file),
                   title: const Text('Registrar incidencia'),
                   style: ListTileStyle.list,
@@ -111,7 +129,9 @@ class MenuHome extends StatelessWidget {
                   textColor: Colors.white,
                   selectedTileColor: Colors.grey[600],
                   onTap: () {},
-                ),
+                ), */
+
+                
               ],
             ),
           ),
@@ -154,11 +174,14 @@ class MenuHome extends StatelessWidget {
   }
 
   Widget _userIcon() {
+    print(usuario);
+    String userName = usuario.toString();
+    List<String> cheepName = userName.split("");
     return Container(
         child: ClipOval(
       child: Material(
         color: Colors.grey[800],
-        child: const InkWell(
+        child: InkWell(
           splashColor: Colors.white,
           child: SizedBox(
             width: 60,

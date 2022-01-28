@@ -60,6 +60,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
   bool isActive = false;
   bool tourIsActive = false;
   int stepsCount = 1;
+  bool isCheckAvailable = false;
 
   String status = 'nulo';
 
@@ -111,25 +112,24 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
             appBar: AppBar(
               title: const Text('Recorridos'),
               elevation: 0,
-              actions: <Widget>[
-                IconButton(
-                    onPressed: () => Navigator.of(context).pop('login'),
-                    icon: const Icon(
-                      Icons.login_outlined,
-                      color: Colors.black,
-                      size: 30,
-                    )),
-              ],
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(5),
-              child: Column(
-                children: [
-                  _showGridPlaces(provider),
-                  _incidencesInteracion(),
-                  BtnPoint(recorrido: recorrido)
-                ],
+            body: ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              
+              children: [Padding(
+                padding: const EdgeInsets.all(5),
+                child: Column(
+                  children: [
+                    _showGridPlaces(provider),
+                    _incidencesInteracion(),
+            
+                    if(isCheckAvailable)
+                    BtnPoint(recorrido: recorrido)
+                  ],
+                ),
               ),
+              ]
             ),
             //floatingActionButton: _floatingActionButtonOptions(provider),
           ),
@@ -143,29 +143,30 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   Widget _showGridPlaces(ProviderListener provider) {
     _itemStatus(provider);
+
     return Container(
-      height: 250,
-      width: double.infinity,
-      child: GridView.count(
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 5,
-        shrinkWrap: true,
-        crossAxisCount: 3,
-        children: List.generate(dataList.arrayPlaces.length, (index) {
-          return PlacesInteraction(
-            fun: () {
-              setState(() {});
-
-              Places itemUpdated = provider.placeSelected = verMasListas(index);
-
-              return itemUpdated;
-            },
-            item: verMasListas(index),
-            numeroDeIncidencias: interactionMenuArray.length,
-          );
-        }),
-      ),
-    );
+    height: 250,
+    width: double.infinity,
+    child: GridView.count(
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 5,
+      shrinkWrap: true,
+      crossAxisCount: 3,
+      children: List.generate(dataList.arrayPlaces.length, (index) {
+        return PlacesInteraction(
+          fun: () {
+            setState(() {});
+    
+            Places itemUpdated = provider.placeSelected = verMasListas(index);
+    
+            return itemUpdated;
+          },
+          item: verMasListas(index),
+          numeroDeIncidencias: interactionMenuArray.length,
+        );
+      }),
+    ),
+      );
   }
 
   Widget _incidencesInteracion() {
@@ -189,6 +190,11 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   _itemStatus(ProviderListener provider) async {
     if (provider.itemIsReady != null) {
+      if(provider.itemIsReady!.name == 'recorrido' && provider.itemIsReady!.isActive){
+        isCheckAvailable = true;
+      }else{
+        isCheckAvailable = false;
+      }
       if (provider.itemIsReady!.timeStart != null &&
           provider.itemIsReady!.timeEnd == null) {
         print(recorrido);
