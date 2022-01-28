@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/widgets/home_shortcuts.dart';
 import 'package:recorridos_app/widgets/list_menu_widget.dart';
 import 'package:http/http.dart' as http;
 
+bool mostrarlista = false;
 void main() => runApp(BitacoraInicio());
 
 class BitacoraInicio extends StatefulWidget {
@@ -35,26 +37,81 @@ class _BitacoraInicioState extends State<BitacoraInicio> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Column(
-          children: [
-            FutureBuilder<dynamic>(
-                future: incidencias(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    print(snapshot.data);
-                    datos = jsonDecode(snapshot.data!);
-                    return lista_incidencias(datos!);
-                  }
-                  return CircularProgressIndicator();
-                }),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              ShortCutAccess(
+                shortcutTitle: 'Ver incidencias de últimas 24 hrs.',
+                shortcutIcon: Icons.file_copy_outlined,
+                widgetsListActions: [
+                  ListTile(
+                    leading: mostrarlista
+                        ? Icon(Icons.close, size: 20)
+                        : Icon(Icons.remove_red_eye_outlined, size: 20),
+                    title: mostrarlista
+                        ? Text('Cerrar incidencias')
+                        : Text('Ver incidencias'),
+                    style: ListTileStyle.list,
+                    focusColor: Colors.white,
+                    iconColor: Colors.white,
+                    minLeadingWidth: 2.0,
+                    textColor: Colors.black,
+                    selectedTileColor: Colors.white,
+                    selectedColor: Colors.amber,
+                    onTap: mostrarlista
+                        ? () {
+                            print("algo");
+                            mostrarlista = false;
+                            setState(() {});
+                          }
+                        : () {
+                            print("algo");
+                            mostrarlista = true;
+                            setState(() {});
+                          },
+                  ),
+                ],
+              ),
+
+              mostrarlista
+                  ? FutureBuilder<dynamic>(
+                      future: incidencias(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          print(snapshot.data);
+                          datos = jsonDecode(snapshot.data!);
+                          return lista_incidencias(datos!);
+                        }
+                        return CircularProgressIndicator();
+                      })
+                  : Text(""),
+
+              //BtnPoint(),
+            ],
+          ),
         ),
+        // child: Column(
+        //   children: [
+        //     FutureBuilder<dynamic>(
+        //         future: incidencias(),
+        //         builder: (context, snapshot) {
+        //           if (snapshot.hasData) {
+        //             print(snapshot.data);
+        //             datos = jsonDecode(snapshot.data!);
+        //             return lista_incidencias(datos!);
+        //           }
+        //           return CircularProgressIndicator();
+        //         }),
+        //   ],
+        // ),
       ),
     );
   }
 
   Widget lista_incidencias(List<dynamic> datos) {
     final data = datos.length;
+    print(data);
     return Column(children: [
       Container(
           height: 710,

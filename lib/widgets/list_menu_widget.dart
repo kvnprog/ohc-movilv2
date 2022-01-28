@@ -48,21 +48,21 @@ class ListMenuItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Responsable: ${datos![1]}',
+                    'Responsable: ${datos![3]}',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey[200],
                     ),
                   ),
                   Text(
-                    'Lugar: ${datos![2]}',
+                    'Lugar: ${datos![1]}',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey[200],
                     ),
                   ),
                   Text(
-                    'Hora: ${datos![3]}',
+                    'fecha y Hora: ${datos![2]}',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey[200],

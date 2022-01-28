@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/data/places_array_data_class.dart';
 import 'package:recorridos_app/providers/login_form_provider.dart';
 import 'package:recorridos_app/ui/input_decorations.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
@@ -16,6 +17,7 @@ import 'package:get_mac/get_mac.dart';
 bool? checar;
 bool activobtn = false;
 var respuesta;
+bool cargando = false;
 
 class LoginScreen extends StatelessWidget {
   String? codigo;
@@ -175,92 +177,109 @@ class _LoginFormState extends State<_LoginForm> {
       ],
     );
   }
-
 }
 
-class UsersActive extends StatelessWidget {
+class UsersActive extends StatefulWidget {
   UsersActive({Key? key, required this.cheepName, required this.codigo})
       : super(key: key);
   String cheepName;
   String codigo;
+
+  @override
+  State<UsersActive> createState() => _UsersActiveState();
+}
+
+class _UsersActiveState extends State<UsersActive> {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
 
   Random random = Random();
+
   @override
   Widget build(BuildContext context) {
     Color color = Color.fromARGB(
         255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
-    return Container(
-      child: ClipOval(
-        child: Material(
-          color: Colors.grey[800],
-          child: InkWell(
-              splashColor: Colors.white,
-              child: SizedBox(
-                width: 60,
-                height: 60,
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        _correctPositionedName()[0],
-                        style: const TextStyle(
-                            color: Colors.white,
-                            decorationColor: Colors.black,
-                            fontSize: 12.5),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        _correctPositionedName()[1],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          decorationColor: Colors.black,
+    return cargando
+        ? const CircularProgressIndicator()
+        : Container(
+            child: ClipOval(
+              child: Material(
+                color: Colors.grey[800],
+                child: InkWell(
+                    splashColor: Colors.white,
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.white,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              _correctPositionedName()[0],
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  decorationColor: Colors.black,
+                                  fontSize: 12.5),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              _correctPositionedName()[1],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                decorationColor: Colors.black,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              onTap: () async {
-                await checkingForBioMetrics();
-                await _authenticateMe();
-                var url = Uri.parse("https://pruebasmatch.000webhostapp.com/traer_acciones.php");
-                var respuesta = await http.post(url, body: {});
-                
-                if (checar == true) {
-                  String usuario = await checarusuario(codigo); 
-                  print(usuario);
-                  Navigator.push( context,
-                    MaterialPageRoute(
-                      //builder: (BuildContext context) => HomeToursScreen(
-                      builder: (BuildContext context) =>
-                      MenuHome(acciones: respuesta.body, usuario: usuario),
                     ),
-                  );
-                }
-              }),
-        ),
-      ),
-    );
+                    onTap: () async {
+                      cargando = true;
+                      print(cargando);
+                      setState(() {});
+                      await checkingForBioMetrics();
+                      await _authenticateMe();
+                      var url = Uri.parse(
+                          "https://pruebasmatch.000webhostapp.com/traer_acciones.php");
+                      var respuesta = await http.post(url, body: {});
+                      PlacesArrayAvailableData dataList =
+                          PlacesArrayAvailableData();
+                      await dataList.inicializar('5555');
+                      if (checar == true) {
+                        String usuario = await checarusuario(widget.codigo);
+                        cargando = false;
+                        print(cargando);
+                        setState(() {});
+                        print(usuario);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            //builder: (BuildContext context) => HomeToursScreen(
+                            builder: (BuildContext context) => MenuHome(
+                                acciones: respuesta.body,
+                                usuario: usuario,
+                                dataList: dataList),
+                          ),
+                        );
+                      }
+                    }),
+              ),
+            ),
+          );
   }
 
-  Future loadImageProgress(){
-    return Future.delayed(
-      const Duration(seconds: 5),
-        (){
-          print(' me ejecuto');
-        return Image.asset('assets/loading-38.gif');
-      }
-    );
+  Future loadImageProgress() {
+    return Future.delayed(const Duration(seconds: 5), () {
+      print(' me ejecuto');
+      return Image.asset('assets/loading-38.gif');
+    });
   }
 
   List<String> _correctPositionedName() {
-    var prueba = cheepName.split(" ");
+    var prueba = widget.cheepName.split(" ");
     return prueba;
   }
 

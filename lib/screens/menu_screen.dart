@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/data/places_array_data_class.dart';
 import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/screens/list_bitacora_inicio.dart';
 import 'package:recorridos_app/widgets/btnpoint.dart';
@@ -8,7 +9,8 @@ import 'package:recorridos_app/widgets/widgets.dart';
 class MenuHome extends StatelessWidget {
   final String acciones;
   final String? usuario;
-  const MenuHome({Key? key, required this.acciones, this.usuario})
+  PlacesArrayAvailableData? dataList;
+  MenuHome({Key? key, required this.acciones, this.usuario, this.dataList})
       : super(key: key);
 
   @override
@@ -25,8 +27,6 @@ class MenuHome extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-
-
                 DrawerHeader(
                     decoration: const BoxDecoration(
                       color: Colors.amber,
@@ -38,14 +38,14 @@ class MenuHome extends StatelessWidget {
                         Row(
                           children: [
                             _userIcon(),
-
-                             IconButton(
-                              onPressed: () => Navigator.of(context).pop('login'),
-                              icon: const Icon(
-                                Icons.login_outlined,
-                                color: Colors.black,
-                                size: 30,
-                            )),
+                            IconButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop('login'),
+                                icon: const Icon(
+                                  Icons.login_outlined,
+                                  color: Colors.black,
+                                  size: 30,
+                                )),
                           ],
                         ),
                         Row(
@@ -67,8 +67,6 @@ class MenuHome extends StatelessWidget {
                         )
                       ],
                     )),
-
-
                 ListTile(
                   leading: const Icon(Icons.home),
                   title: const Text('Home'),
@@ -100,6 +98,7 @@ class MenuHome extends StatelessWidget {
                         builder: (BuildContext context) => HomeToursScreen(
                               acciones: acciones,
                               usuario: usuario,
+                              dataList: dataList,
                             )));
                   },
                 ),
@@ -118,7 +117,6 @@ class MenuHome extends StatelessWidget {
                   },
                 ),
 
-                
                 /*ListTile(
                   leading: const Icon(Icons.upload_file),
                   title: const Text('Registrar incidencia'),
@@ -130,41 +128,11 @@ class MenuHome extends StatelessWidget {
                   selectedTileColor: Colors.grey[600],
                   onTap: () {},
                 ), */
-
-                
               ],
             ),
           ),
           body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  ShortCutAccess(
-                    shortcutTitle: 'Ver incidencias de últimas 24 hrs.',
-                    shortcutIcon: Icons.file_copy_outlined,
-                    widgetsListActions: [
-                      ListTile(
-                        leading:
-                            const Icon(Icons.remove_red_eye_outlined, size: 20),
-                        title: const Text('Ver incidencias'),
-                        style: ListTileStyle.list,
-                        focusColor: Colors.white,
-                        iconColor: Colors.white,
-                        minLeadingWidth: 2.0,
-                        textColor: Colors.black,
-                        selectedTileColor: Colors.white,
-                        selectedColor: Colors.amber,
-                        onTap: () {
-                          print('soy el objeto');
-                        },
-                      ),
-                    ],
-                  ),
-                  //BtnPoint(),
-                ],
-              ),
-            ),
+            child: BitacoraInicio(),
           )),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[850],

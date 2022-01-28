@@ -10,7 +10,7 @@ import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(const HomeToursScreen());
+void main() => runApp(HomeToursScreen());
 var contador = 0;
 var recorrido = "-1";
 var lugar = 'algo';
@@ -27,8 +27,8 @@ enum Mode {
 class HomeToursScreen extends StatefulWidget {
   final String? usuario;
   final String? acciones;
-
-  const HomeToursScreen({Key? key, this.usuario, this.acciones})
+  PlacesArrayAvailableData? dataList;
+  HomeToursScreen({Key? key, this.usuario, this.acciones, this.dataList})
       : super(key: key);
 
   @override
@@ -46,7 +46,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   Icon iconData = const Icon(Icons.play_arrow);
 
-  PlacesArrayAvailableData dataList = PlacesArrayAvailableData();
+  // PlacesArrayAvailableData dataList = PlacesArrayAvailableData();
 
   Places? itemSelected;
   bool isAvailable = false;
@@ -158,7 +158,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         crossAxisSpacing: 5,
         shrinkWrap: true,
         crossAxisCount: 3,
-        children: List.generate(dataList.arrayPlaces.length, (index) {
+        children: List.generate(widget.dataList!.arrayPlaces.length, (index) {
           return PlacesInteraction(
             fun: () {
               setState(() {});
@@ -244,7 +244,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   verMasListas(int index) {
     int mIndex = index;
-    List<Places> arrayList = dataList.arrayPlaces;
+    List<Places> arrayList = widget.dataList!.arrayPlaces;
     Map arrayListMap = arrayList.asMap();
     Places thisItem = arrayListMap[mIndex];
     return thisItem;
@@ -267,7 +267,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     //   var datos = jsonEncode(elemento);
     //   datoss.add(datos);
     // }
-    var json = jsonEncode(dataList.arrayPlaces);
+    var json = jsonEncode(widget.dataList!.arrayPlaces);
 
     String jsons = json;
 
@@ -284,7 +284,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     if (isCanceled != null) {
       if (isCanceled!) {
         mainArray.clear();
-        for (var item in dataList.arrayPlaces) {
+        for (var item in widget.dataList!.arrayPlaces) {
           item.isActive = false;
           item.timeEnd = null;
           item.timeStart = null;
@@ -293,13 +293,13 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           hasBeenCanceled = true;
         }
       } else {
-        for (var item in dataList.arrayPlaces) {
+        for (var item in widget.dataList!.arrayPlaces) {
           mainArray.add(item);
         }
         hasBeenCanceled = false;
       }
     } else {
-      for (var item in dataList.arrayPlaces) {
+      for (var item in widget.dataList!.arrayPlaces) {
         item.isActive = false;
         item.timeEnd = null;
         item.timeStart = null;
