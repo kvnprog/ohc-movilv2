@@ -68,6 +68,15 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
   @override
   void initState() {
     super.initState();
+
+    // dataList.inicializar('5555').then((data) => dataList.arrayPlaces.add(Places(
+    //     icon: Icons.fastfood,
+    //     name: 'recorrido',
+    //     isActive: false,
+    //     timeStart: null,
+    //     timeEnd: null,
+    //     numeroDeIncidencias: 0)));
+
     Timer(
       const Duration(
         milliseconds: 500,
@@ -125,6 +134,16 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               padding: const EdgeInsets.all(5),
               child: Column(
                 children: [
+                  // FutureBuilder(
+                  //   future: dataList.inicializar('5555'),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.connectionState == ConnectionState.done) {
+                  //       return _showGridPlaces(provider);
+                  //     } else {
+                  //       return _showGridPlaces(provider);
+                  //     }
+                  //   },
+                  // ),
                   _showGridPlaces(provider),
                   _incidencesInteracion(),
                   BtnPoint(recorrido: recorrido)
@@ -143,6 +162,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   Widget _showGridPlaces(ProviderListener provider) {
     _itemStatus(provider);
+
     return Container(
       height: 250,
       width: double.infinity,
