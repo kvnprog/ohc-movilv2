@@ -132,7 +132,10 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                       children: [
                         _showGridPlaces(provider),
                         _incidencesInteracion(),
-                        if (isCheckAvailable) BtnPoint(recorrido: recorrido)
+                        if (isCheckAvailable) 
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: BtnPoint(recorrido: recorrido))
                       ],
                     ),
                   ),
@@ -177,7 +180,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
   Widget _incidencesInteracion() {
     return Container(
-      height: 400,
+      height: 250,
       child: ListView.builder(
           shrinkWrap: true,
           itemCount: 1,
