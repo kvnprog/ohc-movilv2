@@ -75,6 +75,7 @@ class _BitacoraInicioState extends State<BitacoraInicio> {
               ),
 
               mostrarlista
+
                   ? FutureBuilder<dynamic>(
                       future: incidencias(),
                       builder: (context, snapshot) {
@@ -114,7 +115,7 @@ class _BitacoraInicioState extends State<BitacoraInicio> {
     print(data);
     return Column(children: [
       Container(
-          height: 710,
+          height: 450,
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,

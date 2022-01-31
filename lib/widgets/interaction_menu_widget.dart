@@ -44,6 +44,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
   PlacesArrayAvailableData dataList = PlacesArrayAvailableData();
   final comentario = TextEditingController();
   final responsable = TextEditingController();
+  final accion = TextEditingController();
+
   double height = 15;
 
   bool btnload = true;
@@ -164,8 +166,9 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 ),
               ),
                const SizedBox(height: 15),
+
               TextField(
-                controller: comentario,
+                controller: accion,
                 textCapitalization: TextCapitalization.sentences,
                 onTap: () {
                   var acciones = json.decode(widget.acciones);
@@ -174,7 +177,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     _actionType.remove(element);
                   }
                 },
-                onChanged: (comentario) {
+                onChanged: (accion) {
                   // print(widget.index);
                   var acciones = json.decode(widget.acciones);
                   // var acciones = ['', '', ''];

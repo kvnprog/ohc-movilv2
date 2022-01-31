@@ -6,7 +6,7 @@ import 'package:recorridos_app/data/data.dart';
 import 'package:http/http.dart' as http;
 
 class PlacesArrayAvailableData {
-  List<Places> arrayPlaces = [];
+  List<Places> arrayPlaces = [Places(name: 'recorrido', icon: Icons.directions_walk_rounded, isActive: false)];
   String? datos;
   PlacesArrayAvailableData() {
     // inicializar('5555').then((data) => arrayPlaces.add(Places(

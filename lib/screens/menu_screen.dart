@@ -67,6 +67,7 @@ class MenuHome extends StatelessWidget {
                         )
                       ],
                     )),
+
                 ListTile(
                   leading: const Icon(Icons.home),
                   title: const Text('Home'),
@@ -79,6 +80,8 @@ class MenuHome extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) => MenuHome(
                               acciones: acciones,
+                              dataList: dataList,
+                              usuario: usuario,
                             )));
                   },
                 ),
@@ -117,17 +120,7 @@ class MenuHome extends StatelessWidget {
                   },
                 ),
 
-                /*ListTile(
-                  leading: const Icon(Icons.upload_file),
-                  title: const Text('Registrar incidencia'),
-                  style: ListTileStyle.list,
-                  focusColor: Colors.grey[600],
-                  iconColor: Colors.white60,
-                  minLeadingWidth: 2.0,
-                  textColor: Colors.white,
-                  selectedTileColor: Colors.grey[600],
-                  onTap: () {},
-                ), */
+                
               ],
             ),
           ),
@@ -162,19 +155,5 @@ class MenuHome extends StatelessWidget {
         ),
       ),
     ));
-  }
-}
-
-class Contacto extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("CONTACTO"),
-      ),
-      body: Center(
-        child: Text("ESTAS EN CONTACTO"),
-      ),
-    );
   }
 }

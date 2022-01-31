@@ -65,12 +65,10 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
           color: isIconActive(),
           borderRadius: const BorderRadius.all(Radius.circular(20.0)),
         ),
+
         child: Center(
-          child: Text(cheepName.toUpperCase(), textAlign: TextAlign.center, style: const TextStyle(
-            color: Colors.black,
-            fontSize: 30
-          ),
-        )),
+          child: whichItem(cheepName)
+        ),
       ),
       onTap: (){
           setState(() {});
@@ -152,6 +150,17 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
     }
   
     return color;
+  }
+
+  Widget whichItem(String cheepName){
+    if(widget.item.name == 'recorrido'){
+      return Icon(widget.item.icon, size: 50,);
+    }else{
+      return Text(cheepName.toUpperCase(), textAlign: TextAlign.center, style: const TextStyle(
+        color: Colors.black,
+        fontSize: 30
+      ));
+    }
   }
 
 }

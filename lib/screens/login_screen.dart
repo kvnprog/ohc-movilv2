@@ -344,7 +344,7 @@ class _UsersActiveState extends State<UsersActive> {
                                                     builder: (context) =>
                                                         HomeToursScreen(
                                                       usuario:
-                                                          loginForm.usuario,
+                                                      loginForm.usuario,
                                                       acciones: respuesta.body,
                                                     ),
                                                   ),
