@@ -19,7 +19,9 @@ class _ListWidgetState extends State<ListWidget> {
   List item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   List<dynamic>? datos;
 
-  List<List<String>> elementsArray = [];
+  List<dynamic>? elementsArray;
+  List<dynamic> filtradoArray = [];
+  List<dynamic> totalArray = [];
 
   Future<String> incidencias() async {
     var url = Uri.parse(
@@ -33,7 +35,12 @@ class _ListWidgetState extends State<ListWidget> {
   dynamic filtro2;
   dynamic filtro3;
   dynamic filtro4;
+  dynamic filtro5;
 
+  int pintarfiltro = 0;
+
+  List<dynamic>? capturo;
+  List<dynamic> filtrado = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -54,10 +61,22 @@ class _ListWidgetState extends State<ListWidget> {
                 future: incidencias(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    datos = jsonDecode(snapshot.data!);
+                    if (pintarfiltro == 0) {
+                      elementsArray = jsonDecode(snapshot.data!);
+                      totalArray = elementsArray!;
+                    }
+
                     // print(datos);
                     // return Text(snapshot.data!);
-                    return lista_incidencias(datos!);
+                    // print(datos!);
+                    // for (var dato in datos!) {
+                    //   // capturo!.add(dato[0]);
+                    //   print(dato![0]);
+                    // elementsArray.add(datos!);
+                    // }
+                    // print("soy yo ${elementsArray[0]}");
+
+                    return lista_incidencias(elementsArray!);
                   }
                   return Center(child: CircularProgressIndicator());
                 }),
@@ -82,11 +101,14 @@ class _ListWidgetState extends State<ListWidget> {
                   const SizedBox(width: 15),
                   filterWidget(filtro1, 0, 'Quién captura'),
                   const SizedBox(width: 15),
-                  filterWidget(filtro2, 1, 'Responsable'),
+                  filterWidget(filtro2, 3, 'Responsable'),
                   const SizedBox(width: 15),
-                  filterWidget(filtro3, 2, 'Lugar'),
+                  filterWidget(filtro3, 1, 'Lugar'),
                   const SizedBox(width: 15),
-                  filterWidget(filtro4, 3, 'Hora'),
+                  // const SizedBox(width: 15),
+                  // filterWidget(filtro3, 2, 'fecha'),
+                  // const SizedBox(width: 15),
+                  // filterWidget(filtro4, 2, 'Hora'),
                 ],
               );
             }),
@@ -105,7 +127,7 @@ class _ListWidgetState extends State<ListWidget> {
   }
 
   Widget filterWidget(var filterName, int index, String filterTitle) {
-    print('yo soy el filtro $filterName');
+    // print('yo soy el filtro $filterName');
 
     return Container(
       margin: const EdgeInsets.only(top: 20),
@@ -125,7 +147,7 @@ class _ListWidgetState extends State<ListWidget> {
               padding: const EdgeInsets.all(8.0),
               child: DropdownButton<String>(
                   value: filterName,
-                  items: getItemsDropDown(index),
+                  items: getItemsDropDown(index, filterTitle),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   dropdownColor: Colors.amber[200],
                   icon: const Icon(
@@ -136,30 +158,75 @@ class _ListWidgetState extends State<ListWidget> {
                     color: Colors.white,
                   ),
                   onChanged: (opt) {
-                    print(filterName);
                     setState(() {
                       switch (index) {
                         case 0:
                           {
                             filtro1 = opt;
+                            filtradoArray = [];
+                            elementsArray = totalArray;
+                            for (var element in elementsArray!) {
+                              if (element[index] == opt) {
+                                filtradoArray.add(element);
+                                // print("entre");
+                              }
+                            }
+                            pintarfiltro = 1;
+                            elementsArray = [];
+                            elementsArray = filtradoArray;
+                            print(filtradoArray);
+                            setState(() {});
                           }
                           break;
 
                         case 1:
                           {
-                            filtro2 = opt;
+                            filtro3 = opt;
+                            filtradoArray = [];
+                            elementsArray = totalArray;
+                            for (var element in elementsArray!) {
+                              if (element[index] == opt) {
+                                filtradoArray.add(element);
+                                // print("entre");
+                              }
+                            }
+                            pintarfiltro = 1;
+                            elementsArray = [];
+                            elementsArray = filtradoArray;
+                            print(filtradoArray);
+                            setState(() {});
+                            // for (var element in elementsArray!) {
+                            //   // if (element[index] == opt) {
+                            //   //   filtradoArray.add(element[index]);
+                            //   // }
+                            //   print(element[index]);
+                            // }
                           }
                           break;
 
                         case 2:
                           {
                             filtro3 = opt;
+                            print(opt);
                           }
                           break;
 
                         case 3:
                           {
-                            filtro4 = opt;
+                            filtro2 = opt;
+                            filtradoArray = [];
+                            elementsArray = totalArray;
+                            for (var element in elementsArray!) {
+                              if (element[index] == opt) {
+                                filtradoArray.add(element);
+                                // print("entre");
+                              }
+                            }
+                            pintarfiltro = 1;
+                            elementsArray = [];
+                            elementsArray = filtradoArray;
+                            print(filtradoArray);
+                            setState(() {});
                           }
                           break;
 
@@ -177,16 +244,60 @@ class _ListWidgetState extends State<ListWidget> {
     );
   }
 
-  List<DropdownMenuItem<String>> getItemsDropDown(int index) {
+  List<DropdownMenuItem<String>> getItemsDropDown(
+      int index, String filterTitle) {
     List<DropdownMenuItem<String>> itemsAvailable = [];
 
-    var dropDownOptions = elementsArray.getRange(0, elementsArray.length);
-    for (var element in dropDownOptions) {
-      itemsAvailable.add(DropdownMenuItem(
-        child: Text('${element[index].toString()}'),
-        value: element[index],
-      ));
+    // var dropDownOptions =
+    //     elementsArray![0].getRange(0, elementsArray![0].length);
+    // print(elementsArray!.length);
+    if (index == 2) {
+      // if (index == 5) {
+      //   opcion = 1;
+      // }
+      Map datos = new Map();
+      List<dynamic> arreglo = [];
+      for (var element in totalArray!) {
+        if (element[index] != null) {
+          List<String> fechahora = element[index].split(' ');
+          if (filterTitle == 'fecha') {
+            datos['${fechahora[0]}'] = fechahora[0];
+          } else {
+            datos['${fechahora[1]}'] = fechahora[1];
+          }
+        }
+      }
+      // print('soy el mapa');
+      // print(datos);
+      datos.forEach((key, value) {
+        itemsAvailable.add(DropdownMenuItem(
+          child: Text('${value.toString()}'),
+          value: value,
+        ));
+      });
+    } else {
+      Map datos = new Map();
+      List<dynamic> arreglo = [];
+      for (var element in totalArray!) {
+        datos['${element[index]}'] = element[index];
+      }
+      // print('soy el mapa');
+      // print(datos);
+      datos.forEach((key, value) {
+        itemsAvailable.add(DropdownMenuItem(
+          child: Text('${value.toString()}'),
+          value: value,
+        ));
+      });
     }
+
+    // for (var element in elementsArray!) {
+    //   print(element[index]);
+    //   itemsAvailable.add(DropdownMenuItem(
+    //     child: Text('${element[index].toString()}'),
+    //     value: element[index],
+    //   ));
+    // }
     return itemsAvailable;
   }
 }
