@@ -9,13 +9,13 @@ class PlacesArrayAvailableData {
   List<Places> arrayPlaces = [];
   String? datos;
   PlacesArrayAvailableData() {
-    // inicializar('5555').then((data) => arrayPlaces.add(Places(
-    //     icon: Icons.fastfood,
-    //     name: 'recorrido',
-    //     isActive: false,
-    //     timeStart: null,
-    //     timeEnd: null,
-    //     numeroDeIncidencias: 0)));
+    inicializar('5555').then((data) => arrayPlaces.add(Places(
+        icon: Icons.fastfood,
+        name: 'recorrido',
+        isActive: false,
+        timeStart: null,
+        timeEnd: null,
+        numeroDeIncidencias: 0)));
     showValuesArray();
   }
 

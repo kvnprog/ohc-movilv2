@@ -19,6 +19,7 @@ bool? checar;
 bool activobtn = false;
 var respuesta;
 bool cargando = false;
+List<dynamic> datosnombres = [];
 
 class LoginScreen extends StatelessWidget {
   String? codigo;
@@ -68,7 +69,7 @@ class _LoginForm extends StatefulWidget {
 class _LoginFormState extends State<_LoginForm> {
   Future<String>? datos;
   Future<String> traerusuarios() async {
-    print("entre");
+    //print("entre");
     var url =
         Uri.parse("https://pruebasmatch.000webhostapp.com/traer_usuarios.php");
     respuesta = await http.post(url, body: {
@@ -148,9 +149,9 @@ class _LoginFormState extends State<_LoginForm> {
               future: traerusuarios(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  List<dynamic> datos = jsonDecode(snapshot.data!);
+                  datosnombres = jsonDecode(snapshot.data!);
 
-                  for (var dato in datos) {
+                  for (var dato in datosnombres!) {
                     usersActiveArray.add(dato[0]);
                   }
 
@@ -165,9 +166,9 @@ class _LoginFormState extends State<_LoginForm> {
                         children:
                             List.generate(usersActiveArray.length, (index) {
                           return UsersActive(
-                            cheepName: usersActiveArray[index],
-                            codigo: widget.codigo!,
-                          );
+                              cheepName: usersActiveArray[index],
+                              codigo: widget.codigo!,
+                              nombre: datosnombres[index]);
                         }),
                       ),
                     ],
@@ -187,10 +188,15 @@ class _LoginFormState extends State<_LoginForm> {
 }
 
 class UsersActive extends StatefulWidget {
-  UsersActive({Key? key, required this.cheepName, required this.codigo})
+  UsersActive(
+      {Key? key,
+      required this.cheepName,
+      required this.codigo,
+      required this.nombre})
       : super(key: key);
   String cheepName;
   String codigo;
+  dynamic nombre;
 
   @override
   State<UsersActive> createState() => _UsersActiveState();
@@ -238,8 +244,9 @@ class _UsersActiveState extends State<UsersActive> {
                 ),
               ),
               onTap: () async {
+                print(widget.nombre);
                 String usuario = await checarusuario(widget.codigo);
-                print('soy el usuario $usuario');
+                //print('soy el usuario $usuario');
                 showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -326,7 +333,14 @@ class _UsersActiveState extends State<UsersActive> {
                                                   "https://pruebasmatch.000webhostapp.com/traer_acciones.php");
                                               var respuesta = await http
                                                   .post(url, body: {});
-                                              print(respuesta.body);
+                                              //print(respuesta.body);
+
+                                              PlacesArrayAvailableData
+                                                  dataList =
+                                                  PlacesArrayAvailableData();
+                                              await dataList
+                                                  .inicializar(widget.codigo);
+
                                               // FocusScope.of(context).unfocus();
 
                                               /* setState(() {
@@ -341,12 +355,16 @@ class _UsersActiveState extends State<UsersActive> {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeToursScreen(
-                                                      usuario:
-                                                          loginForm.usuario,
-                                                      acciones: respuesta.body,
-                                                    ),
+                                                    //builder: (BuildContext context) => HomeToursScreen(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        MenuHome(
+                                                            acciones:
+                                                                respuesta.body,
+                                                            usuario: usuario,
+                                                            dataList: dataList,
+                                                            nombre:
+                                                                widget.nombre),
                                                   ),
                                                 );
                                               } else {
@@ -394,7 +412,7 @@ class _UsersActiveState extends State<UsersActive> {
                                         if (checar == true) {
                                           String usuario = await checarusuario(
                                               widget.codigo);
-                                          print(usuario);
+                                          // print(usuario);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -403,7 +421,8 @@ class _UsersActiveState extends State<UsersActive> {
                                                   MenuHome(
                                                       acciones: respuesta.body,
                                                       usuario: usuario,
-                                                      dataList: dataList),
+                                                      dataList: dataList,
+                                                      nombre: widget.nombre),
                                             ),
                                           );
                                         }

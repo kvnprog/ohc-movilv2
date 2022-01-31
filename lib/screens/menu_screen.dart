@@ -9,8 +9,14 @@ import 'package:recorridos_app/widgets/widgets.dart';
 class MenuHome extends StatelessWidget {
   final String acciones;
   final String? usuario;
+  dynamic nombre;
   PlacesArrayAvailableData? dataList;
-  MenuHome({Key? key, required this.acciones, this.usuario, this.dataList})
+  MenuHome(
+      {Key? key,
+      required this.acciones,
+      this.usuario,
+      this.dataList,
+      required this.nombre})
       : super(key: key);
 
   @override
@@ -54,7 +60,7 @@ class MenuHome extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Ángel Romano',
+                                  nombre[0].toString(),
                                   style: TextStyle(fontSize: 25),
                                 ),
                                 Text(
@@ -79,6 +85,7 @@ class MenuHome extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) => MenuHome(
                               acciones: acciones,
+                              nombre: nombre,
                             )));
                   },
                 ),
