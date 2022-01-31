@@ -117,7 +117,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                   }
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Responsable de la incidencia',
+                  hintText: 'Infractor de la incidencia',
                   icon: Icon(
                     Icons.person_off_outlined,
                     color: Colors.black87,
@@ -150,7 +150,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                   }
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Ingrese un comentario',
+                  hintText: 'Comentario',
                   icon: Icon(
                     Icons.comment_sharp,
                     color: Colors.black,
@@ -163,6 +163,41 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
+               const SizedBox(height: 15),
+              TextField(
+                controller: comentario,
+                textCapitalization: TextCapitalization.sentences,
+                onTap: () {
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                onChanged: (comentario) {
+                  // print(widget.index);
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Descripción de acción inmediata',
+                  icon: Icon(
+                    Icons.warning,
+                    color: Colors.black,
+                  ),
+                  hintMaxLines: 3,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black38),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black45, width: 2)),
+                ),
+              ),
+              
+              
               (fotopreview == '')
                   ? (const Text(''))
                   : (Transform.rotate(
@@ -175,8 +210,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _dropDownOptions(),
+                children: [                  
                   // capturar foto de la incidencia
                   MaterialButton(
                     onPressed: widget.btnsave
@@ -217,6 +251,38 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     ),
                   ),
 
+
+                  //eliminar la incidencia
+                  MaterialButton(
+                onPressed: widget.btnsave
+                    ? () async {
+                        fotopreview = '';
+                        comentario.text = '';
+                        responsable.text = '';
+
+                        for (var element in acciones) {
+                          _actionType.remove(element);
+                        }
+                        setState(() {});
+                      }
+                    : (null),
+                disabledColor: Colors.red,
+                color: Colors.orange[400],
+                elevation: 1,
+                child: widget.btnsave
+                    ? btnload
+                        ? const Icon(Icons.delete)
+                        : const SizedBox(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                              color: Colors.black,
+                            ),
+                            height: 15,
+                            width: 15,
+                          )
+                    : const Text('Guardado'),
+              ),
+            
                   //guardar la incidencia
                   MaterialButton(
                     onPressed: () async {
@@ -306,41 +372,37 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 ],
               ),
 
-              //eliminar la incidencia
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MaterialButton(
-                    onPressed: widget.btnsave
-                        ? () async {
-                            fotopreview = '';
-                            comentario.text = '';
-                            responsable.text = '';
+              const SizedBox( height: 20 ),
 
-                            for (var element in acciones) {
-                              _actionType.remove(element);
-                            }
-                            setState(() {});
-                          }
-                        : (null),
-                    disabledColor: Colors.red,
-                    color: Colors.orange[400],
-                    elevation: 1,
-                    child: widget.btnsave
-                        ? btnload
-                            ? const Icon(Icons.delete)
-                            : const SizedBox(
-                                child: CircularProgressIndicator(
-                                  backgroundColor: Colors.white,
-                                  color: Colors.black,
-                                ),
-                                height: 15,
-                                width: 15,
-                              )
-                        : const Text('Guardado'),
+              //menú de acciones
+              /*   Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                 children: [
+                   _dropDownOptions(),
+
+                  const SizedBox( width: 10 ),
+
+                  const SizedBox(
+                    width: 210,
+                    height: 60,
+                    child: TextField(
+
+                    decoration: InputDecoration(
+                    hintText: 'Ingrese un comentario',
+                    hintMaxLines: 3,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black38),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black45, width: 2)),
                   ),
-                ],
-              ),
+                    ),
+                  )
+                  /* */
+                 
+                 ],
+               ),
+               */
             ],
           ),
         ),
@@ -348,6 +410,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
     );
   }
 
+//menú de acciones
   Widget _dropDownOptions() {
     return widget.btnsave
         ? Row(
