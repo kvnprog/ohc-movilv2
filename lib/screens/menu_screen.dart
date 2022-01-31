@@ -43,7 +43,7 @@ class MenuHome extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            _userIcon(),
+                            _userIcon(nombre),
                             IconButton(
                                 onPressed: () =>
                                     Navigator.of(context).pop('login'),
@@ -138,10 +138,9 @@ class MenuHome extends StatelessWidget {
     );
   }
 
-  Widget _userIcon() {
-    print(usuario);
-    String userName = usuario.toString();
-    List<String> cheepName = userName.split("");
+  Widget _userIcon(dynamic mNombre) {
+    String userName = mNombre[0].toString();
+    var cheepName = userName.split(" ");
     return Container(
         child: ClipOval(
       child: Material(
@@ -154,7 +153,7 @@ class MenuHome extends StatelessWidget {
             child: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.white,
-                child: Text('AR')),
+                child: Text('${cheepName[0][0]}${cheepName[1][0]}')),
           ),
         ),
       ),
