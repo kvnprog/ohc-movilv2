@@ -8,16 +8,17 @@ import 'package:http/http.dart' as http;
 class PlacesArrayAvailableData {
   List<Places> arrayPlaces = [Places(name: 'recorrido', icon: Icons.directions_walk_rounded, isActive: false)];
   String? datos;
-  PlacesArrayAvailableData() {
+  
+  /*PlacesArrayAvailableData() {
     inicializar('5555').then((data) => arrayPlaces.add(Places(
-        icon: Icons.fastfood,
+        //icon: Icons.fastfood,
         name: 'recorrido',
         isActive: false,
         timeStart: null,
         timeEnd: null,
         numeroDeIncidencias: 0)));
-    showValuesArray();
-  }
+    //showValuesArray();
+  } */
 
   Future<String> inicializar(codigo) async {
     var url =
