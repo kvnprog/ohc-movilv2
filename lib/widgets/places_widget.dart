@@ -77,11 +77,13 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
 
           if(widget.item.timeEnd != null && widget.item.timeStart != null && widget.item.isActive == false){
             
-            if(changeItemConfiguration.itemIsReady!.timeEnd != null){
+            if(changeItemConfiguration.itemIsReady != null){
+              if(changeItemConfiguration.itemIsReady!.timeEnd != null){
               widget.item.isActive = false;
               widget.item.timeStart = time;
               widget.item.timeEnd = null; 
               //changeItemConfiguration.setBoolValue = widget.item;
+            }
             }
           }
 
@@ -93,6 +95,9 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
               widget.fun!();
               changeItemConfiguration.placeAffected;
               widget.item.timeStart = time;
+              setState(() {
+                isIconActive();                
+              });
           }else{
           //se activa para darle una hora final a un item 
             if(changeItemConfiguration.itemIsReady!.name == widget.item.name){
