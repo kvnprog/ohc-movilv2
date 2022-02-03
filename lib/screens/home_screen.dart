@@ -27,8 +27,10 @@ enum Mode {
 class HomeToursScreen extends StatefulWidget {
   final String? usuario;
   final String? acciones;
+  final String? entrada;
   PlacesArrayAvailableData? dataList;
-  HomeToursScreen({Key? key, this.usuario, this.acciones, this.dataList})
+  HomeToursScreen(
+      {Key? key, this.usuario, this.acciones, this.dataList, this.entrada})
       : super(key: key);
 
   @override
@@ -257,9 +259,8 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
   Future<String> crearrecorrido() async {
     var url =
         Uri.parse("https://pruebasmatch.000webhostapp.com/crear_recorrido.php");
-    var respuesta = await http.post(url, body: {
-      "quien_capturo": widget.usuario,
-    });
+    var respuesta = await http.post(url,
+        body: {"quien_capturo": widget.usuario, "entrada": widget.entrada});
 
     return respuesta.body;
   }

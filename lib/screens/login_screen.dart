@@ -74,7 +74,7 @@ class _LoginFormState extends State<_LoginForm> {
     var url =
         Uri.parse("https://pruebasmatch.000webhostapp.com/traer_usuarios.php");
     respuesta = await http.post(url, body: {
-      "codigo": "5555",
+      "codigo": widget.codigo,
     });
     return respuesta.body;
   }
@@ -169,7 +169,7 @@ class _LoginFormState extends State<_LoginForm> {
                         crossAxisSpacing: 10,
                         crossAxisCount: 3,
                         children:
-                        List.generate(usersActiveArray.length, (index) {
+                            List.generate(usersActiveArray.length, (index) {
                           return UsersActive(
                               cheepName: usersActiveArray[index],
                               codigo: widget.codigo!,
@@ -250,7 +250,8 @@ class _UsersActiveState extends State<UsersActive> {
               ),
               onTap: () async {
                 print(widget.nombre);
-                String usuario = await checarusuario(widget.codigo);
+                String usuario =
+                    await checarusuario(widget.codigo, widget.nombre[0]);
                 //print('soy el usuario $usuario');
                 showDialog(
                     context: context,
@@ -355,8 +356,16 @@ class _UsersActiveState extends State<UsersActive> {
                                               /* setState(() {
                                 activobtn = false;
                               }); */
+                                              print(usuario);
 
-                                              if (loginForm.isLoading == true) {
+                                              if (loginForm.isLoading == true &&
+                                                  loginForm.usuario ==
+                                                      usuario) {
+                                                var url = Uri.parse(
+                                                    "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
+                                                var entrada = await http.post(
+                                                    url,
+                                                    body: {'usuario': usuario});
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -369,7 +378,9 @@ class _UsersActiveState extends State<UsersActive> {
                                                             usuario: usuario,
                                                             dataList: dataList,
                                                             nombre:
-                                                                widget.nombre),
+                                                                widget.nombre,
+                                                            entrada:
+                                                                entrada.body),
                                                   ),
                                                 );
                                               } else {
@@ -416,8 +427,14 @@ class _UsersActiveState extends State<UsersActive> {
 
                                         if (checar == true) {
                                           String usuario = await checarusuario(
-                                              widget.codigo);
-                                          // print(usuario);
+                                              widget.codigo, widget.nombre[0]);
+
+                                          var url = Uri.parse(
+                                              "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
+                                          var entrada = await http.post(url,
+                                              body: {'usuario': usuario});
+
+                                          print(usuario);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -479,10 +496,10 @@ class _UsersActiveState extends State<UsersActive> {
     bool authenticated = false;
 
     authenticated = await _localAuthentication.authenticate(
-      localizedReason: "Authenticate for Testing", // message for dialog
-      useErrorDialogs: true, // show error in dialog
-      stickyAuth: true,
-    ); // native process
+        localizedReason: "Authenticate for Testing", // message for dialog
+        useErrorDialogs: true, // show error in dialog
+        stickyAuth: true,
+        biometricOnly: true); // native process
 
     checar = authenticated;
     return authenticated;
@@ -504,13 +521,13 @@ class _UsersActiveState extends State<UsersActive> {
     return mac;
   }
 
-  Future<String> checarusuario(authentificacion) async {
+  Future<String> checarusuario(authentificacion, nombre) async {
     String usuario;
     var url =
         Uri.parse("https://pruebasmatch.000webhostapp.com/buscar_usuario.php");
 
-    var respuesta =
-        await http.post(url, body: {"authentificacion": "$authentificacion"});
+    var respuesta = await http.post(url,
+        body: {"authentificacion": "$authentificacion", "nombre": nombre});
     usuario = respuesta.body;
     return usuario;
   }

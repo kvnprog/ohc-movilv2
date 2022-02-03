@@ -6,10 +6,12 @@ import 'package:recorridos_app/screens/list_bitacora_inicio.dart';
 import 'package:recorridos_app/widgets/btnpoint.dart';
 import 'package:recorridos_app/widgets/list_widget.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
+import 'package:http/http.dart' as http;
 
 class MenuHome extends StatefulWidget {
   final String acciones;
   final String? usuario;
+  final String? entrada;
   dynamic nombre;
   PlacesArrayAvailableData? dataList;
   MenuHome(
@@ -17,7 +19,8 @@ class MenuHome extends StatefulWidget {
       required this.acciones,
       this.usuario,
       this.dataList,
-      required this.nombre})
+      required this.nombre,
+      this.entrada})
       : super(key: key);
 
   @override
@@ -31,9 +34,9 @@ class _MenuHomeState extends State<MenuHome> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return WillPopScope(
-       onWillPop: () {
+      onWillPop: () {
         return Future(() => false);
       },
       child: MaterialApp(
@@ -60,8 +63,14 @@ class _MenuHomeState extends State<MenuHome> {
                             children: [
                               _userIcon(widget.nombre),
                               IconButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop('login'),
+                                  onPressed: () async {
+                                    var url = Uri.parse(
+                                        "https://pruebasmatch.000webhostapp.com/crear_salida.php");
+                                    var entrada = await http.post(url,
+                                        body: {'index': widget.entrada});
+                                    print(entrada.body);
+                                    Navigator.of(context).pop('login');
+                                  },
                                   icon: const Icon(
                                     Icons.login_outlined,
                                     color: Colors.black,
@@ -97,10 +106,13 @@ class _MenuHomeState extends State<MenuHome> {
                     minLeadingWidth: 2.0,
                     textColor: Colors.white,
                     selected: _selectDestination == 0,
-                    onTap: (){},
+                    onTap: () {},
                   ),
                   const Divider(
-                      height: 10, color: Colors.white, indent: 10, endIndent: 10),
+                      height: 10,
+                      color: Colors.white,
+                      indent: 10,
+                      endIndent: 10),
                   const SizedBox(height: 30),
                   ListTile(
                     leading: const Icon(Icons.place),
@@ -111,16 +123,15 @@ class _MenuHomeState extends State<MenuHome> {
                     minLeadingWidth: 2.0,
                     textColor: Colors.white,
                     selected: _selectDestination == 1,
-                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context){
+                    onTap: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
                       return HomeToursScreen(
-                        acciones: widget.acciones,
-                        usuario: widget.usuario,
-                        dataList: widget.dataList,
-                      );
-                    })
+                          acciones: widget.acciones,
+                          usuario: widget.usuario,
+                          dataList: widget.dataList,
+                          entrada: widget.entrada);
+                    })),
                   ),
-                  ),
-    
                   ListTile(
                     leading: const Icon(Icons.file_copy_sharp),
                     title: const Text('Incidencias'),
@@ -135,9 +146,7 @@ class _MenuHomeState extends State<MenuHome> {
                           builder: (BuildContext context) => ListWidget()));
                     },
                   ),
-
-
-                   ListTile(
+                  ListTile(
                     leading: const Icon(Icons.file_present_sharp),
                     title: const Text('Bitácora general'),
                     style: ListTileStyle.list,
@@ -148,11 +157,10 @@ class _MenuHomeState extends State<MenuHome> {
                     selectedTileColor: Colors.grey[600],
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => BitacoraGeneral()));
+                          builder: (BuildContext context) =>
+                              BitacoraGeneral()));
                     },
                   ),
-
-
                 ],
               ),
             ),
@@ -167,7 +175,7 @@ class _MenuHomeState extends State<MenuHome> {
     );
   }
 
-  void selectDestination(int index){
+  void selectDestination(int index) {
     setState(() {
       _selectDestination = index;
     });
