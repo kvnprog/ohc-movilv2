@@ -165,7 +165,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-               const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               TextField(
                 controller: accion,
@@ -199,8 +199,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-              
-              
+
               (fotopreview == '')
                   ? (const Text(''))
                   : (Transform.rotate(
@@ -213,7 +212,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [                  
+                children: [
                   // capturar foto de la incidencia
                   MaterialButton(
                     onPressed: widget.btnsave
@@ -254,38 +253,37 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     ),
                   ),
 
-
                   //eliminar la incidencia
                   MaterialButton(
-                onPressed: widget.btnsave
-                    ? () async {
-                        fotopreview = '';
-                        comentario.text = '';
-                        responsable.text = '';
+                    onPressed: widget.btnsave
+                        ? () async {
+                            fotopreview = '';
+                            comentario.text = '';
+                            responsable.text = '';
 
-                        for (var element in acciones) {
-                          _actionType.remove(element);
-                        }
-                        setState(() {});
-                      }
-                    : (null),
-                disabledColor: Colors.red,
-                color: Colors.orange[400],
-                elevation: 1,
-                child: widget.btnsave
-                    ? btnload
-                        ? const Icon(Icons.delete)
-                        : const SizedBox(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.white,
-                              color: Colors.black,
-                            ),
-                            height: 15,
-                            width: 15,
-                          )
-                    : const Text('Guardado'),
-              ),
-            
+                            for (var element in acciones) {
+                              _actionType.remove(element);
+                            }
+                            setState(() {});
+                          }
+                        : (null),
+                    disabledColor: Colors.red,
+                    color: Colors.orange[400],
+                    elevation: 1,
+                    child: widget.btnsave
+                        ? btnload
+                            ? const Icon(Icons.delete)
+                            : const SizedBox(
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                  color: Colors.black,
+                                ),
+                                height: 15,
+                                width: 15,
+                              )
+                        : const Text('Guardado'),
+                  ),
+
                   //guardar la incidencia
                   MaterialButton(
                     onPressed: () async {
@@ -306,7 +304,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "imagen": base64Image,
                           "usuario": widget.usuario,
                           "recorrido": recorrido,
-                          "tipo_inc": _opcionSeleccionada,
+                          "tipo_inc": "${accion.text}",
                           "lugar": lugar
                         });
 
@@ -375,7 +373,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 ],
               ),
 
-              const SizedBox( height: 20 ),
+              const SizedBox(height: 20),
 
               //menú de acciones
               /*   Row(
@@ -448,10 +446,9 @@ class _InteractionMenuState extends State<InteractionMenu> {
                         }
                       });
                     }),
-              
               ),
             ],
-        )
+          )
         : Row();
   }
 

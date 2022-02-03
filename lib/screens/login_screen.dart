@@ -20,6 +20,7 @@ bool activobtn = false;
 var respuesta;
 bool cargando = false;
 List<dynamic> datosnombres = [];
+int nombresn = 0;
 
 class LoginScreen extends StatelessWidget {
   String? codigo;
@@ -149,10 +150,14 @@ class _LoginFormState extends State<_LoginForm> {
               future: traerusuarios(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  datosnombres = jsonDecode(snapshot.data!);
-
-                  for (var dato in datosnombres!) {
-                    usersActiveArray.add(dato[0]);
+                  if (nombresn == 0) {
+                    datosnombres = jsonDecode(snapshot.data!);
+                  }
+                  if (nombresn == 0) {
+                    for (var dato in datosnombres!) {
+                      usersActiveArray.add(dato[0]);
+                    }
+                    nombresn = 1;
                   }
 
                   print(datos);

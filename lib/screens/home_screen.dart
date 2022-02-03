@@ -132,10 +132,10 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                       children: [
                         _showGridPlaces(provider),
                         _incidencesInteracion(),
-                        if (isCheckAvailable) 
-                        Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          child: BtnPoint(recorrido: recorrido))
+                        if (isCheckAvailable)
+                          Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: BtnPoint(recorrido: recorrido))
                       ],
                     ),
                   ),
@@ -207,16 +207,17 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
       }
       if (provider.itemIsReady!.timeStart != null &&
           provider.itemIsReady!.timeEnd == null) {
-        print(recorrido);
+        // print(recorrido);
         if (cambio == 0) {
           recorrido = await crearrecorrido();
           lugar = provider.itemIsReady!.name;
           cambio = 1;
         }
 
-        print(recorrido);
+        // print(recorrido);
       } else {
         var termino = await terminarrecorrido();
+        print(termino);
         recorrido = "-1";
         lugar = 'algo';
         cambio = 0;
@@ -279,6 +280,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     var respuesta =
         await http.post(url, body: {"index": recorrido, "informacion": jsons});
     // print(jsons);
+
     return respuesta.body;
   }
 
