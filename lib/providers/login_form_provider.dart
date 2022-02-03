@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_mac/get_mac.dart';
+import 'package:recorridos_app/data/data.dart';
+import 'package:recorridos_app/screens/screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginFormProvider extends ChangeNotifier {
@@ -16,8 +18,7 @@ class LoginFormProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  var url =
-      Uri.parse("https://pruebasmatch.000webhostapp.com/checar_login.php");
+  var url = Uri.parse("${connect.serverName()}checar_login.php");
 
   Future<String> pedirdatos() async {
     final prefs = await SharedPreferences.getInstance();

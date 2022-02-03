@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/screens/home_screen.dart';
 
 class BtnPoint extends StatefulWidget {
@@ -13,6 +14,8 @@ class BtnPoint extends StatefulWidget {
 
 class _BtnPointState extends State<BtnPoint> {
   bool btnnull = false;
+  ConectionData connect = ConectionData();
+
 
   final comentario = TextEditingController();
 
@@ -40,7 +43,7 @@ class _BtnPointState extends State<BtnPoint> {
                       final position =
                           await _geolocatorPlatform.getCurrentPosition();
                       var url = Uri.parse(
-                          "https://pruebasmatch.000webhostapp.com/check_point.php");
+                          "${connect.serverName()}check_point.php");
                       //   print("soy yo ${widget.tipo}");
 
                       //     if (widget.tipo == "Recorrido") {

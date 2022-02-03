@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/data/places_data_class.dart';
 import 'package:recorridos_app/screens/alert_page.dart';
 import 'package:recorridos_app/screens/list_bitacora_inicio.dart';
@@ -12,6 +13,8 @@ import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/services/provider_listener_service.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:http/http.dart' as http;
+
+import 'screens/login_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -123,8 +126,9 @@ class _MyAppState extends State<MyApp> {
 }
 
 Future<bool> checar_codigo(valor) async {
+  ConectionData connect = ConectionData();
   var url =
-      Uri.parse("https://pruebasmatch.000webhostapp.com/checar_codigo.php");
+      Uri.parse("${connect.serverName()}checar_codigo.php");
   var resultado = await http.post(url, body: {
     "codigo": "$valor",
   });

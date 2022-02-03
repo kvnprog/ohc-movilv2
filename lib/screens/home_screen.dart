@@ -17,6 +17,7 @@ var lugar = 'algo';
 bool menuRequest = false;
 int setpsAvailable = 0;
 int cambio = 0;
+ConectionData connect = ConectionData();
 
 enum Mode {
   defaultTheme,
@@ -257,8 +258,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
   }
 
   Future<String> crearrecorrido() async {
-    var url =
-        Uri.parse("https://pruebasmatch.000webhostapp.com/crear_recorrido.php");
+    var url = Uri.parse("${connect.serverName()}crear_recorrido.php");
     var respuesta = await http.post(url,
         body: {"quien_capturo": widget.usuario, "entrada": widget.entrada});
 
@@ -276,8 +276,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
 
     String jsons = json;
 
-    var url = Uri.parse(
-        "https://pruebasmatch.000webhostapp.com/terminar_recorrido.php");
+    var url = Uri.parse("${connect.serverName()}terminar_recorrido.php");
     var respuesta =
         await http.post(url, body: {"index": recorrido, "informacion": jsons});
     // print(jsons);
