@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/data/places_array_data_class.dart';
 import 'package:path/path.dart';
 import 'package:recorridos_app/providers/login_form_provider.dart';
@@ -21,6 +22,7 @@ var respuesta;
 bool cargando = false;
 List<dynamic> datosnombres = [];
 int nombresn = 0;
+ConectionData connect = ConectionData();
 
 class LoginScreen extends StatelessWidget {
   String? codigo;
@@ -72,7 +74,7 @@ class _LoginFormState extends State<_LoginForm> {
   Future<String> traerusuarios() async {
     //print("entre");
     var url =
-        Uri.parse("https://pruebasmatch.000webhostapp.com/traer_usuarios.php");
+        Uri.parse("${connect.serverName()}traer_usuarios.php");
     respuesta = await http.post(url, body: {
       "codigo": "5555",
     });
@@ -129,7 +131,7 @@ class _LoginFormState extends State<_LoginForm> {
   Future<String> checarusuario(authentificacion) async {
     String usuario;
     var url =
-        Uri.parse("https://pruebasmatch.000webhostapp.com/buscar_usuario.php");
+        Uri.parse("${connect.serverName()}buscar_usuario.php");
 
     var respuesta =
         await http.post(url, body: {"authentificacion": "$authentificacion"});
@@ -335,7 +337,7 @@ class _UsersActiveState extends State<UsersActive> {
                                           ? null
                                           : () async {
                                               var url = Uri.parse(
-                                                  "https://pruebasmatch.000webhostapp.com/traer_acciones.php");
+                                                  "${connect.serverName()}traer_acciones.php");
                                               var respuesta = await http
                                                   .post(url, body: {});
                                               //print(respuesta.body);
@@ -407,7 +409,7 @@ class _UsersActiveState extends State<UsersActive> {
                                         await checkingForBioMetrics();
                                         await _authenticateMe();
                                         var url = Uri.parse(
-                                            "https://pruebasmatch.000webhostapp.com/traer_acciones.php");
+                                            "${connect.serverName()}traer_acciones.php");
                                         var respuesta =
                                             await http.post(url, body: {});
                                         PlacesArrayAvailableData dataList =
@@ -507,7 +509,7 @@ class _UsersActiveState extends State<UsersActive> {
   Future<String> checarusuario(authentificacion) async {
     String usuario;
     var url =
-        Uri.parse("https://pruebasmatch.000webhostapp.com/buscar_usuario.php");
+        Uri.parse("${connect.serverName()}buscar_usuario.php");
 
     var respuesta =
         await http.post(url, body: {"authentificacion": "$authentificacion"});

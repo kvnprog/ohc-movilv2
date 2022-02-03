@@ -10,6 +10,9 @@ import 'package:recorridos_app/widgets/widgets.dart';
 class MenuHome extends StatefulWidget {
   final String acciones;
   final String? usuario;
+  List userArray = ["uno", "dos", "tres", "cuatro"];
+
+
   dynamic nombre;
   PlacesArrayAvailableData? dataList;
   MenuHome(
@@ -148,7 +151,11 @@ class _MenuHomeState extends State<MenuHome> {
                     selectedTileColor: Colors.grey[600],
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => BitacoraGeneral()));
+                          builder: (BuildContext context) => BitacoraGeneral(
+                            userArray: widget.userArray,
+                            user: widget.usuario.toString(),
+                            userName: widget.nombre,
+                          )));
                     },
                   ),
 

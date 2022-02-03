@@ -7,4 +7,3 @@ export 'package:recorridos_app/widgets/action_button_widget.dart';
 export 'package:recorridos_app/widgets/newInteractionMenu.dart';
 export 'package:recorridos_app/widgets/home_shortcuts.dart';
 export 'package:recorridos_app/screens/bitacora_general_screen.dart';
-export 'package:recorridos_app/screens/screens.dart';

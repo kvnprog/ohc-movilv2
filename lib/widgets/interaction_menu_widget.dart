@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:provider/provider.dart';
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/data/places_array_data_class.dart';
 import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/services/provider_listener_service.dart';
@@ -12,6 +13,7 @@ String fotopreview = '';
 String resultado = '';
 List<int>? imageBytes;
 String? base64Image;
+ConectionData connect = ConectionData();
 
 class InteractionMenu extends StatefulWidget {
   final String? usuario;
@@ -294,7 +296,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
 
                       // print(widget.lugar);
                       var url = Uri.parse(
-                          "https://pruebasmatch.000webhostapp.com/crear_incidencia_recorrido.php");
+                          "${connect.serverName()}crear_incidencia_recorrido.php");
                       //   print("soy yo ${widget.tipo}");
                       Future<void> pedirdatos() async {
                         //     if (widget.tipo == "Recorrido") {

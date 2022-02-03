@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/widgets/home_shortcuts.dart';
 import 'package:recorridos_app/widgets/list_menu_widget.dart';
 import 'package:http/http.dart' as http;
@@ -16,13 +17,14 @@ class BitacoraInicio extends StatefulWidget {
 }
 
 class _BitacoraInicioState extends State<BitacoraInicio> {
+  ConectionData connect = ConectionData();
   //List item = List<Widget>.generate(20, (index) => ListMenuItem());
   List item = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   List<dynamic>? datos;
 
   Future<String> incidencias() async {
     var url = Uri.parse(
-        "https://pruebasmatch.000webhostapp.com/traer_incidencias24.php");
+        "${connect.serverName()}traer_incidencias24.php");
     var respuesta = await http.post(url, body: {});
     return respuesta.body;
   }

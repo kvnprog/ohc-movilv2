@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/widgets/list_menu_widget.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,7 @@ class ListWidget extends StatefulWidget {
 
   @override
   State<ListWidget> createState() => _ListWidgetState();
+  ConectionData connect = ConectionData();
 }
 
 class _ListWidgetState extends State<ListWidget> {
@@ -25,7 +27,7 @@ class _ListWidgetState extends State<ListWidget> {
 
   Future<String> incidencias() async {
     var url = Uri.parse(
-        "https://pruebasmatch.000webhostapp.com/traer_incidencias_celular.php");
+        "${widget.connect.serverName()}traer_incidencias_celular.php");
     var respuesta = await http.post(url, body: {"codigo": '5555'});
 
     return respuesta.body;
