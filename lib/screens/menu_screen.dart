@@ -12,6 +12,7 @@ class MenuHome extends StatefulWidget {
   final String acciones;
   final String? usuario;
   final String? entrada;
+  final String? codigo;
   List userArray = ["uno", "dos", "tres", "cuatro"];
 
   dynamic nombre;
@@ -22,7 +23,8 @@ class MenuHome extends StatefulWidget {
       this.usuario,
       this.dataList,
       required this.nombre,
-      this.entrada})
+      this.entrada,
+      this.codigo})
       : super(key: key);
 
   @override
@@ -160,10 +162,10 @@ class _MenuHomeState extends State<MenuHome> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) => BitacoraGeneral(
-                                userArray: widget.userArray,
-                                user: widget.usuario.toString(),
-                                userName: widget.nombre,
-                              )));
+                              userArray: widget.userArray,
+                              user: widget.usuario.toString(),
+                              userName: widget.nombre,
+                              codigo: widget.codigo)));
                     },
                   ),
                 ],

@@ -380,7 +380,9 @@ class _UsersActiveState extends State<UsersActive> {
                                                             nombre:
                                                                 widget.nombre,
                                                             entrada:
-                                                                entrada.body),
+                                                                entrada.body,
+                                                            codigo:
+                                                                widget.codigo),
                                                   ),
                                                 );
                                               } else {
