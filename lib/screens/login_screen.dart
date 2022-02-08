@@ -368,7 +368,7 @@ class _UsersActiveState extends State<UsersActive> {
                                                     loginForm.usuario ==
                                                         usuario) {
                                                   var url = Uri.parse(
-                                                      "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
+                                                      "${connect.serverName()}crear_entrada.php");
                                                   varChanged = 1;
                                                   // await Future.delayed(
                                                   //     Duration(seconds: 5));
@@ -459,7 +459,7 @@ class _UsersActiveState extends State<UsersActive> {
                                                     widget.nombre[0]);
 
                                             var url = Uri.parse(
-                                                "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
+                                                "${connect.serverName()}crear_entrada.php");
                                             var entrada = await http.post(url,
                                                 body: {'usuario': usuario});
                                             Navigator.push(

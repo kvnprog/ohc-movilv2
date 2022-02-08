@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +11,8 @@ class BitacoraGeneral extends StatelessWidget {
   String user;
   dynamic userName;
   String? codigo;
+
+  ConectionData connect = ConectionData();
 
   BitacoraGeneral(
       {required this.userArray,
@@ -148,7 +151,7 @@ class BitacoraGeneral extends StatelessWidget {
     ];
     Future<String> bitacora() async {
       var url = Uri.parse(
-          "https://pruebasmatch.000webhostapp.com/traer_bitacora.php");
+          "${connect.serverName()}traer_bitacora.php");
       var resultado = await http.post(url, body: {"codigo": codigo});
 
       return resultado.body;

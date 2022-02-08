@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/data/places_array_data_class.dart';
 import 'package:recorridos_app/screens/bitacora_general_screen.dart';
 import 'package:recorridos_app/screens/screens.dart';
@@ -26,6 +27,8 @@ class MenuHome extends StatefulWidget {
       this.entrada,
       this.codigo})
       : super(key: key);
+
+  ConectionData connect = ConectionData();
 
   @override
   State<MenuHome> createState() => _MenuHomeState();
@@ -72,7 +75,7 @@ class _MenuHomeState extends State<MenuHome> {
                                       IconButton(
                                           onPressed: () async {
                                             var url = Uri.parse(
-                                                "https://pruebasmatch.000webhostapp.com/crear_salida.php");
+                                                "${widget.connect.serverName()}crear_salida.php");
                                             var entrada = await http.post(url,
                                                 body: {'index': widget.entrada});
                                             print(entrada.body);
