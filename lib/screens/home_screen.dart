@@ -157,7 +157,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     _itemStatus(provider);
 
     return Container(
-      height: 250,
+      height: 265,
       width: double.infinity,
       child: GridView.count(
         mainAxisSpacing: 10,

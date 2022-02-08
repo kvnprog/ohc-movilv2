@@ -154,12 +154,15 @@ class _LoginFormState extends State<_LoginForm> {
                     datosnombres = jsonDecode(snapshot.data!);
                   }
                   if (nombresn == 0) {
-                    for (var dato in datosnombres!) {
+                    for (var dato in datosnombres) {
                       usersActiveArray.add(dato[0]);
                     }
                     print(datosnombres);
                     nombresn = 1;
+                    print(datosnombres);
                   }
+
+//                  print(datos);
 
                   return Stack(
                     children: [
@@ -212,6 +215,8 @@ class _UsersActiveState extends State<UsersActive> {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    int varChanged = 0;
+
     return Container(
       child: ClipOval(
         child: Material(
@@ -252,6 +257,7 @@ class _UsersActiveState extends State<UsersActive> {
                 String usuario =
                     await checarusuario(widget.codigo, widget.nombre[0]);
                 //print('soy el usuario $usuario');
+
                 showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -260,217 +266,243 @@ class _UsersActiveState extends State<UsersActive> {
                         decoration: const BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(100))),
-                        child: AlertDialog(
-                          title: const Text(
-                            'Ingresar con contraseña',
-                            textAlign: TextAlign.center,
-                          ),
-                          content: SizedBox(
-                            height: 290,
-                            child: Column(
-                              children: [
-                                //campo usuario
-                                TextFormField(
-                                  autocorrect: false,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Usuario',
-                                    hintMaxLines: 3,
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black38),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.black45, width: 2)),
-                                  ),
-                                  onChanged: (value) =>
-                                      loginForm.usuario = value,
-                                ),
-
-                                const SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 180,
-                                      height: 60,
-                                      child: Column(
-                                        children: [
-                                          //campo password
-                                          TextFormField(
-                                              autocorrect: false,
-                                              obscureText: true,
-                                              keyboardType:
-                                                  TextInputType.visiblePassword,
-                                              textCapitalization:
-                                                  TextCapitalization.characters,
-                                              decoration: const InputDecoration(
-                                                hintText: 'Contraseña',
-                                                hintMaxLines: 3,
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.black38),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color:
-                                                                Colors.black45,
-                                                            width: 2)),
-                                              ),
-                                              onChanged: (value) =>
-                                                  loginForm.password = value,
-                                              validator: (value) {
-                                                return (value != null &&
-                                                        value.length >= 6)
-                                                    ? null
-                                                    : 'La contraseña debe ser de 6 caracteres';
-                                              }),
-                                        ],
+                        child: Stack(children: [
+                          AlertDialog(
+                            title: const Text(
+                              'Ingresar con contraseña',
+                              textAlign: TextAlign.center,
+                            ),
+                            content: SizedBox(
+                              height: 290,
+                              child: Column(
+                                children: [
+                                  //campo usuario
+                                  TextFormField(
+                                    autocorrect: false,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Usuario',
+                                      hintMaxLines: 3,
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black38),
                                       ),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Colors.black45, width: 2)),
                                     ),
-                                    IconButton(
-                                      iconSize: 20,
-                                      onPressed: activobtn
-                                          ? null
-                                          : () async {
-                                              var url = Uri.parse(
-                                                  "${connect.serverName()}traer_acciones.php");
-                                              var respuesta = await http
-                                                  .post(url, body: {});
-                                              //print(respuesta.body);
+                                    onChanged: (value) =>
+                                        loginForm.usuario = value,
+                                  ),
 
-                                              PlacesArrayAvailableData
-                                                  dataList =
-                                                  PlacesArrayAvailableData();
-                                              await dataList
-                                                  .inicializar(widget.codigo);
-
-                                              // FocusScope.of(context).unfocus();
-
-                                              /* setState(() {
-                                activobtn = true;
-                              }); */
-                                              await loginForm.isValidForms();
-                                              /* setState(() {
-                                activobtn = false;
-                              }); */
-                                              print(usuario);
-
-                                              if (loginForm.isLoading == true &&
-                                                  loginForm.usuario ==
-                                                      usuario) {
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 180,
+                                        height: 60,
+                                        child: Column(
+                                          children: [
+                                            //campo password
+                                            TextFormField(
+                                                autocorrect: false,
+                                                obscureText: true,
+                                                keyboardType: TextInputType
+                                                    .visiblePassword,
+                                                textCapitalization:
+                                                    TextCapitalization
+                                                        .characters,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  hintText: 'Contraseña',
+                                                  hintMaxLines: 3,
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.black38),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .black45,
+                                                                  width: 2)),
+                                                ),
+                                                onChanged: (value) =>
+                                                    loginForm.password = value,
+                                                validator: (value) {
+                                                  return (value != null &&
+                                                          value.length >= 6)
+                                                      ? null
+                                                      : 'La contraseña debe ser de 6 caracteres';
+                                                }),
+                                          ],
+                                        ),
+                                      ),
+                                      IconButton(
+                                        iconSize: 20,
+                                        onPressed: activobtn
+                                            ? null
+                                            : () async {
                                                 var url = Uri.parse(
-                                                    "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
-                                                var entrada = await http.post(
-                                                    url,
-                                                    body: {'usuario': usuario});
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    //builder: (BuildContext context) => HomeToursScreen(
-                                                    builder: (BuildContext
-                                                            context) =>
+                                                    "${connect.serverName()}traer_acciones.php");
+                                                var respuesta = await http
+                                                    .post(url, body: {});
+                                                //print(respuesta.body);
+
+                                                PlacesArrayAvailableData
+                                                    dataList =
+                                                    PlacesArrayAvailableData();
+                                                await dataList
+                                                    .inicializar(widget.codigo);
+
+                                                await loginForm.isValidForms();
+
+                                                print(usuario);
+
+                                                if (loginForm.isLoading ==
+                                                        true &&
+                                                    loginForm.usuario ==
+                                                        usuario) {
+                                                  var url = Uri.parse(
+                                                      "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
+                                                  varChanged = 1;
+                                                  await Future.delayed(
+                                                      Duration(seconds: 5));
+                                                  var entrada = await http
+                                                      .post(url, body: {
+                                                    'usuario': usuario
+                                                  });
+                                                  varChanged = 0;
+
+                                                  print(varChanged);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      //builder: (BuildContext context) => HomeToursScreen(
+                                                      builder:
+                                                          (BuildContext
+                                                                  context) =>
+                                                              MenuHome(
+                                                                  acciones:
+                                                                      respuesta
+                                                                          .body,
+                                                                  usuario:
+                                                                      usuario,
+                                                                  dataList:
+                                                                      dataList,
+                                                                  nombre: widget
+                                                                      .nombre,
+                                                                  entrada:
+                                                                      entrada
+                                                                          .body,
+                                                                  codigo: widget
+                                                                      .codigo),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  _showToast(context,
+                                                      'Contraseña o Dispositivo Equivocado');
+                                                }
+                                              },
+                                        icon: const Icon(Icons.login, size: 40),
+                                        focusColor: Colors.transparent,
+                                        splashColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                      )
+                                    ],
+                                  ),
+
+                                  const SizedBox(height: 20),
+                                  const Divider(
+                                      height: 5, color: Colors.black54),
+                                  const SizedBox(height: 10),
+                                  const Text('Ingresar con huella'),
+                                  const SizedBox(height: 20),
+
+                                  //botón de huella
+                                  ClipOval(
+                                    child: Material(
+                                      child: InkWell(
+                                        splashColor: Colors.amberAccent[200],
+                                        child: const SizedBox(
+                                          width: 80,
+                                          height: 80,
+                                          child:
+                                              Icon(Icons.fingerprint, size: 60),
+                                        ),
+                                        onTap: () async {
+                                          await checkingForBioMetrics();
+                                          await _authenticateMe();
+
+                                          var url = Uri.parse(
+                                              "${connect.serverName()}traer_acciones.php");
+                                          var respuesta =
+                                              await http.post(url, body: {});
+                                          PlacesArrayAvailableData dataList =
+                                              PlacesArrayAvailableData();
+
+                                          await dataList.inicializar('5555');
+
+                                          if (checar == true) {
+                                            String usuario =
+                                                await checarusuario(
+                                                    widget.codigo,
+                                                    widget.nombre[0]);
+
+                                            var url = Uri.parse(
+                                                "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
+                                            var entrada = await http.post(url,
+                                                body: {'usuario': usuario});
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                //builder: (BuildContext context) => HomeToursScreen(
+                                                builder:
+                                                    (BuildContext context) =>
                                                         MenuHome(
                                                             acciones:
                                                                 respuesta.body,
                                                             usuario: usuario,
                                                             dataList: dataList,
                                                             nombre:
-                                                                widget.nombre,
-                                                            entrada:
-                                                                entrada.body,
-                                                            codigo:
-                                                                widget.codigo),
-                                                  ),
-                                                );
-                                              } else {
-                                                _showToast(context,
-                                                    'Contraseña o Dispositivo Equivocado');
-                                              }
-                                            },
-                                      icon: const Icon(Icons.login, size: 40),
-                                      focusColor: Colors.transparent,
-                                      splashColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                    )
-                                  ],
-                                ),
-
-                                const SizedBox(height: 20),
-                                const Divider(height: 5, color: Colors.black54),
-                                const SizedBox(height: 10),
-                                const Text('Ingresar con huella'),
-                                const SizedBox(height: 20),
-
-                                //botón de huella
-                                ClipOval(
-                                  child: Material(
-                                    child: InkWell(
-                                      splashColor: Colors.amberAccent[200],
-                                      child: const SizedBox(
-                                        width: 80,
-                                        height: 80,
-                                        child:
-                                            Icon(Icons.fingerprint, size: 60),
+                                                                widget.nombre),
+                                              ),
+                                            );
+                                          }
+                                        },
                                       ),
-                                      onTap: () async {
-                                        await checkingForBioMetrics();
-                                        await _authenticateMe();
-                                        var url = Uri.parse(
-                                            "${connect.serverName()}traer_acciones.php");
-                                        var respuesta =
-                                            await http.post(url, body: {});
-                                        PlacesArrayAvailableData dataList =
-                                            PlacesArrayAvailableData();
-                                        await dataList.inicializar('5555');
-
-                                        if (checar == true) {
-                                          String usuario = await checarusuario(
-                                              widget.codigo, widget.nombre[0]);
-
-                                          var url = Uri.parse(
-                                              "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
-                                          var entrada = await http.post(url,
-                                              body: {'usuario': usuario});
-
-                                          print(usuario);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              //builder: (BuildContext context) => HomeToursScreen(
-                                              builder: (BuildContext context) =>
-                                                  MenuHome(
-                                                      acciones: respuesta.body,
-                                                      usuario: usuario,
-                                                      dataList: dataList,
-                                                      nombre: widget.nombre),
-                                            ),
-                                          );
-                                        }
-                                      },
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
+                            actions: <Widget>[
+                              TextButton(
+                                  child: const Text(
+                                    'Cancelar',
+                                    style: TextStyle(color: Colors.black87),
+                                  ),
+                                  onPressed: () => Navigator.of(context).pop()),
+                            ],
                           ),
-                          actions: <Widget>[
-                            TextButton(
-                                child: const Text(
-                                  'Cancelar',
-                                  style: TextStyle(color: Colors.black87),
-                                ),
-                                onPressed: () => Navigator.of(context).pop()),
-                          ],
-                        ),
+                          if (varChanged == 1) prueba()
+                        ]),
                       );
                     });
               }),
         ),
       ),
     );
+  }
+
+  Widget prueba() {
+    setState(() {});
+
+    print('entré aquí');
+    return Center(
+        child: Image.asset('assets/loading-38.gif', color: Colors.black));
   }
 
   Future loadImageProgress() {
