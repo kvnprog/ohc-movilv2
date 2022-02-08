@@ -157,10 +157,9 @@ class _LoginFormState extends State<_LoginForm> {
                     for (var dato in datosnombres!) {
                       usersActiveArray.add(dato[0]);
                     }
+                    print(datosnombres);
                     nombresn = 1;
                   }
-
-                  print(datos);
 
                   return Stack(
                     children: [

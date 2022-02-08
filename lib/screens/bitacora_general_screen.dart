@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
@@ -156,26 +158,33 @@ class BitacoraGeneral extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bitácora general'),
       ),
-      body: ListView.builder(
-        itemCount: arrayList.length,
-        itemBuilder: (BuildContext context, index) {
-          return FutureBuilder(
-            future: bitacora(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                print(snapshot.data);
-                return ListBitacoraWidget(
-                  user: user,
-                  userName: arrayList[index]['nombre'],
-                  contentActivity: textGenerator(arrayList, index),
-                );
-              } else {
-                return CircularProgressIndicator();
-              }
-            },
-          );
-        },
-      ),
+      body: FutureBuilder(
+          future: bitacora(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var arrayfinal = jsonDecode(snapshot.data.toString());
+              // print(snapshot.data);
+              print(arrayfinal['entradas']);
+              return ListView.builder(
+                  itemCount: arrayfinal['entradas'].length,
+                  itemBuilder: (BuildContext context, index) {
+                    // print(snapshot.data);
+
+                    // return Text("${arrayfinal['entradas'][index]}");
+
+                    return ListBitacoraWidget(
+                      // user: user,
+                      userName: arrayfinal['entradas'][index][1],
+                      start: arrayfinal['entradas'][index][2],
+                      end: arrayfinal['entradas'][index][3],
+                      incidencias: arrayfinal['entradas'][index][4],
+                      // contentActivity: textGenerator(arrayList, index),
+                    );
+                  });
+            } else {
+              return CircularProgressIndicator();
+            }
+          }),
     );
   }
 

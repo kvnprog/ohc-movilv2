@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 class ListBitacoraWidget extends StatefulWidget {
   ListBitacoraWidget({
     Key? key,
-    required this.user,
+    // required this.user,
     required this.userName,
-    required this.contentActivity
-
+    required this.start,
+    required this.end,
+    required this.incidencias,
+    // required this.contentActivity
   }) : super(key: key);
 
-  String user;
+  String start;
+  String end;
+  // String user;
+  dynamic incidencias;
   dynamic userName;
-  Widget contentActivity;
+  // Widget contentActivity;
   @override
   State<ListBitacoraWidget> createState() => _ListBitacoraWidgetState();
 }
@@ -26,25 +31,24 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
       width: 50,
       height: height,
       decoration: const BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.all(Radius.circular(10))
-      ),
+          color: Colors.grey,
+          borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: Text(widget.userName.toString(), style: const TextStyle(
-              fontSize: 12
-            ),),
+            child: Text(
+              widget.userName.toString(),
+              style: const TextStyle(fontSize: 12),
+            ),
           ),
-
-          Row(
+          Column(
             children: [
-              sesionActivity('start', '10:00'),
-              sesionActivity('end', '15:30'),
+              sesionActivity('start', widget.start),
+              sesionActivity('end', widget.end),
               IconButton(
-                onPressed: (){
+                onPressed: () {
                   setState(() {
                     height == 80 ? height = 300 : height = 80;
                   });
@@ -54,37 +58,39 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
               )
             ],
           ),
-
-          if(height == 300)
-          Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: Text('Actividad en la app', style: TextStyle(
-                  fontSize: 20,
-                ),),
-              ),
-              const Divider( height: 10, color: Colors.white, indent: 5, endIndent: 5),
-
-              Container(
-                height: 180,
-                child: widget.contentActivity,
-              )
-            ],
-          )
+          if (height == 300)
+            Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'Actividad en la app',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                const Divider(
+                    height: 10, color: Colors.white, indent: 5, endIndent: 5),
+                Container(
+                  height: 180,
+                  child: Text(widget.incidencias.toString()),
+                )
+              ],
+            )
         ],
       ),
     );
   }
 
-  Widget sesionActivity(String context, String value){
+  Widget sesionActivity(String context, String value) {
     late Color color;
     late String title;
 
-    if(context == 'start'){
+    if (context == 'start') {
       color = Colors.lightGreenAccent[400]!;
       title = 'Inició sesión';
-    }else{
+    } else {
       color = Colors.black;
       title = 'Finalizó sesión';
     }
@@ -98,15 +104,11 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
             width: 8,
             height: 8,
             decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(50)
-            ),
+                color: color, borderRadius: BorderRadius.circular(50)),
           ),
-
           Text('$title: $value')
         ],
       ),
     );
   }
-
 }
