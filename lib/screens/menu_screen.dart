@@ -38,7 +38,7 @@ class _MenuHomeState extends State<MenuHome> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    List name = widget.nombre[0].toString().split(" ");
     return WillPopScope(
       onWillPop: () {
         return Future(() => false);
@@ -64,22 +64,29 @@ class _MenuHomeState extends State<MenuHome> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              _userIcon(widget.nombre),
-                              IconButton(
-                                  onPressed: () async {
-                                    var url = Uri.parse(
-                                        "https://pruebasmatch.000webhostapp.com/crear_salida.php");
-                                    var entrada = await http.post(url,
-                                        body: {'index': widget.entrada});
-                                    print(entrada.body);
-                                    Navigator.of(context).pop('login');
-                                  },
-                                  icon: const Icon(
-                                    Icons.login_outlined,
-                                    color: Colors.black,
-                                    size: 30,
-                                  )),
+                              Row(
+                                children: [
+                                   _userIcon(widget.nombre),
+                                      IconButton(
+                                          onPressed: () async {
+                                            var url = Uri.parse(
+                                                "https://pruebasmatch.000webhostapp.com/crear_salida.php");
+                                            var entrada = await http.post(url,
+                                                body: {'index': widget.entrada});
+                                            print(entrada.body);
+                                            Navigator.of(context).pop('login');
+                                          },
+                                          icon: const Icon(
+                                            Icons.login_outlined,
+                                            color: Colors.black,
+                                            size: 30,
+                                    )),
+                                ],
+                              ),
+                              
+                                  Image.asset('assets/logo.png', width: 100, height: 90,)
                             ],
                           ),
                           Row(
@@ -88,7 +95,7 @@ class _MenuHomeState extends State<MenuHome> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    widget.nombre[0].toString(),
+                                    name[0]+" "+name[1],
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   Text(

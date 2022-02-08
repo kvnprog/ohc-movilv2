@@ -141,7 +141,7 @@ class _ListWidgetState extends State<ListWidget> {
           ),
           Container(
             height: 40,
-            width: 170,
+            width: 200,
             decoration: BoxDecoration(
                 color: Colors.grey[600],
                 borderRadius: const BorderRadius.all(Radius.circular(3))),
@@ -259,7 +259,7 @@ class _ListWidgetState extends State<ListWidget> {
       // }
       Map datos = new Map();
       List<dynamic> arreglo = [];
-      for (var element in totalArray!) {
+      for (var element in totalArray) {
         if (element[index] != null) {
           List<String> fechahora = element[index].split(' ');
           if (filterTitle == 'fecha') {
@@ -280,7 +280,7 @@ class _ListWidgetState extends State<ListWidget> {
     } else {
       Map datos = new Map();
       List<dynamic> arreglo = [];
-      for (var element in totalArray!) {
+      for (var element in totalArray) {
         datos['${element[index]}'] = element[index];
       }
       // print('soy el mapa');
