@@ -22,7 +22,7 @@ class ListBitacoraWidget extends StatefulWidget {
 }
 
 class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
-  double height = 80;
+  double height = 110;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,9 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
               sesionActivity('end', widget.end),
               IconButton(
                 onPressed: () {
+                  print(widget.incidencias);
                   setState(() {
-                    height == 80 ? height = 300 : height = 80;
+                    height == 110 ? height = 300 : height = 110;
                   });
                 },
                 icon: const Icon(Icons.keyboard_arrow_down_outlined),
@@ -71,10 +72,20 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                   ),
                 ),
                 const Divider(
-                    height: 10, color: Colors.white, indent: 5, endIndent: 5),
+                    height: 10, color: Colors.white, indent: 5, endIndent: 5
+                ),
                 Container(
-                  height: 180,
-                  child: Text(widget.incidencias.toString()),
+                  height: 150,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for(var item in widget.incidencias)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                        child: Text('${item['quien_capturo']} levantó una incidencia en ${item['lugar']} a las ${item['fechahora']}'),
+                      )
+                    ],
+                  )
                 )
               ],
             )
@@ -94,7 +105,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
       color = Colors.black;
       title = 'Finalizó sesión';
     }
-
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
