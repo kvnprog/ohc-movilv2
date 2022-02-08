@@ -346,6 +346,9 @@ class _UsersActiveState extends State<UsersActive> {
                                             : () async {
                                                 var url = Uri.parse(
                                                     "${connect.serverName()}traer_acciones.php");
+                                                activobtn = true;
+                                                setState(() {});
+
                                                 var respuesta = await http
                                                     .post(url, body: {});
                                                 //print(respuesta.body);
@@ -358,7 +361,7 @@ class _UsersActiveState extends State<UsersActive> {
 
                                                 await loginForm.isValidForms();
 
-                                                print(usuario);
+                                                // print(usuario);
 
                                                 if (loginForm.isLoading ==
                                                         true &&
@@ -367,15 +370,19 @@ class _UsersActiveState extends State<UsersActive> {
                                                   var url = Uri.parse(
                                                       "https://pruebasmatch.000webhostapp.com/crear_entrada.php");
                                                   varChanged = 1;
-                                                  await Future.delayed(
-                                                      Duration(seconds: 5));
+                                                  // await Future.delayed(
+                                                  //     Duration(seconds: 5));
+
                                                   var entrada = await http
                                                       .post(url, body: {
                                                     'usuario': usuario
                                                   });
+                                                  activobtn = false;
+                                                  setState(() {});
+
                                                   varChanged = 0;
 
-                                                  print(varChanged);
+                                                  // print(varChanged);
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(

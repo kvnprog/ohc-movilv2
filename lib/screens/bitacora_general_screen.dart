@@ -174,7 +174,7 @@ class BitacoraGeneral extends StatelessWidget {
 
                     return ListBitacoraWidget(
                       // user: user,
-                      userName: arrayfinal['entradas'][index][1],
+                      userName: arrayfinal['entradas'][index][5],
                       start: arrayfinal['entradas'][index][2],
                       end: arrayfinal['entradas'][index][3],
                       incidencias: arrayfinal['entradas'][index][4],
