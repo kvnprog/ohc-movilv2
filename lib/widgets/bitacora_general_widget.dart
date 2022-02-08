@@ -76,8 +76,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                 ),
                 Container(
                   height: 150,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: ListView(
                     children: [
                       for(var item in widget.incidencias)
                       Padding(
