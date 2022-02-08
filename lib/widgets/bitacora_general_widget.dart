@@ -81,7 +81,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                       for(var item in widget.incidencias)
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                        child: Text('${item['quien_capturo']} levantó una incidencia en ${item['lugar']} a las ${item['fechahora']}'),
+                        child: Text('${widget.userName.toString().toLowerCase()} levantó una incidencia en ${item['lugar']} a las ${item['fechahora']}'),
                       )
                     ],
                   )
