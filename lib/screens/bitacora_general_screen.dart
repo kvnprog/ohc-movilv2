@@ -157,6 +157,13 @@ class BitacoraGeneral extends StatelessWidget {
       return resultado.body;
     }
 
+    Future<String> usuarios() async {
+      var url = Uri.parse("${connect.serverName()}traer_usuarios.php");
+      var resultado = await http.post(url, body: {"codigo": codigo});
+
+      return resultado.body;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bitácora general'),
@@ -167,48 +174,63 @@ class BitacoraGeneral extends StatelessWidget {
             if (snapshot.hasData) {
               Map arrayfinal = jsonDecode(snapshot.data.toString());
               // print(snapshot.data);
-              print(arrayfinal['entradas']);
+              // print(arrayfinal['entradas']);
 
-              return Column(
-                children: [
-                  SizedBox(
-                      height: 100,
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          children: [
-                            filterWidget('my name', 0, 'Nombre'),
-                            const SizedBox(width: 20),
-                            filterWidget('my name', 0, 'Hora'),
-                          ],
-                        ),
-                      )),
-                  SizedBox(
-                    height: 600,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: arrayfinal['entradas'].length,
-                      itemBuilder: (BuildContext context, index) {
-                        // print(snapshot.data);
+              return FutureBuilder(
+                  future: usuarios(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      // print(snapshot.data);
+                      List<dynamic> usuarios =
+                          jsonDecode(snapshot.data.toString());
 
-                        // return Text("${arrayfinal['entradas'][index]}");
-                        return ListBitacoraWidget(
-                          // user: user,
-                          userName: arrayfinal['entradas'][index][5],
-                          start: arrayfinal['entradas'][index][2],
-                          end: arrayfinal['entradas'][index][3],
-                          incidencias: arrayfinal['entradas'][index][4],
-                          // contentActivity: textGenerator(arrayList, index),
-                        );
-                      },
-                      reverse: true,
-                    ),
-                  ),
-                ],
-              );
+                      print(usuarios[0][0]);
+                      return Column(
+                        children: [
+                          SizedBox(
+                              height: 100,
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  children: [
+                                    filterWidget(
+                                        filtro1, 0, 'Nombre', usuarios),
+                                    const SizedBox(width: 20),
+                                    filterWidget(filtro2, 0, 'Hora',
+                                        [1, 2, 8, 12, 24, 48, 72]),
+                                  ],
+                                ),
+                              )),
+                          SizedBox(
+                            height: 600,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: arrayfinal['entradas'].length,
+                              itemBuilder: (BuildContext context, index) {
+                                // print(snapshot.data);
+
+                                // return Text("${arrayfinal['entradas'][index]}");
+                                return ListBitacoraWidget(
+                                  // user: user,
+                                  userName: arrayfinal['entradas'][index][5],
+                                  start: arrayfinal['entradas'][index][2],
+                                  end: arrayfinal['entradas'][index][3],
+                                  incidencias: arrayfinal['entradas'][index][4],
+                                  // contentActivity: textGenerator(arrayList, index),
+                                );
+                              },
+                              reverse: true,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  });
             } else {
               return CircularProgressIndicator();
             }
@@ -246,7 +268,30 @@ class BitacoraGeneral extends StatelessWidget {
     );
   }
 
-  Widget filterWidget(var filterName, int index, String filterTitle) {
+  List<DropdownMenuItem<String>> getItemsDropDown(List<dynamic> datos) {
+    List<DropdownMenuItem<String>> itemsAvailable = [];
+
+    datos.forEach((element) {
+      itemsAvailable.add(DropdownMenuItem(
+        child: Text('${element.toString()}'),
+        value: element.toString(),
+      ));
+    });
+
+    // datos.forEach((key, value) {
+    //   itemsAvailable.add(DropdownMenuItem(
+    //     child: Text('${value.toString()}'),
+    //     value: value,
+    //   ));
+    // });
+
+    return itemsAvailable;
+  }
+
+  dynamic filtro1;
+  dynamic filtro2;
+  Widget filterWidget(
+      var filterName, int index, String filterTitle, List<dynamic> datos) {
     // print('yo soy el filtro $filterName');
 
     return Container(
@@ -267,7 +312,7 @@ class BitacoraGeneral extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: DropdownButton<String>(
                   value: filterName,
-                  items: [],
+                  items: getItemsDropDown(datos),
                   //items: getItemsDropDown(index, filterTitle),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   dropdownColor: Colors.amber[200],
