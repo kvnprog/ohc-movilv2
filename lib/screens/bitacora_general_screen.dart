@@ -150,8 +150,7 @@ class BitacoraGeneral extends StatelessWidget {
       },
     ];
     Future<String> bitacora() async {
-      var url = Uri.parse(
-          "${connect.serverName()}traer_bitacora.php");
+      var url = Uri.parse("${connect.serverName()}traer_bitacora.php");
       var resultado = await http.post(url, body: {"codigo": codigo});
 
       return resultado.body;
@@ -165,9 +164,10 @@ class BitacoraGeneral extends StatelessWidget {
           future: bitacora(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              var arrayfinal = jsonDecode(snapshot.data.toString());
+              Map arrayfinal = jsonDecode(snapshot.data.toString());
               // print(snapshot.data);
               print(arrayfinal['entradas']);
+
               return ListView.builder(
                   itemCount: arrayfinal['entradas'].length,
                   itemBuilder: (BuildContext context, index) {
