@@ -122,7 +122,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           builder: (context, provider, child) => Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              title: const Text('Recorridos'),
+              title: const Text('Lugares'),
               elevation: 0,
             ),
             body: ListView(

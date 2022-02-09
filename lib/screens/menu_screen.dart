@@ -148,7 +148,7 @@ class _MenuHomeState extends State<MenuHome> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.file_copy_sharp),
-                    title: const Text('Incidencias'),
+                    title: const Text('Bitácora de Incidencias'),
                     style: ListTileStyle.list,
                     focusColor: Colors.grey[600],
                     iconColor: Colors.white60,
@@ -162,7 +162,7 @@ class _MenuHomeState extends State<MenuHome> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.file_present_sharp),
-                    title: const Text('Bitácora general'),
+                    title: const Text('Bitácora de actividades'),
                     style: ListTileStyle.list,
                     focusColor: Colors.grey[600],
                     iconColor: Colors.white60,

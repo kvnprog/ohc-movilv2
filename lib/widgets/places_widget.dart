@@ -56,7 +56,9 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
    
   itemClickeable(ProviderListener changeItemConfiguration) {
     String itemName = widget.item.name;
-    String cheepName = itemName.characters.take(3).toString();
+//    String cheepName = itemName.characters.take(3).toString();
+    List cheepName = itemName.split(" ");
+
       return GestureDetector(
         child: Container(
           width: 100,
@@ -67,7 +69,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
         ),
 
         child: Center(
-          child: whichItem(cheepName)
+          child: whichItem(cheepName[0])
         ),
       ),
       onTap: (){
@@ -103,7 +105,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
             if(changeItemConfiguration.itemIsReady!.name == widget.item.name){
               print("if 2");              
               //esto hace que puedan volver al ultimo lugar seleccionado
-              if(color == Colors.blue){
+              if(color == Colors.grey[300]){
                   widget.fun!();
                   widget.item.isActive = true;
                   widget.item.timeStart = time;
@@ -151,7 +153,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
         color = Colors.grey;
     }
       if(widget.item.timeEnd != null){
-      color = Colors.blue;
+      color = Colors.grey[300]!;
     }
   
     return color;
@@ -163,7 +165,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
     }else{
       return Text(cheepName.toUpperCase(), textAlign: TextAlign.center, style: const TextStyle(
         color: Colors.black,
-        fontSize: 30
+        fontSize: 20
       ));
     }
   }
