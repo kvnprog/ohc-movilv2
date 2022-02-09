@@ -10,21 +10,34 @@ class PlacesInteraction extends StatefulWidget {
   Places item;
   Places Function()? fun;
   Function()? func;
+  bool Function() isFromMenu;
   int numeroDeIncidencias;
 
   PlacesInteraction({Key? key, 
     required this.item, 
     required this.numeroDeIncidencias,
+    required this.isFromMenu,
     this.fun,
-    this.func
+    this.func,
   }) : super(key: key);
 
   
     @override
   _PlacesInteractionState createState() => _PlacesInteractionState();
+    
 }
 
 class _PlacesInteractionState extends State<PlacesInteraction> {
+  late ProviderListener mProvider;
+
+  @override
+  void dispose(){
+    super.dispose();
+    widget.item.timeEnd = null;
+    widget.item.timeStart = null;
+    widget.item.isActive = false;
+  }
+
   late Color color;
   Color? colorActive = Colors.amber;
   Color colorEnabled = Colors.grey;
@@ -55,6 +68,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
   }
    
   itemClickeable(ProviderListener changeItemConfiguration) {
+    mProvider = changeItemConfiguration;
     String itemName = widget.item.name;
 //    String cheepName = itemName.characters.take(3).toString();
     List cheepName = itemName.split(" ");
@@ -75,7 +89,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
       onTap: (){
           setState(() {});
           print('evaluando');
-          final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';    
+          final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';
 
           if(widget.item.timeEnd != null && widget.item.timeStart != null && widget.item.isActive == false){
             

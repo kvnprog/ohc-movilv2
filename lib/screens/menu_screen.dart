@@ -140,6 +140,7 @@ class _MenuHomeState extends State<MenuHome> {
                     onTap: () => Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return HomeToursScreen(
+                          isFromMenu: true,
                           acciones: widget.acciones,
                           usuario: widget.usuario,
                           dataList: widget.dataList,
