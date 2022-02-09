@@ -54,6 +54,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
   double height = 15;
 
   bool btnload = true;
+  bool activeStatus = false;
+  String isActive = 'No';
 
   //metodo de traer acciones
 
@@ -82,8 +84,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
   @override
   Widget build(BuildContext context) {
     var acciones = json.decode(widget.acciones);
-    bool activeStatus = false;
-    String isActive = 'No';
 
     for (var element in acciones) {
       _actionType.remove(element);
@@ -107,6 +107,13 @@ class _InteractionMenuState extends State<InteractionMenu> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: <Widget>[
+
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: const Text('Nueva Incidencia', style: TextStyle(
+                  fontSize: 20,
+                ),),
+              ),
               TextField(
                 controller: responsable,
                 textCapitalization: TextCapitalization.sentences,
@@ -230,15 +237,14 @@ class _InteractionMenuState extends State<InteractionMenu> {
                              if(activeStatus){
                                 activeStatus = false;
                                 isActive = 'No';
-                             }{
+                             }else{
                                 activeStatus = true;
                                 isActive = 'Sí';
                             }
                           });
-                      },
-                      activeColor: Colors.green,
-                      autofocus: true,
-                      ),
+                        },
+                        activeColor: Colors.green,
+                        )
                     ]
                   )
 

@@ -29,9 +29,10 @@ class HomeToursScreen extends StatefulWidget {
   final String? usuario;
   final String? acciones;
   final String? entrada;
+  bool? isFromMenu;
   PlacesArrayAvailableData? dataList;
   HomeToursScreen(
-      {Key? key, this.usuario, this.acciones, this.dataList, this.entrada})
+      {Key? key, this.usuario, this.acciones, this.dataList, this.entrada, this.isFromMenu})
       : super(key: key);
 
   @override
@@ -122,7 +123,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           builder: (context, provider, child) => Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              title: const Text('Recorridos'),
+              title: const Text('Lugares'),
               elevation: 0,
             ),
             body: ListView(
@@ -166,6 +167,17 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         crossAxisCount: 3,
         children: List.generate(widget.dataList!.arrayPlaces.length, (index) {
           return PlacesInteraction(
+            isFromMenu: (){
+              if(widget.isFromMenu != null){
+                if(widget.isFromMenu!){
+                  return true;
+                }else{
+                  return false;
+                }
+              }else{
+                return false;
+              }
+            },
             fun: () {
               setState(() {});
 

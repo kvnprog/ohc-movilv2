@@ -10,21 +10,34 @@ class PlacesInteraction extends StatefulWidget {
   Places item;
   Places Function()? fun;
   Function()? func;
+  bool Function() isFromMenu;
   int numeroDeIncidencias;
 
   PlacesInteraction({Key? key, 
     required this.item, 
     required this.numeroDeIncidencias,
+    required this.isFromMenu,
     this.fun,
-    this.func
+    this.func,
   }) : super(key: key);
 
   
     @override
   _PlacesInteractionState createState() => _PlacesInteractionState();
+    
 }
 
 class _PlacesInteractionState extends State<PlacesInteraction> {
+  late ProviderListener mProvider;
+
+  @override
+  void dispose(){
+    super.dispose();
+    widget.item.timeEnd = null;
+    widget.item.timeStart = null;
+    widget.item.isActive = false;
+  }
+
   late Color color;
   Color? colorActive = Colors.amber;
   Color colorEnabled = Colors.grey;
@@ -55,8 +68,11 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
   }
    
   itemClickeable(ProviderListener changeItemConfiguration) {
+    mProvider = changeItemConfiguration;
     String itemName = widget.item.name;
-    String cheepName = itemName.characters.take(3).toString();
+//    String cheepName = itemName.characters.take(3).toString();
+    List cheepName = itemName.split(" ");
+
       return GestureDetector(
         child: Container(
           width: 100,
@@ -67,13 +83,13 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
         ),
 
         child: Center(
-          child: whichItem(cheepName)
+          child: whichItem(cheepName[0])
         ),
       ),
       onTap: (){
           setState(() {});
           print('evaluando');
-          final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';    
+          final time = '${TimeOfDay.now().hour}:${TimeOfDay.now().minute}';
 
           if(widget.item.timeEnd != null && widget.item.timeStart != null && widget.item.isActive == false){
             
@@ -103,7 +119,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
             if(changeItemConfiguration.itemIsReady!.name == widget.item.name){
               print("if 2");              
               //esto hace que puedan volver al ultimo lugar seleccionado
-              if(color == Colors.blue){
+              if(color == Colors.grey[300]){
                   widget.fun!();
                   widget.item.isActive = true;
                   widget.item.timeStart = time;
@@ -151,7 +167,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
         color = Colors.grey;
     }
       if(widget.item.timeEnd != null){
-      color = Colors.blue;
+      color = Colors.grey[300]!;
     }
   
     return color;
@@ -163,7 +179,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
     }else{
       return Text(cheepName.toUpperCase(), textAlign: TextAlign.center, style: const TextStyle(
         color: Colors.black,
-        fontSize: 30
+        fontSize: 20
       ));
     }
   }
