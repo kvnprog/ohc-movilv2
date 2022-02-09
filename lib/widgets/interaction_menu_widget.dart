@@ -20,6 +20,7 @@ class InteractionMenu extends StatefulWidget {
   final String acciones;
   final String? lugar;
   final String? estado;
+  final Function() func;
 
   final recorrido;
   bool btnsave;
@@ -35,7 +36,9 @@ class InteractionMenu extends StatefulWidget {
       required this.acciones,
       required this.isNewMenuRequest,
       required this.btnsave,
-      required this.tipo})
+      required this.tipo,
+      required this.func
+      })
       : super(key: key);
 
   @override
@@ -79,6 +82,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
   @override
   Widget build(BuildContext context) {
     var acciones = json.decode(widget.acciones);
+    bool activeStatus = false;
+    String isActive = 'No';
 
     for (var element in acciones) {
       _actionType.remove(element);
@@ -211,6 +216,34 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           child: Image.file(
                             File(fotopreview),
                           )))),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text('¿Está abierta la incidencia?'),
+
+                  Column(
+                    children: [
+                      Text(isActive),
+                        Switch(value: activeStatus, onChanged: (value){
+                          setState(() {
+                             if(activeStatus){
+                                activeStatus = false;
+                                isActive = 'No';
+                             }{
+                                activeStatus = true;
+                                isActive = 'Sí';
+                            }
+                          });
+                      },
+                      activeColor: Colors.green,
+                      autofocus: true,
+                      ),
+                    ]
+                  )
+
+                ],
+              ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
