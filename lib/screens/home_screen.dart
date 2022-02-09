@@ -189,6 +189,11 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           itemCount: 1,
           itemBuilder: (BuildContext context, index) {
             return InteractionMenu(
+                func: (){
+                  setState(() {
+                    
+                  });
+                },
                 recorrido: recorrido,
                 usuario: widget.usuario,
                 lugar: lugar,

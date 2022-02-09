@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/data/data.dart';
 import 'package:recorridos_app/screens/screens.dart';
+import 'package:recorridos_app/widgets/list_widget.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
@@ -168,22 +169,50 @@ class BitacoraGeneral extends StatelessWidget {
               var arrayfinal = jsonDecode(snapshot.data.toString());
               // print(snapshot.data);
               print(arrayfinal['entradas']);
-              return ListView.builder(
-                  itemCount: arrayfinal['entradas'].length,
-                  itemBuilder: (BuildContext context, index) {
-                    // print(snapshot.data);
+              
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 100,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          filterWidget('my name', 0, 'Nombre'),
+                          const SizedBox(width: 20),
+                          filterWidget('my name', 0, 'Hora'),
+                        ],
+                      ),
+                    )
+                  ),
 
-                    // return Text("${arrayfinal['entradas'][index]}");
-
-                    return ListBitacoraWidget(
-                      // user: user,
-                      userName: arrayfinal['entradas'][index][5],
-                      start: arrayfinal['entradas'][index][2],
-                      end: arrayfinal['entradas'][index][3],
-                      incidencias: arrayfinal['entradas'][index][4],
-                      // contentActivity: textGenerator(arrayList, index),
-                    );
-                  });
+                  SizedBox(
+                    height: 600,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: arrayfinal['entradas'].length,
+                        itemBuilder: (BuildContext context, index) {
+                          // print(snapshot.data);
+                      
+                          // return Text("${arrayfinal['entradas'][index]}");
+                          return ListBitacoraWidget(
+                            // user: user,
+                            userName: arrayfinal['entradas'][index][5],
+                            start: arrayfinal['entradas'][index][2],
+                            end: arrayfinal['entradas'][index][3],
+                            incidencias: arrayfinal['entradas'][index][4],
+                            // contentActivity: textGenerator(arrayList, index),
+                          );
+                        },
+                        
+                        reverse: true,
+                      ),
+                  ),
+                ],
+              );
             } else {
               return CircularProgressIndicator();
             }
@@ -220,4 +249,48 @@ class BitacoraGeneral extends StatelessWidget {
       ],
     );
   }
+
+
+  Widget filterWidget(var filterName, int index, String filterTitle) {
+    // print('yo soy el filtro $filterName');
+
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      child: Column(
+        children: [
+          Text(
+            filterTitle,
+            style: const TextStyle(color: Colors.white),
+          ),
+          Container(
+            height: 40,
+            width: 200,
+            decoration: BoxDecoration(
+                color: Colors.grey[600],
+                borderRadius: const BorderRadius.all(Radius.circular(3))),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DropdownButton<String>(
+                  value: filterName,
+                  items: [],
+                  //items: getItemsDropDown(index, filterTitle),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  dropdownColor: Colors.amber[200],
+                  icon: const Icon(
+                    Icons.arrow_drop_down_rounded,
+                    color: Colors.black,
+                  ),
+                  underline: Container(
+                    color: Colors.white,
+                  ),
+                  onChanged: (opt) {
+                  
+                  }),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
