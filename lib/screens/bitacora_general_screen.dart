@@ -245,6 +245,9 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                             dia.subtract(Duration(hours: int.parse(opt!)));
                         for (var valor in arrayrespaldo!['entradas']) {
                           DateTime dia2 = DateTime.parse(valor[2]);
+                          print(
+                              "primero ${diasdespues.microsecondsSinceEpoch}");
+                          print("despues ${dia2.microsecondsSinceEpoch}");
                           if (diasdespues.microsecondsSinceEpoch >
                               dia2.microsecondsSinceEpoch) {
                             datos.add(valor);
