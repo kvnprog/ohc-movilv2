@@ -128,7 +128,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                                   // contentActivity: textGenerator(arrayList, index),
                                 );
                               },
-                              reverse: true,
+                              reverse: false,
                             ),
                           ),
                         ],
@@ -142,7 +142,8 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
             }
           }),
     );
-  }
+   
+  }  
 
   Widget textGenerator(List arrayList, int index) {
     List mArray = arrayList[index]['actividad'];
