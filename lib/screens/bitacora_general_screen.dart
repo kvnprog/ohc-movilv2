@@ -7,19 +7,29 @@ import 'package:recorridos_app/widgets/list_widget.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:http/http.dart' as http;
 
-class BitacoraGeneral extends StatelessWidget {
+Map? arrayrespaldo;
+bool cargar = true;
+Map arrayfinal = Map();
+
+class BitacoraGeneral extends StatefulWidget {
   List userArray;
   String user;
   dynamic userName;
   String? codigo;
-
-  ConectionData connect = ConectionData();
 
   BitacoraGeneral(
       {required this.userArray,
       required this.userName,
       required this.user,
       this.codigo});
+
+  @override
+  State<BitacoraGeneral> createState() => _BitacoraGeneralState();
+}
+
+class _BitacoraGeneralState extends State<BitacoraGeneral> {
+  ConectionData connect = ConectionData();
+
   @override
   Widget build(BuildContext context) {
     List arrayList = [
@@ -152,14 +162,14 @@ class BitacoraGeneral extends StatelessWidget {
     ];
     Future<String> bitacora() async {
       var url = Uri.parse("${connect.serverName()}traer_bitacora.php");
-      var resultado = await http.post(url, body: {"codigo": codigo});
+      var resultado = await http.post(url, body: {"codigo": widget.codigo});
 
       return resultado.body;
     }
 
     Future<String> usuarios() async {
       var url = Uri.parse("${connect.serverName()}traer_usuarios.php");
-      var resultado = await http.post(url, body: {"codigo": codigo});
+      var resultado = await http.post(url, body: {"codigo": widget.codigo});
 
       return resultado.body;
     }
@@ -172,7 +182,12 @@ class BitacoraGeneral extends StatelessWidget {
           future: bitacora(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              Map arrayfinal = jsonDecode(snapshot.data.toString());
+              if (cargar) {
+                arrayfinal = jsonDecode(snapshot.data.toString());
+                arrayrespaldo = arrayfinal;
+                cargar = false;
+              }
+              // print(arrayfinal);
               // print(snapshot.data);
               // print(arrayfinal['entradas']);
 
@@ -181,10 +196,13 @@ class BitacoraGeneral extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       // print(snapshot.data);
-                      List<dynamic> usuarios =
+                      List<dynamic> usuariosjson =
                           jsonDecode(snapshot.data.toString());
+                      List<dynamic> usuarios = [];
+                      for (var usuario in usuariosjson) {
+                        usuarios.add(usuario[0]);
+                      }
 
-                      print(usuarios[0][0]);
                       return Column(
                         children: [
                           SizedBox(
@@ -196,10 +214,10 @@ class BitacoraGeneral extends StatelessWidget {
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
                                   children: [
-                                    filterWidget(
-                                        filtro1, 0, 'Nombre', usuarios),
+                                    filterWidget(opcion1, filtro1, 0, 'Nombre',
+                                        usuarios),
                                     const SizedBox(width: 20),
-                                    filterWidget(filtro2, 0, 'Hora',
+                                    filterWidget(opcion2, filtro2, 0, 'Hora',
                                         [1, 2, 8, 12, 24, 48, 72]),
                                   ],
                                 ),
@@ -289,9 +307,14 @@ class BitacoraGeneral extends StatelessWidget {
   }
 
   dynamic filtro1;
+
   dynamic filtro2;
-  Widget filterWidget(
-      var filterName, int index, String filterTitle, List<dynamic> datos) {
+
+  int opcion1 = 0;
+  int opcion2 = 1;
+
+  Widget filterWidget(int opcion, var filterName, int index, String filterTitle,
+      List<dynamic> datos) {
     // print('yo soy el filtro $filterName');
 
     return Container(
@@ -323,7 +346,52 @@ class BitacoraGeneral extends StatelessWidget {
                   underline: Container(
                     color: Colors.white,
                   ),
-                  onChanged: (opt) {}),
+                  onChanged: (opt) {
+                    // print(opt);
+                    switch (opcion) {
+                      case 0:
+                        Map<dynamic, dynamic> arrayfiltro = Map();
+                        arrayfiltro['entradas'] = List<dynamic>;
+                        List<dynamic> datos = [];
+                        // arrayfiltro = arrayrespaldo!;
+
+                        for (var valor in arrayrespaldo!['entradas']) {
+                          if (valor[5] == opt) {
+                            datos.add(valor);
+                          }
+                        }
+                        arrayfiltro['entradas'] = datos;
+                        arrayfinal = arrayfiltro;
+
+                        setState(() {});
+                        break;
+
+                      case 1:
+                        Map<dynamic, dynamic> arrayfiltro = Map();
+                        arrayfiltro['entradas'] = List<dynamic>;
+                        List<dynamic> datos = [];
+                        DateTime dia = DateTime.now();
+
+                        // print(DateTime.now());
+                        DateTime diasdespues =
+                            dia.subtract(Duration(hours: int.parse(opt!)));
+                        for (var valor in arrayrespaldo!['entradas']) {
+                          DateTime dia2 = DateTime.parse(valor[2]);
+                          if (diasdespues.microsecondsSinceEpoch >
+                              dia2.microsecondsSinceEpoch) {
+                            datos.add(valor);
+                          }
+                        }
+
+                        arrayfiltro['entradas'] = datos;
+                        arrayfinal = arrayfiltro;
+                        print(arrayfinal);
+                        setState(() {});
+
+                        break;
+                    }
+                    // print(arrayrespaldo!['entradas']);
+                  }),
             ),
           ),
         ],
