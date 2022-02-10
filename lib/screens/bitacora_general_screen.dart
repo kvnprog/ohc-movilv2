@@ -128,7 +128,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                                   // contentActivity: textGenerator(arrayList, index),
                                 );
                               },
-                              reverse: true,
+                              reverse: false,
                             ),
                           ),
                         ],
