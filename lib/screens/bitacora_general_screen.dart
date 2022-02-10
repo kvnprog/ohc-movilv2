@@ -242,7 +242,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
     });
 
     
-
+    print('prueba 1');
     return itemsAvailable;
   }
 }
