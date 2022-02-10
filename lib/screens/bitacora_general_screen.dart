@@ -92,9 +92,9 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
                                   children: [
-                                    filterWidget(filtro1, 0, 'Nombre', usuarios, 0),
+                                    //filterWidget(filtro1, 0, 'Nombre', usuarios, 0),
                                     const SizedBox(width: 20),
-                                    filterWidget(filtro2, 0, 'Hora', [1, 2, 8, 12, 24, 48, 72], 1),
+                                    //filterWidget(filtro2, 0, 'Hora', [1, 2, 8, 12, 24, 48, 72], 1),
                                   ],
                                 ),
                               )),
@@ -130,119 +130,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
             }
           }),
     );
+  
   }
 
-  Widget textGenerator(List arrayList, int index) {
-    List mArray = arrayList[index]['actividad'];
-    final checkPointList = mArray[0]['checkpoint'] as List;
-    final incidencesList = mArray[1]['incidence'] as List;
-    List finalList = [];
-
-    for (var checkItem in checkPointList) {
-      String hora = checkItem['hora'];
-      finalList.add('Realizó un checkPoint a las $hora hrs.');
-    }
-
-    for (var incidenceItem in incidencesList) {
-      String hora = incidenceItem['hora'];
-      String lugar = incidenceItem['lugar'];
-      finalList.add('Realizó una incidencia en $lugar a las $hora hrs.');
-    }
-
-    return ListView(
-      children: [
-        for (var item in finalList)
-          Container(
-              margin: const EdgeInsets.all(8),
-              child: Text(
-                item,
-                style: const TextStyle(fontSize: 15),
-              ))
-      ],
-    );
-  }
-
-  Widget filterWidget( var filterName, int index, String filterTitle, List<dynamic> datos, int context) {
-
-    List<dynamic> mList = [widget.nameValue, widget.hourValue];
-
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: Column(
-        children: [
-          Text(
-            filterTitle,
-            style: const TextStyle(color: Colors.white),
-          ),
-          Container(
-            height: 50,
-            width: 220,
-            decoration: BoxDecoration(
-                color: Colors.grey[600],
-                borderRadius: const BorderRadius.all(Radius.circular(3))),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButton<String>(
-                  value: mList[context],
-                  items: getItemsDropDown(datos, filterTitle, 'prueba'),
-                  //items: getItemsDropDown(index, filterTitle),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  dropdownColor: Colors.amber[200],
-                  icon: const Icon(
-                    Icons.arrow_drop_down_rounded,
-                    color: Colors.black,
-                  ),
-                  underline: Container(
-                    color: Colors.white,
-                  ),
-                  onChanged: (opt) {
-                    setState(() {
-                      switch(context){
-                        case 0: {
-                          widget.nameValue = opt;
-                        }
-                        break;
-                        case 1: {
-                          widget.hourValue = opt;
-                        }
-                        break;
-
-                      }
-                    });
-                  }),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-    List<DropdownMenuItem<String>> getItemsDropDown(List<dynamic> datos, String context, String prueba) {
-    dynamic mValue = 'Todos';
-    
-    List<DropdownMenuItem<String>> itemsAvailable = [];
-
-    datos.forEach((element) {
-    switch(context){
-          case 'Nombre':{
-            mValue = element[0];
-          }
-          break;
-
-          case 'Hora':{
-            mValue = element.toString();
-          }
-          break;
-    }
-
-      itemsAvailable.add(DropdownMenuItem(
-        child: Text(mValue),
-        value: mValue
-      ));
-    });
-
-    
-    print('prueba 1');
-    return itemsAvailable;
-  }
 }
