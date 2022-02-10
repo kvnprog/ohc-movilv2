@@ -71,25 +71,28 @@ class _MenuHomeState extends State<MenuHome> {
                             children: [
                               Row(
                                 children: [
-                                   _userIcon(widget.nombre),
-                                      IconButton(
-                                          onPressed: () async {
-                                            var url = Uri.parse(
-                                                "${widget.connect.serverName()}crear_salida.php");
-                                            var entrada = await http.post(url,
-                                                body: {'index': widget.entrada});
-                                            print(entrada.body);
-                                            Navigator.of(context).pop('login');
-                                          },
-                                          icon: const Icon(
-                                            Icons.login_outlined,
-                                            color: Colors.black,
-                                            size: 30,
-                                    )),
+                                  _userIcon(widget.nombre),
+                                  IconButton(
+                                      onPressed: () async {
+                                        var url = Uri.parse(
+                                            "${widget.connect.serverName()}crear_salida.php");
+                                        var entrada = await http.post(url,
+                                            body: {'index': widget.entrada});
+                                        print(entrada.body);
+                                        Navigator.of(context).pop('login');
+                                      },
+                                      icon: const Icon(
+                                        Icons.login_outlined,
+                                        color: Colors.black,
+                                        size: 30,
+                                      )),
                                 ],
                               ),
-                              
-                                  Image.asset('assets/logo.png', width: 100, height: 90,)
+                              Image.asset(
+                                'assets/logo.png',
+                                width: 100,
+                                height: 90,
+                              )
                             ],
                           ),
                           Row(
@@ -98,7 +101,7 @@ class _MenuHomeState extends State<MenuHome> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    name[0]+" "+name[1],
+                                    name[0] + " " + name[1],
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   Text(
@@ -158,7 +161,9 @@ class _MenuHomeState extends State<MenuHome> {
                     selectedTileColor: Colors.grey[600],
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) => ListWidget()));
+                          builder: (BuildContext context) => ListWidget(
+                                codigo: widget.codigo,
+                              )));
                     },
                   ),
                   ListTile(
