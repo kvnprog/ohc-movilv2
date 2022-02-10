@@ -184,7 +184,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
               padding: const EdgeInsets.all(8.0),
               child: DropdownButton<String>(
                   value: mList[context],
-                  items: getItemsDropDown(datos, filterTitle),
+                  items: getItemsDropDown(datos, filterTitle, 'prueba'),
                   //items: getItemsDropDown(index, filterTitle),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   dropdownColor: Colors.amber[200],
@@ -217,7 +217,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
     );
   }
 
-    List<DropdownMenuItem<String>> getItemsDropDown(List<dynamic> datos, String context) {
+    List<DropdownMenuItem<String>> getItemsDropDown(List<dynamic> datos, String context, String prueba) {
     dynamic mValue = 'Todos';
     
     List<DropdownMenuItem<String>> itemsAvailable = [];
