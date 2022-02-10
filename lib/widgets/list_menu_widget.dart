@@ -77,9 +77,16 @@ class ListMenuItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'fecha y Hora: ${datos![2]}',
+                      'Fecha y Hora: ${datos![2]}',
                       style: TextStyle(
                         fontSize: 15,
+                        color: Colors.grey[200],
+                      ),
+                    ),
+                    Text(
+                      'Ubicación: 20.7012062,-101.3483953,17',
+                      style: TextStyle(
+                        fontSize: 12.8,
                         color: Colors.grey[200],
                       ),
                     ),
