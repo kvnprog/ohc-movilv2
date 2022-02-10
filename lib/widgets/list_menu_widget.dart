@@ -16,11 +16,18 @@ class ListMenuItem extends StatelessWidget {
     var index = datos!.getRange(0, datos!.length);
     connect;
     String description;
+    String status = 'No disponible';
 
     if(datos![3] != null){
       description =  'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}.';
     }else{
       description =  'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]}.';
+    }
+
+    if(datos![4] == 'Sí' || datos![4] == 'Si'){
+      status = 'Abierta';
+    }else{
+      status = 'Cerrada';
     }
     
     return GestureDetector(
@@ -84,9 +91,16 @@ class ListMenuItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Ubicación: 20.7012062,-101.3483953,17',
+                      'Status: $status',
                       style: TextStyle(
-                        fontSize: 12.8,
+                        fontSize: 15,
+                        color: Colors.grey[200],
+                      ),
+                    ),
+                    Text(
+                      'Ubicación: ${datos![5]},${datos![6]}',
+                      style: TextStyle(
+                        fontSize: 11,
                         color: Colors.grey[200],
                       ),
                     ),
