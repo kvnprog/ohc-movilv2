@@ -273,7 +273,7 @@ class _UsersActiveState extends State<UsersActive> {
                               textAlign: TextAlign.center,
                             ),
                             content: SizedBox(
-                              height: 290,
+                              height: 150,
                               child: Column(
                                 children: [
                                   //campo usuario
@@ -419,68 +419,6 @@ class _UsersActiveState extends State<UsersActive> {
                                         highlightColor: Colors.transparent,
                                       )
                                     ],
-                                  ),
-
-                                  const SizedBox(height: 20),
-                                  const Divider(
-                                      height: 5, color: Colors.black54),
-                                  const SizedBox(height: 10),
-                                  const Text('Ingresar con huella'),
-                                  const SizedBox(height: 20),
-
-                                  //botón de huella
-                                  ClipOval(
-                                    child: Material(
-                                      child: InkWell(
-                                        splashColor: Colors.amberAccent[200],
-                                        child: const SizedBox(
-                                          width: 80,
-                                          height: 80,
-                                          child:
-                                              Icon(Icons.fingerprint, size: 60),
-                                        ),
-                                        onTap: () async {
-                                          await checkingForBioMetrics();
-                                          await _authenticateMe();
-
-                                          var url = Uri.parse(
-                                              "${connect.serverName()}traer_acciones.php");
-                                          var respuesta =
-                                              await http.post(url, body: {});
-                                          PlacesArrayAvailableData dataList =
-                                              PlacesArrayAvailableData();
-
-                                          await dataList.inicializar('5555');
-
-                                          if (checar == true) {
-                                            String usuario =
-                                                await checarusuario(
-                                                    widget.codigo,
-                                                    widget.nombre[0]);
-
-                                            var url = Uri.parse(
-                                                "${connect.serverName()}crear_entrada.php");
-                                            var entrada = await http.post(url,
-                                                body: {'usuario': usuario});
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                //builder: (BuildContext context) => HomeToursScreen(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        MenuHome(
-                                                            acciones:
-                                                                respuesta.body,
-                                                            usuario: usuario,
-                                                            dataList: dataList,
-                                                            nombre:
-                                                                widget.nombre),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ),
                                   ),
                                 ],
                               ),
