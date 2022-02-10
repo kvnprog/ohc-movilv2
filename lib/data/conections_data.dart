@@ -13,9 +13,19 @@ class ConectionData{
   Future dialog(BuildContext context,
     String title,
     String description,
+    String photoURL
     //List<Widget> imagesArray
   ){
     return showDialog(context: context, builder: (context){
+
+     Widget image = Image(image: NetworkImage(serverName()+photoURL));
+
+      if(photoURL == 'false'){
+         image = Container(margin: const EdgeInsets.only(top: 100), child: const Center(child: Text('IMAGEN NO DISPONIBLE', style: TextStyle(fontSize: 30), textAlign: TextAlign.center,)));
+      }else{
+         image = Image(image: NetworkImage(serverName()+photoURL));
+      }
+
       return Container(
         margin: const EdgeInsets.all(20),
         width: double.infinity,
@@ -47,7 +57,7 @@ class ConectionData{
             //Images content space
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-              height: 280,
+              height: 350,
               child: ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -56,9 +66,7 @@ class ConectionData{
                     fontSize: 20
                   ),),
                   //delete this line
-                  Center(child: Image.asset('assets/loading-38.gif', color: Colors.black,))
-
-
+                  Center(child: image)
                 ],
               ),
             ),
@@ -83,4 +91,5 @@ class ConectionData{
       );
     });
   }
+
 }

@@ -17,11 +17,13 @@ class ListMenuItem extends StatelessWidget {
     connect;
     String description;
     String status = 'No disponible';
+    String route;
 
     if(datos![3] != null){
-      description =  'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}.';
+      description =  
+      'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}, declarando que: ${datos![8]}.';
     }else{
-      description =  'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]}.';
+      description =  'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]}, declarando que: ${datos![8]}.';
     }
 
     if(datos![4] == 'Sí' || datos![4] == 'Si'){
@@ -29,10 +31,17 @@ class ListMenuItem extends StatelessWidget {
     }else{
       status = 'Cerrada';
     }
+
+    if(datos![7] == null || datos![7] == ''){
+      route = 'false';
+    }else{
+      route = datos![7];
+    }
     
     return GestureDetector(
       onTap: (){
-        connect.dialog( context, 'Descripción de la incidencia', description );
+        print(datos![7]);
+        connect.dialog( context, 'Descripción de la incidencia', description, route);
       },
       child: Container(
         width: double.infinity,
