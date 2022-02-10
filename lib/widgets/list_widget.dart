@@ -9,7 +9,8 @@ import 'package:http/http.dart' as http;
 void main() => runApp(ListWidget());
 
 class ListWidget extends StatefulWidget {
-  ListWidget({Key? key}) : super(key: key);
+  String? codigo;
+  ListWidget({Key? key, this.codigo}) : super(key: key);
 
   @override
   State<ListWidget> createState() => _ListWidgetState();
@@ -28,7 +29,7 @@ class _ListWidgetState extends State<ListWidget> {
   Future<String> incidencias() async {
     var url = Uri.parse(
         "${widget.connect.serverName()}traer_incidencias_celular.php");
-    var respuesta = await http.post(url, body: {"codigo": '5555'});
+    var respuesta = await http.post(url, body: {"codigo": widget.codigo});
 
     return respuesta.body;
   }
@@ -64,6 +65,7 @@ class _ListWidgetState extends State<ListWidget> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (pintarfiltro == 0) {
+                      print(snapshot.data!);
                       elementsArray = jsonDecode(snapshot.data!);
                       totalArray = elementsArray!;
                     }
