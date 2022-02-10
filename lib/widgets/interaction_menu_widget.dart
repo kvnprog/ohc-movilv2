@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,8 @@ String resultado = '';
 List<int>? imageBytes;
 String? base64Image;
 ConectionData connect = ConectionData();
+
+final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 
 class InteractionMenu extends StatefulWidget {
   final String? usuario;
@@ -37,8 +40,7 @@ class InteractionMenu extends StatefulWidget {
       required this.isNewMenuRequest,
       required this.btnsave,
       required this.tipo,
-      required this.func
-      })
+      required this.func})
       : super(key: key);
 
   @override
@@ -107,12 +109,14 @@ class _InteractionMenuState extends State<InteractionMenu> {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: <Widget>[
-
               Container(
                 margin: const EdgeInsets.only(bottom: 20),
-                child: const Text('Nueva Incidencia', style: TextStyle(
-                  fontSize: 20,
-                ),),
+                child: const Text(
+                  'Nueva Incidencia',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
               ),
               TextField(
                 controller: responsable,
@@ -228,26 +232,24 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const Text('¿Está abierta la incidencia?'),
-
-                  Column(
-                    children: [
-                      Text(isActive),
-                        Switch(value: activeStatus, onChanged: (value){
-                          setState(() {
-                             if(activeStatus){
-                                activeStatus = false;
-                                isActive = 'No';
-                             }else{
-                                activeStatus = true;
-                                isActive = 'Sí';
-                            }
-                          });
-                        },
-                        activeColor: Colors.green,
-                        )
-                    ]
-                  )
-
+                  Column(children: [
+                    Text(isActive),
+                    Switch(
+                      value: activeStatus,
+                      onChanged: (value) {
+                        setState(() {
+                          if (activeStatus) {
+                            activeStatus = false;
+                            isActive = 'No';
+                          } else {
+                            activeStatus = true;
+                            isActive = 'Sí';
+                          }
+                        });
+                      },
+                      activeColor: Colors.green,
+                    )
+                  ])
                 ],
               ),
 
@@ -330,6 +332,13 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     onPressed: () async {
                       print(recorrido);
                       print(lugar);
+                      LocationPermission permission;
+
+                      permission =
+                          await _geolocatorPlatform.requestPermission();
+                      final position =
+                          await _geolocatorPlatform.getCurrentPosition();
+
                       // print(widget.usuario);
                       // print(widget.key);
 
@@ -346,7 +355,10 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "usuario": widget.usuario,
                           "recorrido": recorrido,
                           "tipo_inc": "${accion.text}",
-                          "lugar": lugar
+                          "lugar": lugar,
+                          "longitude": position.longitude.toString(),
+                          "latitude": position.latitude.toString(),
+                          "status": isActive
                         });
 
                         print(resultado.body);

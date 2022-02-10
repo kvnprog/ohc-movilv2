@@ -142,8 +142,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
             }
           }),
     );
-   
-  }  
+  }
 
   Widget textGenerator(List arrayList, int index) {
     List mArray = arrayList[index]['actividad'];
@@ -249,7 +248,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                           print(
                               "primero ${diasdespues.microsecondsSinceEpoch}");
                           print("despues ${dia2.microsecondsSinceEpoch}");
-                          if (diasdespues.microsecondsSinceEpoch >
+                          if (diasdespues.microsecondsSinceEpoch <
                               dia2.microsecondsSinceEpoch) {
                             datos.add(valor);
                           }
