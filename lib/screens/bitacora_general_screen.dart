@@ -130,7 +130,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
             }
           }),
     );
-  
-  }
+   
+  }  
 
 }
