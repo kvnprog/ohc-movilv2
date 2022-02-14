@@ -135,6 +135,19 @@ class MainClass extends StatelessWidget {
                             color: Colors.white,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
+                        child: InteractionMenu(
+                                func: () {
+                              
+                                },
+                                recorrido: recorrido,
+                                usuario: usuario,
+                                nombre: nombre.toString(),
+                                lugar: lugar,
+                                acciones: acciones!,
+                                isNewMenuRequest: true,
+                                btnsave: true,
+                                tipo: "1",
+                        ),
                       ),
                     );
                   });

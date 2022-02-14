@@ -133,25 +133,20 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
               title: const Text('Lugares'),
               elevation: 0,
             ),
-            body: ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
+            body: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Column(
-                      children: [
-                        _showGridPlaces(provider),
-                        _incidencesInteracion(),
-                        if (isCheckAvailable)
-                          Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              child: BtnPoint(recorrido: recorrido)
-                          )
-                      ],
-                    ),
-                  ),
-                ]),
+                  _showGridPlaces(provider),
+                  _incidencesInteracion(),
+                  if (isCheckAvailable)
+                    Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        child: BtnPoint(recorrido: recorrido)
+                    )
+                ],
+              ),
+            ),
             //floatingActionButton: _floatingActionButtonOptions(provider),
           ),
         ),
