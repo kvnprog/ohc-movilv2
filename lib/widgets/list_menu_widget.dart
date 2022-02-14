@@ -10,7 +10,6 @@ class ListMenuItem extends StatelessWidget {
     this.datos,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     var index = datos!.getRange(0, datos!.length);
@@ -19,29 +18,31 @@ class ListMenuItem extends StatelessWidget {
     String status = 'No disponible';
     String route;
 
-    if(datos![3] != null){
-      description =  
-      'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}, declarando que: ${datos![8]}.';
-    }else{
-      description =  'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]}, declarando que: ${datos![8]}.';
+    if (datos![3] != null) {
+      description =
+          'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}, declarando que: ${datos![8]}.';
+    } else {
+      description =
+          'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]}, declarando que: ${datos![8]}.';
     }
 
-    if(datos![4] == 'Sí' || datos![4] == 'Si'){
+    if (datos![4] == 'Sí' || datos![4] == 'Si') {
       status = 'Abierta';
-    }else{
+    } else {
       status = 'Cerrada';
     }
 
-    if(datos![7] == null || datos![7] == ''){
+    if (datos![7] == null || datos![7] == '') {
       route = 'false';
-    }else{
+    } else {
       route = datos![7];
     }
-    
+
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         print(datos![7]);
-        connect.dialog( context, 'Descripción de la incidencia', description, route);
+        connect.dialog(
+            context, 'Descripción de la incidencia', description, route);
       },
       child: Container(
         width: double.infinity,
@@ -63,7 +64,7 @@ class ListMenuItem extends StatelessWidget {
                     image: AssetImage('assets/file.png'),
                     width: 60,
                     color: Colors.amber),
-    
+
                 const SizedBox(width: 10),
                 //parte derecha
                 Column(
@@ -71,7 +72,7 @@ class ListMenuItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Captura: ${datos![0]}',
+                      'Captura: ${datos![9]}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,

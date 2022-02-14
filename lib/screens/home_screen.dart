@@ -29,10 +29,17 @@ class HomeToursScreen extends StatefulWidget {
   final String? usuario;
   final String? acciones;
   final String? entrada;
+  final String? nombre;
   bool? isFromMenu;
   PlacesArrayAvailableData? dataList;
   HomeToursScreen(
-      {Key? key, this.usuario, this.acciones, this.dataList, this.entrada, this.isFromMenu})
+      {Key? key,
+      this.usuario,
+      this.acciones,
+      this.dataList,
+      this.entrada,
+      this.nombre,
+      this.isFromMenu})
       : super(key: key);
 
   @override
@@ -167,14 +174,14 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
         crossAxisCount: 3,
         children: List.generate(widget.dataList!.arrayPlaces.length, (index) {
           return PlacesInteraction(
-            isFromMenu: (){
-              if(widget.isFromMenu != null){
-                if(widget.isFromMenu!){
+            isFromMenu: () {
+              if (widget.isFromMenu != null) {
+                if (widget.isFromMenu!) {
                   return true;
-                }else{
+                } else {
                   return false;
                 }
-              }else{
+              } else {
                 return false;
               }
             },
@@ -201,13 +208,12 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           itemCount: 1,
           itemBuilder: (BuildContext context, index) {
             return InteractionMenu(
-                func: (){
-                  setState(() {
-                    
-                  });
+                func: () {
+                  setState(() {});
                 },
                 recorrido: recorrido,
                 usuario: widget.usuario,
+                nombre: widget.nombre!,
                 lugar: lugar,
                 acciones: widget.acciones!,
                 isNewMenuRequest: true,
