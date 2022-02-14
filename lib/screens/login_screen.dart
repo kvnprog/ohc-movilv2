@@ -391,7 +391,7 @@ class _UsersActiveState extends State<UsersActive> {
                                                           (BuildContext
                                                                   context) =>
                                                           
-                                                            /*     MenuHome(
+                                                          MenuHome(
                                                                   acciones:
                                                                       respuesta
                                                                           .body,
@@ -405,8 +405,9 @@ class _UsersActiveState extends State<UsersActive> {
                                                                       entrada
                                                                           .body,
                                                                   codigo: widget
-                                                                      .codigo),*/
-                                                          MainClass()
+                                                                      .codigo),
+
+                                                          //MainClass()
                                                     ),
                                                   );
                                                 } else {
