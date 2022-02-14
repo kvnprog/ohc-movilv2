@@ -386,11 +386,10 @@ class _UsersActiveState extends State<UsersActive> {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      //builder: (BuildContext context) => HomeToursScreen(
-                                                      builder:
-                                                          (BuildContext
-                                                                  context) =>
-                                                          
+                                                        //builder: (BuildContext context) => HomeToursScreen(
+                                                        builder: (BuildContext
+                                                                context) =>
+
                                                             /*     MenuHome(
                                                                   acciones:
                                                                       respuesta
@@ -406,8 +405,20 @@ class _UsersActiveState extends State<UsersActive> {
                                                                           .body,
                                                                   codigo: widget
                                                                       .codigo),*/
-                                                          MainClass()
-                                                    ),
+                                                            MainClass(
+                                                                acciones:
+                                                                    respuesta
+                                                                        .body,
+                                                                usuario:
+                                                                    usuario,
+                                                                dataList:
+                                                                    dataList,
+                                                                nombre: widget
+                                                                    .nombre,
+                                                                entrada: entrada
+                                                                    .body,
+                                                                codigo: widget
+                                                                    .codigo)),
                                                   );
                                                 } else {
                                                   _showToast(context,
