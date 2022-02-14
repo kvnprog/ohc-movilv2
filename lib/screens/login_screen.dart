@@ -391,6 +391,12 @@ class _UsersActiveState extends State<UsersActive> {
                                                                 context) =>
 
                                                             /*     MenuHome(
+                                                      //builder: (BuildContext context) => HomeToursScreen(
+                                                      builder:
+                                                          (BuildContext
+                                                                  context) =>
+                                                          
+                                                          MenuHome(
                                                                   acciones:
                                                                       respuesta
                                                                           .body,

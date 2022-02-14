@@ -123,7 +123,22 @@ class MainClass extends StatelessWidget {
               Icons.add,
               color: Colors.black,
             ),
-            onPressed: () {}),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                      ),
+                    );
+                  });
+            }),
       ),
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.grey[850],

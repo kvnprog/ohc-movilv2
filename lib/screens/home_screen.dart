@@ -146,7 +146,8 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                         if (isCheckAvailable)
                           Container(
                               margin: const EdgeInsets.only(top: 10),
-                              child: BtnPoint(recorrido: recorrido))
+                              child: BtnPoint(recorrido: recorrido)
+                          )
                       ],
                     ),
                   ),
