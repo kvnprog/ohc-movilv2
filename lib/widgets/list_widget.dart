@@ -103,16 +103,15 @@ class _ListWidgetState extends State<ListWidget> {
               return Row(
                 children: [
                   const SizedBox(width: 15),
-                  filterWidget(filtro1, 0, 'Quién captura'),
+                  filterWidget(filtro1, 9, 'Quién captura', 0),
                   const SizedBox(width: 15),
-                  filterWidget(filtro2, 3, 'Responsable'),
+                  filterWidget(filtro2, 3, 'Responsable', 1),
                   const SizedBox(width: 15),
-                  filterWidget(filtro3, 1, 'Lugar'),
+                  filterWidget(filtro3, 1, 'Lugar', 2),
                   const SizedBox(width: 15),
-                  // const SizedBox(width: 15),
-                  // filterWidget(filtro3, 2, 'fecha'),
-                  // const SizedBox(width: 15),
-                  // filterWidget(filtro4, 2, 'Hora'),
+                  filterWidget(filtro4, 2, 'fecha', 3),
+                  const SizedBox(width: 15),
+                  filterWidget(filtro5, 2, 'Hora', 4),
                 ],
               );
             }),
@@ -130,7 +129,7 @@ class _ListWidgetState extends State<ListWidget> {
     ]);
   }
 
-  Widget filterWidget(var filterName, int index, String filterTitle) {
+  Widget filterWidget(var filterName, int index, String filterTitle, int tipo) {
     // print('yo soy el filtro $filterName');
 
     return Container(
@@ -164,7 +163,7 @@ class _ListWidgetState extends State<ListWidget> {
                   onChanged: (opt) {
                     setState(() {
                       switch (index) {
-                        case 0:
+                        case 9:
                           {
                             filtro1 = opt;
                             filtradoArray = [];
@@ -210,7 +209,32 @@ class _ListWidgetState extends State<ListWidget> {
 
                         case 2:
                           {
-                            filtro3 = opt;
+                            if (tipo == 3) {
+                              filtro4 = opt;
+                            } else {
+                              filtro5 = opt;
+                            }
+
+                            filtradoArray = [];
+                            elementsArray = totalArray;
+                            for (var element in elementsArray!) {
+                              var separador =
+                                  element[index].toString().split(" ");
+
+                              // print(element[index]);
+                              if (element[index] != null) {
+                                if (separador[0] == opt ||
+                                    separador[1] == opt) {
+                                  filtradoArray.add(element);
+                                  // print("entre");
+                                }
+                              }
+                            }
+                            pintarfiltro = 1;
+                            elementsArray = [];
+                            elementsArray = filtradoArray;
+                            print(filtradoArray);
+                            setState(() {});
                             print(opt);
                           }
                           break;

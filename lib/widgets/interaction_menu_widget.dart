@@ -19,6 +19,7 @@ ConectionData connect = ConectionData();
 final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 
 class InteractionMenu extends StatefulWidget {
+  final String nombre;
   final String? usuario;
   final String acciones;
   final String? lugar;
@@ -36,6 +37,7 @@ class InteractionMenu extends StatefulWidget {
       this.usuario,
       this.recorrido,
       this.estado,
+      required this.nombre,
       required this.acciones,
       required this.isNewMenuRequest,
       required this.btnsave,
@@ -352,7 +354,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "responsable": "${responsable.text}",
                           "comentario": "${comentario.text}",
                           "imagen": base64Image,
-                          "usuario": widget.usuario,
+                          "usuario": widget.nombre,
                           "recorrido": recorrido,
                           "tipo_inc": "${accion.text}",
                           "lugar": lugar,

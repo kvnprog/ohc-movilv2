@@ -142,10 +142,12 @@ class _MenuHomeState extends State<MenuHome> {
                     selected: _selectDestination == 1,
                     onTap: () => Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
+                      print(widget.nombre);
                       return HomeToursScreen(
                           isFromMenu: true,
                           acciones: widget.acciones,
                           usuario: widget.usuario,
+                          nombre: widget.nombre[0],
                           dataList: widget.dataList,
                           entrada: widget.entrada);
                     })),
