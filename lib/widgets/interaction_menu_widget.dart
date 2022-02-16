@@ -50,7 +50,7 @@ class InteractionMenu extends StatefulWidget {
 }
 
 class _InteractionMenuState extends State<InteractionMenu> {
-  PlacesArrayAvailableData dataList = PlacesArrayAvailableData();
+  // PlacesArrayAvailableData dataList = PlacesArrayAvailableData();
   final comentario = TextEditingController();
   final responsable = TextEditingController();
   final accion = TextEditingController();

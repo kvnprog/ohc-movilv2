@@ -4,14 +4,14 @@ import 'package:recorridos_app/screens/screens.dart';
 import 'package:recorridos_app/widgets/list_widget.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 
-class MainClass extends StatelessWidget {
+class MainClass extends StatefulWidget {
   final String? acciones;
   final String? usuario;
   PlacesArrayAvailableData? dataList;
   final String? entrada;
   final String? codigo;
   dynamic nombre;
-  List userArray = ["uno", "dos", "tres", "cuatro"];
+
   MainClass({
     Key? key,
     this.acciones,
@@ -21,6 +21,13 @@ class MainClass extends StatelessWidget {
     this.entrada,
     this.codigo,
   }) : super(key: key);
+
+  @override
+  State<MainClass> createState() => _MainClassState();
+}
+
+class _MainClassState extends State<MainClass> {
+  List userArray = ["uno", "dos", "tres", "cuatro"];
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +61,11 @@ class MainClass extends StatelessWidget {
                     MaterialPageRoute(builder: (context) {
                   return HomeToursScreen(
                       isFromMenu: true,
-                      acciones: acciones,
-                      usuario: usuario,
-                      nombre: nombre[0],
-                      dataList: dataList,
-                      entrada: entrada);
+                      acciones: widget.acciones,
+                      usuario: widget.usuario,
+                      nombre: widget.nombre[0],
+                      dataList: widget.dataList,
+                      entrada: widget.entrada);
                 })),
               ),
               GestureDetector(
@@ -82,7 +89,7 @@ class MainClass extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => ListWidget(
-                            codigo: codigo,
+                            codigo: widget.codigo,
                           )));
                 },
               ),
@@ -108,9 +115,9 @@ class MainClass extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => BitacoraGeneral(
                           userArray: userArray,
-                          user: usuario.toString(),
-                          userName: nombre,
-                          codigo: codigo
+                          user: widget.usuario.toString(),
+                          userName: widget.nombre,
+                          codigo: widget.codigo
                           //codigo: widget.codigo
                           )));
                 },
@@ -136,17 +143,15 @@ class MainClass extends StatelessWidget {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
                         child: InteractionMenu(
-                                func: () {
-                              
-                                },
-                                recorrido: recorrido,
-                                usuario: usuario,
-                                nombre: nombre.toString(),
-                                lugar: lugar,
-                                acciones: acciones!,
-                                isNewMenuRequest: true,
-                                btnsave: true,
-                                tipo: "1",
+                          func: () {},
+                          recorrido: "-1",
+                          usuario: widget.usuario,
+                          nombre: widget.nombre[0],
+                          lugar: lugar,
+                          acciones: widget.acciones!,
+                          isNewMenuRequest: true,
+                          btnsave: true,
+                          tipo: "1",
                         ),
                       ),
                     );

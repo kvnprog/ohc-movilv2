@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
 class ListBitacoraWidget extends StatefulWidget {
-  ListBitacoraWidget({
-    Key? key,
-    // required this.user,
-    required this.userName,
-    required this.start,
-    required this.end,
-    required this.incidencias,
-    // required this.contentActivity
-  }) : super(key: key);
+  ListBitacoraWidget(
+      {Key? key,
+      // required this.user,
+      required this.userName,
+      required this.start,
+      required this.end,
+      required this.incidencias,
+      required this.checkpoint
+      // required this.contentActivity
+      })
+      : super(key: key);
 
   String start;
   String end;
   // String user;
   dynamic incidencias;
   dynamic userName;
+  dynamic checkpoint;
   // Widget contentActivity;
   @override
   State<ListBitacoraWidget> createState() => _ListBitacoraWidgetState();
@@ -72,20 +75,20 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                   ),
                 ),
                 const Divider(
-                    height: 10, color: Colors.white, indent: 5, endIndent: 5
-                ),
+                    height: 10, color: Colors.white, indent: 5, endIndent: 5),
                 Container(
-                  height: 150,
-                  child: ListView(
-                    children: [
-                      for(var item in widget.incidencias)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                        child: Text('${widget.userName.toString().toLowerCase()} levantó una incidencia en ${item['lugar']} a las ${item['fechahora']}'),
-                      )
-                    ],
-                  )
-                )
+                    height: 150,
+                    child: ListView(
+                      children: [
+                        for (var item in widget.incidencias)
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                            child: Text(
+                                '${widget.userName.toString().toLowerCase()} levantó una incidencia en ${item['lugar']} a las ${item['fechahora']}'),
+                          )
+                      ],
+                    ))
               ],
             )
         ],
@@ -104,7 +107,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
       color = Colors.black;
       title = 'Finalizó sesión';
     }
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
@@ -116,7 +119,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(50)),
           ),
-          Text('$title: $value')
+          Text('$title: $value'),
         ],
       ),
     );

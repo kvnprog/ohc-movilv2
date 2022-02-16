@@ -142,8 +142,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                   if (isCheckAvailable)
                     Container(
                         margin: const EdgeInsets.only(top: 10),
-                        child: BtnPoint(recorrido: recorrido)
-                    )
+                        child: BtnPoint(recorrido: recorrido))
                 ],
               ),
             ),
@@ -231,7 +230,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
           provider.itemIsReady!.timeEnd == null) {
         // print(recorrido);
         if (cambio == 0) {
-          recorrido = await crearrecorrido();
+          recorrido = await crearrecorrido(provider.itemIsReady!.name);
           lugar = provider.itemIsReady!.name;
           cambio = 1;
         }
@@ -276,10 +275,13 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
     return thisItem;
   }
 
-  Future<String> crearrecorrido() async {
+  Future<String> crearrecorrido(String lugar) async {
     var url = Uri.parse("${connect.serverName()}crear_recorrido.php");
-    var respuesta = await http.post(url,
-        body: {"quien_capturo": widget.usuario, "entrada": widget.entrada});
+    var respuesta = await http.post(url, body: {
+      "quien_capturo": widget.usuario,
+      "entrada": widget.entrada,
+      "lugar": lugar
+    });
 
     return respuesta.body;
   }

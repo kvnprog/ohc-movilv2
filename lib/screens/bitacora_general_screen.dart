@@ -47,6 +47,13 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
   ConectionData connect = ConectionData();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    cargar = true;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Future<String> bitacora() async {
       var url = Uri.parse("${connect.serverName()}traer_bitacora.php");
@@ -70,11 +77,13 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
           future: bitacora(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print(cargar);
               if (cargar) {
                 arrayfinal = jsonDecode(snapshot.data.toString());
                 arrayrespaldo = arrayfinal;
                 cargar = false;
               }
+
               // print(arrayfinal);
               // print(snapshot.data);
               // print(arrayfinal['entradas']);
@@ -125,6 +134,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                                   start: arrayfinal['entradas'][index][2],
                                   end: arrayfinal['entradas'][index][3],
                                   incidencias: arrayfinal['entradas'][index][4],
+                                  checkpoint: arrayfinal['entradas'][index][6],
                                   // contentActivity: textGenerator(arrayList, index),
                                 );
                               },
