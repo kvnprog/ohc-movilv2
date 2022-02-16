@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/helpers/helpers.dart';
 import 'package:recorridos_app/screens/screens.dart';
@@ -30,9 +32,10 @@ class ListBitacoraWidget extends StatefulWidget {
 
 class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
   double height = 110;
-
+  
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       margin: const EdgeInsets.all(8),
       width: 50,
@@ -84,19 +87,24 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                     height: 150,
                     child: ListView(
                       children: [
-                        for (var item in widget.incidencias)
+                        for (var incidence in widget.incidencias)
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                            child: Text(
-                                '${widget.userName.toString().toLowerCase()} levantó una incidencia en ${item['lugar']} a las '),
+                            child: Text('${widget.userName.toString().toLowerCase()} levantó una incidencia en ${incidence['lugar']} a las ${getSimpleHour(incidence['fechahora'])}',
+                              style: const TextStyle(
+                                fontSize: 18
+                              ),
+                            ),
                           ),
-                        for (var item in widget.checkpoint)
+
+                        for (var checkpoint in widget.checkpoint)
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                            child: Text(
-                                '${widget.userName.toString().toLowerCase()} realizo un checkpoint'),
+                            child: Text('${widget.userName.toString().toLowerCase()} realizo un checkpoint', style: const TextStyle(
+                              fontSize: 18
+                            ),),
                           )
                       ],
                     ))
@@ -106,6 +114,13 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
       ),
     );
   }
+
+  String getSimpleHour(String simpleDate){
+      DateDataConvert dateDataConvert = DateDataConvert(dateFormat: simpleDate);
+
+      return dateDataConvert.hourData;
+  }
+
 
   Widget sesionActivity(String context, String value) {
     late Color color;
@@ -145,6 +160,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
       ),
     );
   }
+
 }
 
 class DateDataConvert {

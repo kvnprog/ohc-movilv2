@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/data/places_array_data_class.dart';
 import 'package:recorridos_app/screens/screens.dart';
@@ -80,6 +82,7 @@ class _MainClassState extends State<MainClass> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+
                     GestureDetector(
                       child: Column(
                         children: const [
@@ -105,6 +108,7 @@ class _MainClassState extends State<MainClass> {
                             entrada: widget.entrada);
                       })),
                     ),
+
                     GestureDetector(
                       child: Column(
                         children: const [
@@ -130,6 +134,7 @@ class _MainClassState extends State<MainClass> {
                                 )));
                       },
                     ),
+
                     GestureDetector(
                       child: Column(
                         children: const [
@@ -159,6 +164,7 @@ class _MainClassState extends State<MainClass> {
                                 )));
                       },
                     ),
+
                   ],
                 ),
               ),
