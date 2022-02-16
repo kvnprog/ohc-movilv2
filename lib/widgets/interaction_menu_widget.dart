@@ -54,7 +54,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
   final comentario = TextEditingController();
   final responsable = TextEditingController();
   final accion = TextEditingController();
-  
+
   double height = 15;
 
   bool btnload = true;
@@ -81,7 +81,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
       _actionType.remove(element);
     }
     //final provider = Provider.of<ProviderListener>(context, listen: false);
-   
+
     /* if (provider.itemIsReady != null) {
       if (widget.isNewMenuRequest && fotopreview != '') {
         fotopreview = '';
@@ -389,7 +389,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "lugar": lugar,
                           "longitude": position.longitude.toString(),
                           "latitude": position.latitude.toString(),
-                          "status": isActive
+                          "status": isActive,
+                          "accidente": accidentText
                         });
 
                         print(resultado.body);
