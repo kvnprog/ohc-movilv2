@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/helpers/helpers.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 
 class ListMenuItem extends StatelessWidget {
@@ -18,12 +19,23 @@ class ListMenuItem extends StatelessWidget {
     String status = 'No disponible';
     String route;
 
+//hora
+    List<String> fechaHora = datos![2].toString().split(" ");
+    List<String> horaWithouthSeconds = fechaHora[1].split(":");
+    String hour = horaWithouthSeconds[0]+":"+horaWithouthSeconds[1];
+
+//fecha
+  List<String> fecha = fechaHora[0].split("-");
+  DateConverter dateConverter = DateConverter();
+  String convertedDate = dateConverter.convert(fecha);
+  
+
     if (datos![3] != null) {
       description =
-          'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}, declarando que: ${datos![8]}.';
+          'La persona ${datos![0]} registró una incidencia a las $hour el día $convertedDate, en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}, declarando que: ${datos![8]}.';
     } else {
       description =
-          'La persona ${datos![0]} registró una incidencia a las ${datos![2]} en ${datos![1]}, declarando que: ${datos![8]}.';
+          'La persona ${datos![0]} registró una incidencia a las $hour el día $convertedDate, en ${datos![1]}, declarando que: ${datos![8]}.';
     }
 
     if (datos![4] == 'Sí' || datos![4] == 'Si') {
@@ -46,7 +58,7 @@ class ListMenuItem extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        height: 150,
+        height: 200,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
             color: Colors.grey[600],
@@ -94,7 +106,14 @@ class ListMenuItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Fecha y Hora: ${datos![2]}',
+                      'Fecha: $convertedDate',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[200],
+                      ),
+                    ),
+                     Text(
+                      'Hora: $hour',
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.grey[200],
@@ -110,7 +129,7 @@ class ListMenuItem extends StatelessWidget {
                     Text(
                       'Ubicación: ${datos![5]},${datos![6]}',
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 15,
                         color: Colors.grey[200],
                       ),
                     ),
