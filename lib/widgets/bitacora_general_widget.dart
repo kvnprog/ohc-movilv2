@@ -86,6 +86,13 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                                 const EdgeInsets.only(left: 8.0, bottom: 8.0),
                             child: Text(
                                 '${widget.userName.toString().toLowerCase()} levantó una incidencia en ${item['lugar']} a las ${item['fechahora']}'),
+                          ),
+                        for (var item in widget.checkpoint)
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                            child: Text(
+                                '${widget.userName.toString().toLowerCase()} realizo un checkpoint'),
                           )
                       ],
                     ))
