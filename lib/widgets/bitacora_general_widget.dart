@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recorridos_app/helpers/helpers.dart';
+import 'package:recorridos_app/screens/screens.dart';
 
 class ListBitacoraWidget extends StatefulWidget {
   ListBitacoraWidget(
@@ -22,6 +24,8 @@ class ListBitacoraWidget extends StatefulWidget {
   // Widget contentActivity;
   @override
   State<ListBitacoraWidget> createState() => _ListBitacoraWidgetState();
+
+  DateConverter dateConverter = DateConverter();
 }
 
 class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
@@ -76,7 +80,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                 ),
                 const Divider(
                     height: 10, color: Colors.white, indent: 5, endIndent: 5),
-                Container(
+                SizedBox(
                     height: 150,
                     child: ListView(
                       children: [
@@ -85,7 +89,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                             padding:
                                 const EdgeInsets.only(left: 8.0, bottom: 8.0),
                             child: Text(
-                                '${widget.userName.toString().toLowerCase()} levantó una incidencia en ${item['lugar']} a las ${item['fechahora']}'),
+                                '${widget.userName.toString().toLowerCase()} levantó una incidencia en ${item['lugar']} a las '),
                           ),
                         for (var item in widget.checkpoint)
                           Padding(
@@ -106,6 +110,9 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
   Widget sesionActivity(String context, String value) {
     late Color color;
     late String title;
+    DateDataConvert dateDataConvert = DateDataConvert(dateFormat: value);
+
+    String textValue = 'nulo';
 
     if (context == 'start') {
       color = Colors.lightGreenAccent[400]!;
@@ -113,6 +120,13 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
     } else {
       color = Colors.black;
       title = 'Finalizó sesión';
+    }
+
+    if (value != null) {
+      textValue =
+          '$title: ${dateDataConvert.dateData} a las ${dateDataConvert.hourData}';
+    } else {
+      textValue = '$title: No disponible';
     }
 
     return Padding(
@@ -126,9 +140,40 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(50)),
           ),
-          Text('$title: $value'),
+          Text(textValue)
         ],
       ),
     );
+  }
+}
+
+class DateDataConvert {
+  String dateFormat;
+
+  DateDataConvert({required this.dateFormat});
+
+  final DateConverter _dateConverter = DateConverter();
+
+  get dateData {
+    if (dateFormat != null) {
+      List<String> dateComplete = dateFormat.split(" ");
+      List<String> fecha = dateComplete[0].split("-");
+
+      return _dateConverter.convert(fecha);
+    } else {
+      return 'null';
+    }
+  }
+
+  get hourData {
+    if (dateFormat != null) {
+      List<String> dateComplete = dateFormat.split(" ");
+      List<String> hora = dateComplete[1].split(":");
+      String hour = hora[0] + ':' + hora[1];
+
+      return hour;
+    } else {
+      return null;
+    }
   }
 }

@@ -54,11 +54,14 @@ class _InteractionMenuState extends State<InteractionMenu> {
   final comentario = TextEditingController();
   final responsable = TextEditingController();
   final accion = TextEditingController();
-
+  
   double height = 15;
 
   bool btnload = true;
   bool activeStatus = false;
+
+  bool isAccident = false;
+  String accidentText = 'No';
   String isActive = 'No';
 
   //metodo de traer acciones
@@ -77,12 +80,13 @@ class _InteractionMenuState extends State<InteractionMenu> {
     for (var element in acciones) {
       _actionType.remove(element);
     }
-    final provider = Provider.of<ProviderListener>(context, listen: false);
-    if (provider.itemIsReady != null) {
+    //final provider = Provider.of<ProviderListener>(context, listen: false);
+   
+    /* if (provider.itemIsReady != null) {
       if (widget.isNewMenuRequest && fotopreview != '') {
         fotopreview = '';
       }
-    }
+    } */
   }
 
   @override
@@ -246,6 +250,31 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           } else {
                             activeStatus = true;
                             isActive = 'Sí';
+                          }
+                        });
+                      },
+                      activeColor: Colors.green,
+                    )
+                  ])
+                ],
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Text('¿Es accidente?'),
+                  Column(children: [
+                    Text(accidentText),
+                    Switch(
+                      value: isAccident,
+                      onChanged: (value) {
+                        setState(() {
+                          if (isAccident) {
+                            isAccident = false;
+                            accidentText = 'No';
+                          } else {
+                            isAccident = true;
+                            accidentText = 'Sí';
                           }
                         });
                       },

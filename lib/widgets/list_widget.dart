@@ -52,6 +52,7 @@ class _ListWidgetState extends State<ListWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bitácora de recorridos'),
@@ -272,60 +273,45 @@ class _ListWidgetState extends State<ListWidget> {
     );
   }
 
-  List<DropdownMenuItem<String>> getItemsDropDown(
-      int index, String filterTitle) {
-    List<DropdownMenuItem<String>> itemsAvailable = [];
-
-    // var dropDownOptions =
-    //     elementsArray![0].getRange(0, elementsArray![0].length);
-    // print(elementsArray!.length);
+  List<DropdownMenuItem<String>> getItemsDropDown( int index, String filterTitle) {
+    List<DropdownMenuItem<String>> itemsAvailable = []; 
     if (index == 2) {
-      // if (index == 5) {
-      //   opcion = 1;
-      // }
+
       Map datos = new Map();
       List<dynamic> arreglo = [];
       for (var element in totalArray) {
         if (element[index] != null) {
           List<String> fechahora = element[index].split(' ');
           if (filterTitle == 'fecha') {
-            datos['${fechahora[0]}'] = fechahora[0];
+            datos[fechahora[0]] = fechahora[0];
           } else {
-            datos['${fechahora[1]}'] = fechahora[1];
+             datos[fechahora[1]] = fechahora[1];
           }
         }
       }
-      // print('soy el mapa');
-      // print(datos);
+    
       datos.forEach((key, value) {
         itemsAvailable.add(DropdownMenuItem(
-          child: Text('${value.toString()}'),
+          child: Text(value.toString()),
           value: value,
         ));
       });
+
     } else {
       Map datos = new Map();
       List<dynamic> arreglo = [];
       for (var element in totalArray) {
         datos['${element[index]}'] = element[index];
       }
-      // print('soy el mapa');
-      // print(datos);
+
       datos.forEach((key, value) {
         itemsAvailable.add(DropdownMenuItem(
-          child: Text('${value.toString()}'),
+          child: Text(value.toString()),
           value: value,
         ));
       });
     }
 
-    // for (var element in elementsArray!) {
-    //   print(element[index]);
-    //   itemsAvailable.add(DropdownMenuItem(
-    //     child: Text('${element[index].toString()}'),
-    //     value: element[index],
-    //   ));
-    // }
     return itemsAvailable;
   }
 }
