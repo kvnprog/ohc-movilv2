@@ -54,6 +54,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
   final comentario = TextEditingController();
   final responsable = TextEditingController();
   final accion = TextEditingController();
+  final lugar = TextEditingController();
 
   double height = 15;
 
@@ -179,6 +180,39 @@ class _InteractionMenuState extends State<InteractionMenu> {
                   hintText: 'Comentario',
                   icon: Icon(
                     Icons.comment_sharp,
+                    color: Colors.black,
+                  ),
+                  hintMaxLines: 3,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black38),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black45, width: 2)),
+                ),
+              ),
+              const SizedBox(height: 15),
+              TextField(
+                controller: lugar,
+                textCapitalization: TextCapitalization.sentences,
+                onTap: () {
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                onChanged: (lugar) {
+                  // print(widget.index);
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                decoration: const InputDecoration(
+                  hintText: 'lugar',
+                  icon: Icon(
+                    Icons.place,
                     color: Colors.black,
                   ),
                   hintMaxLines: 3,
@@ -388,7 +422,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "usuario": nombre_bd,
                           "recorrido": widget.recorrido,
                           "tipo_inc": "${accion.text}",
-                          "lugar": lugar,
+                          "lugar": "${lugar.text}",
                           "longitude": position.longitude.toString(),
                           "latitude": position.latitude.toString(),
                           "status": isActive,
@@ -434,6 +468,10 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       fotopreview = '';
                       comentario.text = '';
                       responsable.text = '';
+                      accion.text = '';
+                      lugar.text = '';
+                      isActive = 'No';
+                      activeStatus = false;
 
                       setState(() {});
                     },

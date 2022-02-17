@@ -181,20 +181,27 @@ class _MainClassState extends State<MainClass> {
                 ),
               ],
             ),
-            ListView(
-              shrinkWrap: true,
-              children: [
-                InteractionMenu(
-                    recorrido: widget.entrada,
-                    nombre: widget.nombre.toString(),
-                    acciones: widget.acciones!,
-                    isNewMenuRequest: true,
-                    btnsave: true,
-                    tipo: "1",
-                    func: () {
-                      setState(() {});
-                    }),
-              ],
+            SizedBox(
+              width: 500,
+              height: 630,
+              child: Container(
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    InteractionMenu(
+                        recorrido: widget.entrada,
+                        nombre: widget.nombre.toString(),
+                        acciones: widget.acciones!,
+                        isNewMenuRequest: true,
+                        btnsave: true,
+                        tipo: "1",
+                        func: () {
+                          setState(() {});
+                        }),
+                  ],
+                ),
+              ),
             )
           ],
         ),
