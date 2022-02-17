@@ -258,31 +258,31 @@ class _InteractionMenuState extends State<InteractionMenu> {
                   ])
                 ],
               ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text('¿Es accidente?'),
-                  Column(children: [
-                    Text(accidentText),
-                    Switch(
-                      value: isAccident,
-                      onChanged: (value) {
-                        setState(() {
-                          if (isAccident) {
-                            isAccident = false;
-                            accidentText = 'No';
-                          } else {
-                            isAccident = true;
-                            accidentText = 'Sí';
-                          }
-                        });
-                      },
-                      activeColor: Colors.green,
-                    )
-                  ])
-                ],
-              ),
+              _dropDownOptions(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     const Text('¿Es accidente?'),
+              //     Column(children: [
+              //       Text(accidentText),
+              //       Switch(
+              //         value: isAccident,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             if (isAccident) {
+              //               isAccident = false;
+              //               accidentText = 'No';
+              //             } else {
+              //               isAccident = true;
+              //               accidentText = 'Sí';
+              //             }
+              //           });
+              //         },
+              //         activeColor: Colors.green,
+              //       )
+              //     ])
+              //   ],
+              // ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -379,18 +379,20 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       //   print("soy yo ${widget.tipo}");
                       Future<void> pedirdatos() async {
                         //     if (widget.tipo == "Recorrido") {
+                        String nombre_bd = widget.nombre.replaceAll('[', '');
+                        nombre_bd = nombre_bd.replaceAll(']', '');
                         var resultado = await http.post(url, body: {
                           "responsable": "${responsable.text}",
                           "comentario": "${comentario.text}",
                           "imagen": base64Image,
-                          "usuario": widget.nombre,
-                          "recorrido": recorrido,
+                          "usuario": nombre_bd,
+                          "recorrido": widget.recorrido,
                           "tipo_inc": "${accion.text}",
                           "lugar": lugar,
                           "longitude": position.longitude.toString(),
                           "latitude": position.latitude.toString(),
                           "status": isActive,
-                          "accidente": accidentText
+                          "accidente": _opcionSeleccionada
                         });
 
                         print(resultado.body);

@@ -76,15 +76,16 @@ class _MainClassState extends State<MainClass> {
             title: const Text('Home'),
           ),
           body: Container(
-                margin: const EdgeInsets.only(top: 30),
-                child: Column(
+            margin: const EdgeInsets.only(top: 30),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
+                    const SizedBox(
+                      width: 15,
+                    ),
 
-                        const SizedBox(width: 15,),
-
-                        /*      GestureDetector(
+                    /*      GestureDetector(
                           child: Column(
                             children: const [
                               Icon(
@@ -110,76 +111,84 @@ class _MainClassState extends State<MainClass> {
                           })),
                         ),
 */
-                        
-                        GestureDetector(
-                          child: Column(
-                            children: const [
-                              Icon(Icons.file_copy, size: 65, color: Colors.white),
-                              Text(
-                                'Bitácora de incidencias',
-                                overflow: TextOverflow.visible,
-                                softWrap: false,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontFamily: 'Roboto',
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => ListWidget(
-                                      codigo: widget.codigo,
-                                    )));
-                          },
-                        ),
 
-                        const SizedBox(width: 20,),
-
-                        GestureDetector(
-                          child: Column(
-                            children: const [
-                              Icon(
-                                Icons.file_present_rounded,
-                                size: 65,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Bitácora de actividades',
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: null,
-                                semanticsLabel: '...',
-                                textWidthBasis: TextWidthBasis.parent,
-                                style: TextStyle(fontSize: 10, color: Colors.white),
-                              )
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => BitacoraGeneral(
-                                    userArray: userArray,
-                                    user: widget.usuario.toString(),
-                                    userName: widget.nombre,
-                                    codigo: widget.codigo
-                                    //codigo: widget.codigo
-                                    )));
-                          },
-                        ),
-                      ],
+                    GestureDetector(
+                      child: Column(
+                        children: const [
+                          Icon(Icons.file_copy, size: 65, color: Colors.white),
+                          Text(
+                            'Bitácora de incidencias',
+                            overflow: TextOverflow.visible,
+                            softWrap: false,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontFamily: 'Roboto',
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => ListWidget(
+                                  codigo: widget.codigo,
+                                )));
+                      },
                     ),
-
-                     ListView(
-                       shrinkWrap: true,
-                       children: [
-                         InteractionMenu(nombre: widget.nombre.toString(), acciones: widget.acciones!, isNewMenuRequest: true, btnsave: true, tipo: "1", func: (){setState(() {});}),
-                       ],
-                     )
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    GestureDetector(
+                      child: Column(
+                        children: const [
+                          Icon(
+                            Icons.file_present_rounded,
+                            size: 65,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Bitácora de actividades',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: null,
+                            semanticsLabel: '...',
+                            textWidthBasis: TextWidthBasis.parent,
+                            style: TextStyle(fontSize: 10, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => BitacoraGeneral(
+                                userArray: userArray,
+                                user: widget.usuario.toString(),
+                                userName: widget.nombre,
+                                codigo: widget.codigo
+                                //codigo: widget.codigo
+                                )));
+                      },
+                    ),
                   ],
                 ),
-              ),
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    InteractionMenu(
+                        recorrido: widget.entrada,
+                        nombre: widget.nombre.toString(),
+                        acciones: widget.acciones!,
+                        isNewMenuRequest: true,
+                        btnsave: true,
+                        tipo: "1",
+                        func: () {
+                          setState(() {});
+                        }),
+                  ],
+                )
+              ],
+            ),
+          ),
         ),
         theme: ThemeData(
             scaffoldBackgroundColor: Colors.grey[850],
