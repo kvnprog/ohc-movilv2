@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -157,8 +158,16 @@ class _BtnPointState extends State<BtnPoint> {
                                 "recorrido": recorrido.toString(),
                                 "latitude": position.latitude.toString(),
                                 "longitude": position.longitude.toString(),
-                                "comentario": comentario.text
+                                "comentario": comentario.text,
+                                "imagen": base64Image
                               });
+                              if (fotopreview != '') {
+                                imageBytes =
+                                    File(fotopreview).readAsBytesSync();
+                                base64Image = base64Encode(imageBytes!);
+                              } else {
+                                base64Image = '';
+                              }
 
                               btnnull = false;
                               setState(() {});
