@@ -205,7 +205,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
           ),
           Container(
             height: 50,
-            width: 220,
+            width: 210,
             decoration: BoxDecoration(
                 color: Colors.grey[600],
                 borderRadius: const BorderRadius.all(Radius.circular(3))),
