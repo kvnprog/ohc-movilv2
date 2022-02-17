@@ -462,6 +462,7 @@ class _UsersActiveState extends State<UsersActive> {
         ),
       ),
     );
+  
   }
 
   barProgress(BuildContext context) async{
