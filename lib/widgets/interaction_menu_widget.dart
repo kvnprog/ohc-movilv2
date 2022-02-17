@@ -157,7 +157,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-              
+
               const SizedBox(height: 15),
               TextField(
                 controller: comentario,

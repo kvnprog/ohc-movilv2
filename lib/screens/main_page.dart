@@ -1,9 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:recorridos_app/widgets/checkpoint_widget.dart';
 import 'package:recorridos_app/widgets/list_widget.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:recorridos_app/data/data.dart';
 import 'package:http/http.dart' as http;
+
+String dfotopreview = '';
+String dresultado = '';
+List<int>? dimageBytes;
+String? dbase64Image;
 
 // ignore: must_be_immutable
 class MainClass extends StatefulWidget {
@@ -12,6 +22,7 @@ class MainClass extends StatefulWidget {
   PlacesArrayAvailableData? dataList;
   final String? entrada;
   final String? codigo;
+
   dynamic nombre;
 
   MainClass({
@@ -32,6 +43,9 @@ class MainClass extends StatefulWidget {
 
   ConectionData conectionData = ConectionData();
 }
+
+final dcomentario = TextEditingController();
+final dlugar = TextEditingController();
 
 class _MainClassState extends State<MainClass> {
   List userArray = ["uno", "dos", "tres", "cuatro"];
@@ -183,6 +197,7 @@ class _MainClassState extends State<MainClass> {
   }
 
   showDialogFunction(BuildContext context) {
+    final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
     return showDialog(
         context: context,
         builder: (context) {
@@ -219,6 +234,7 @@ class _MainClassState extends State<MainClass> {
                         textCapitalization: TextCapitalization.sentences,
                         onTap: () {},
                         onChanged: (responsable) {},
+                        controller: dcomentario,
                         decoration: const InputDecoration(
                           hintText: 'Comentario',
                           hintMaxLines: 3,
@@ -239,6 +255,7 @@ class _MainClassState extends State<MainClass> {
                         textCapitalization: TextCapitalization.sentences,
                         onTap: () {},
                         onChanged: (responsable) {},
+                        controller: dlugar,
                         decoration: const InputDecoration(
                           hintText: 'Lugar',
                           hintMaxLines: 3,
@@ -251,6 +268,15 @@ class _MainClassState extends State<MainClass> {
                         ),
                       ),
                     ),
+                    // (dfotopreview == '')
+                    //     ? (const Text(''))
+                    //     : (Transform.rotate(
+                    //         angle: 0,
+                    //         child: Transform.scale(
+                    //             scale: 0.70,
+                    //             child: Image.file(
+                    //               File(dfotopreview),
+                    //             )))),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -261,14 +287,68 @@ class _MainClassState extends State<MainClass> {
                               'Foto'.toUpperCase(),
                               style: const TextStyle(color: Colors.black),
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DisplayPictureScreen(),
+                                ),
+                              ).then((value) {
+                                if (value == null) {
+                                  if (dfotopreview != '') {
+                                    print("imagen ${fotopreview}");
+                                  }
+                                } else {
+                                  dfotopreview = value;
+                                }
+
+                                // print(widget.index);
+                                // var acciones = json.decode(widget.acciones);
+                                // // var acciones = ['', '', ''];
+                                // for (var element in acciones) {
+                                //   _actionType.remove(element);
+                                // }
+                                setState(() {});
+                              });
+                            }),
                         MaterialButton(
                             color: Colors.greenAccent[400],
                             child: Text(
                               'Guardar'.toUpperCase(),
                               style: const TextStyle(color: Colors.black),
                             ),
-                            onPressed: () {})
+                            onPressed: () async {
+                              LocationPermission permission;
+
+                              setState(() {});
+                              permission =
+                                  await _geolocatorPlatform.requestPermission();
+                              final position = await _geolocatorPlatform
+                                  .getCurrentPosition();
+                              var url = Uri.parse(
+                                  "${connect.serverName()}check_point.php");
+                              //   print("soy yo ${widget.tipo}");
+                              if (dfotopreview != '') {
+                                dimageBytes =
+                                    File(dfotopreview).readAsBytesSync();
+                                dbase64Image = base64Encode(dimageBytes!);
+                              } else {
+                                dbase64Image = '';
+                              }
+
+                              //     if (widget.tipo == "Recorrido") {
+                              await http.post(url, body: {
+                                "recorrido": widget.entrada,
+                                "latitude": position.latitude.toString(),
+                                "longitude": position.longitude.toString(),
+                                "comentario": dcomentario.text,
+                                "lugar": dlugar.text,
+                                "imagen": dbase64Image
+                              });
+
+                              setState(() {});
+                            })
                       ],
                     ),
                   ],
@@ -297,6 +377,93 @@ class _MainClassState extends State<MainClass> {
               func: () {
                 setState(() {});
               }),
+        ],
+      ),
+    );
+  }
+}
+
+class DisplayPictureScreen extends StatefulWidget {
+  const DisplayPictureScreen({Key? key}) : super(key: key);
+
+  @override
+  _DisplayPictureScreen createState() => _DisplayPictureScreen();
+}
+
+class _DisplayPictureScreen extends State<DisplayPictureScreen> {
+  CameraController? _controller;
+  Future<void>? _initializeControllerFuture;
+
+  Future<void> iniciar() async {
+    final cameras = await availableCameras();
+
+    _controller = CameraController(
+      // Obtén una cámara específica de la lista de cámaras disponibles
+      cameras.first,
+      // Define la resolución a utilizar
+      ResolutionPreset.medium,
+    );
+
+    // A continuación, debes inicializar el controlador. Esto devuelve un Future!
+    _initializeControllerFuture = _controller!.initialize();
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    iniciar();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller!.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Display the Picture')),
+      // La imagen se almacena como un archivo en el dispositivo. Usa el
+      // constructor `Image.file` con la ruta dada para mostrar la imagen
+      body: Column(
+        children: [
+          SizedBox(
+            width: 410,
+            child: FutureBuilder<void>(
+              future: _initializeControllerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // Si el Future está completo, muestra la vista previa
+
+                  return Transform.rotate(
+                      angle: 0, child: CameraPreview(_controller!));
+                } else {
+                  // De lo contrario, muestra un indicador de carga
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+          ),
+          FloatingActionButton(
+            child: const Icon(Icons.camera_alt),
+            // Agrega un callback onPressed
+            onPressed: () async {
+              try {
+                await _initializeControllerFuture;
+                XFile foto = await _controller!.takePicture();
+                // fotopreview = foto.path;
+                // fotopreview = '';
+                Navigator.pop(context, foto.path);
+              } catch (e) {
+                // Si se produce un error, regístralo en la consola.
+                print(e);
+              }
+            },
+          ),
         ],
       ),
     );
