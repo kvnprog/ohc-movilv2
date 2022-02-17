@@ -69,10 +69,10 @@ class _InteractionMenuState extends State<InteractionMenu> {
 
   //lista de acciones disponibles
   final List<String> _actionType = [
-    'Acción',
+    'Tipo de incidencia',
   ];
 
-  dynamic _opcionSeleccionada = 'Acción';
+  dynamic _opcionSeleccionada = 'Tipo de incidencia';
 
   @override
   void initState() {
@@ -157,40 +157,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-
-              const SizedBox(height: 15),
-              TextField(
-                controller: comentario,
-                textCapitalization: TextCapitalization.sentences,
-                onTap: () {
-                  var acciones = json.decode(widget.acciones);
-                  // var acciones = ['', '', ''];
-                  for (var element in acciones) {
-                    _actionType.remove(element);
-                  }
-                },
-                onChanged: (comentario) {
-                  // print(widget.index);
-                  var acciones = json.decode(widget.acciones);
-                  // var acciones = ['', '', ''];
-                  for (var element in acciones) {
-                    _actionType.remove(element);
-                  }
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Comentario',
-                  icon: Icon(
-                    Icons.comment_sharp,
-                    color: Colors.black,
-                  ),
-                  hintMaxLines: 3,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black38),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black45, width: 2)),
-                ),
-              ),
               const SizedBox(height: 15),
               TextField(
                 controller: lugar,
@@ -225,7 +191,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 ),
               ),
               const SizedBox(height: 15),
-
               TextField(
                 controller: accion,
                 textCapitalization: TextCapitalization.sentences,
@@ -258,7 +223,39 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-
+              const SizedBox(height: 15),
+              TextField(
+                controller: comentario,
+                textCapitalization: TextCapitalization.sentences,
+                onTap: () {
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                onChanged: (comentario) {
+                  // print(widget.index);
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Comentario',
+                  icon: Icon(
+                    Icons.comment_sharp,
+                    color: Colors.black,
+                  ),
+                  hintMaxLines: 3,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black38),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black45, width: 2)),
+                ),
+              ),
               (fotopreview == '')
                   ? (const Text(''))
                   : (Transform.rotate(
@@ -268,7 +265,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           child: Image.file(
                             File(fotopreview),
                           )))),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -294,31 +290,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 ],
               ),
               _dropDownOptions(),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   children: [
-              //     const Text('¿Es accidente?'),
-              //     Column(children: [
-              //       Text(accidentText),
-              //       Switch(
-              //         value: isAccident,
-              //         onChanged: (value) {
-              //           setState(() {
-              //             if (isAccident) {
-              //               isAccident = false;
-              //               accidentText = 'No';
-              //             } else {
-              //               isAccident = true;
-              //               accidentText = 'Sí';
-              //             }
-              //           });
-              //         },
-              //         activeColor: Colors.green,
-              //       )
-              //     ])
-              //   ],
-              // ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -498,38 +469,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
-
-              //menú de acciones
-              /*   Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                 children: [
-                   _dropDownOptions(),
-
-                  const SizedBox( width: 10 ),
-
-                  const SizedBox(
-                    width: 210,
-                    height: 60,
-                    child: TextField(
-
-                    decoration: InputDecoration(
-                    hintText: 'Ingrese un comentario',
-                    hintMaxLines: 3,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black38),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black45, width: 2)),
-                  ),
-                    ),
-                  )
-                  /* */
-                 
-                 ],
-               ),
-               */
             ],
           ),
         ),
@@ -541,37 +481,40 @@ class _InteractionMenuState extends State<InteractionMenu> {
   Widget _dropDownOptions() {
     return widget.btnsave
         ? Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 height: 38,
+                width: 350,
                 decoration: const BoxDecoration(
                     color: Colors.amber,
                     borderRadius: BorderRadius.all(Radius.circular(3.0))),
-                child: DropdownButton(
-                    value: _opcionSeleccionada,
-                    items: getItemsDropDown(),
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    dropdownColor: Colors.amber[200],
-                    icon: const Icon(
-                      Icons.warning_outlined,
-                      color: Colors.black,
-                      size: 25.0,
-                    ),
-                    underline: Container(
-                      color: Colors.white,
-                    ),
-                    onChanged: (opt) {
-                      _opcionSeleccionada = opt;
-                      setState(() {
-                        var acciones = json.decode(widget.acciones);
+                child: Center(
+                  child: DropdownButton(
+                      value: _opcionSeleccionada,
+                      items: getItemsDropDown(),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      dropdownColor: Colors.amber[200],
+                      icon: const Icon(
+                        Icons.warning_outlined,
+                        color: Colors.black,
+                        size: 25.0,
+                      ),
+                      underline: Container(
+                        color: Colors.white,
+                      ),
+                      onChanged: (opt) {
+                        _opcionSeleccionada = opt;
+                        setState(() {
+                          var acciones = json.decode(widget.acciones);
 
-                        for (var element in acciones) {
-                          _actionType.remove(element);
-                        }
-                      });
-                    }),
+                          for (var element in acciones) {
+                            _actionType.remove(element);
+                          }
+                        });
+                      }),
+                ),
               ),
             ],
           )

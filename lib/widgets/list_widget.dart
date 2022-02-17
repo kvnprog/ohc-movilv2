@@ -70,20 +70,9 @@ class _ListWidgetState extends State<ListWidget> {
                       elementsArray = jsonDecode(snapshot.data!);
                       totalArray = elementsArray!;
                     }
-
-                    // print(datos);
-                    // return Text(snapshot.data!);
-                    // print(datos!);
-                    // for (var dato in datos!) {
-                    //   // capturo!.add(dato[0]);
-                    //   print(dato![0]);
-                    // elementsArray.add(datos!);
-                    // }
-                    // print("soy yo ${elementsArray[0]}");
-
                     return lista_incidencias(elementsArray!);
                   }
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }),
           ],
         ),
@@ -94,28 +83,23 @@ class _ListWidgetState extends State<ListWidget> {
   Widget lista_incidencias(List<dynamic> datos) {
     return Column(children: [
       Container(
-        height: 80,
+        height: 130,
         width: double.infinity,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
+        child: GridView.count(
+            childAspectRatio: 3,
+            mainAxisSpacing: 3,
+            crossAxisSpacing: 5,
             shrinkWrap: true,
-            itemCount: 1,
-            itemBuilder: (BuildContext context, index) {
-              return Row(
-                children: [
-                  const SizedBox(width: 15),
+
+            crossAxisCount: 2,
+            children: [
                   filterWidget(filtro1, 9, 'Quién captura', 0),
-                  const SizedBox(width: 15),
                   filterWidget(filtro2, 3, 'Responsable', 1),
-                  const SizedBox(width: 15),
                   filterWidget(filtro3, 1, 'Lugar', 2),
-                  const SizedBox(width: 15),
                   filterWidget(filtro4, 2, 'fecha', 3),
-                  const SizedBox(width: 15),
                   filterWidget(filtro5, 2, 'Hora', 4),
-                ],
-              );
-            }),
+            ]
+        )
       ),
       Container(
           height: 500,
@@ -134,7 +118,7 @@ class _ListWidgetState extends State<ListWidget> {
     // print('yo soy el filtro $filterName');
 
     return Container(
-      margin: const EdgeInsets.only(top: 20),
+      //margin: const EdgeInsets.only(top: 20),
       child: Column(
         children: [
           Text(
