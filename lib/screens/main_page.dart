@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:recorridos_app/data/places_array_data_class.dart';
-import 'package:recorridos_app/screens/screens.dart';
+import 'package:recorridos_app/widgets/checkpoint_widget.dart';
 import 'package:recorridos_app/widgets/list_widget.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
 import 'package:recorridos_app/data/data.dart';
 import 'package:http/http.dart' as http;
 
+// ignore: must_be_immutable
 class MainClass extends StatefulWidget {
   final String? acciones;
   final String? usuario;
@@ -57,6 +57,8 @@ class _MainClassState extends State<MainClass> {
                       var entrada =
                           await http.post(url, body: {'index': widget.entrada});
                       print(entrada.body);
+                      //var url = Uri.parse("${widget.conectionData.serverName()}crear_salida.php");
+                      //var entrada = await http.post(url, body: {'index': widget.entrada});
                       Navigator.of(context).pop('login');
                     },
                     icon: const Icon(
@@ -127,58 +129,24 @@ class _MainClassState extends State<MainClass> {
                   },
                 ),
                 GestureDetector(
-                  child: Column(
-                    children: const [
-                      Icon(
-                        Icons.emoji_flags_sharp,
-                        size: 65,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'CheckPoint',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: null,
-                        semanticsLabel: '...',
-                        textWidthBasis: TextWidthBasis.parent,
-                        style: TextStyle(fontSize: 15, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Center(
-                            child: Container(
-                              width: 350,
-                              height: 300,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        top: 10, bottom: 40),
-                                    child: const Text(
-                                      'Crear CheckPoint',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          textBaseline: null,
-                                          fontStyle: FontStyle.normal,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        });
-                  },
-                ),
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.flag,
+                          size: 65,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          'CheckPoint',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: null,
+                          semanticsLabel: '...',
+                          textWidthBasis: TextWidthBasis.parent,
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        )
+                      ],
+                    ),
+                    onTap: () => showDialogFunction(context)),
               ],
             ),
             SizedBox(
@@ -212,6 +180,103 @@ class _MainClassState extends State<MainClass> {
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
               backgroundColor: Colors.amber)),
     );
+  }
+
+  showDialogFunction(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: Container(
+              margin: const EdgeInsets.all(30),
+              width: 350,
+              height: 350,
+              child: Material(
+                shadowColor: Colors.amber,
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 10, bottom: 40),
+                      child: const Text(
+                        'Crear CheckPoint',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            textBaseline: null,
+                            fontStyle: FontStyle.normal,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+
+                    //comentario
+                    Container(
+                      margin: const EdgeInsets.all(18),
+                      child: TextField(
+                        textCapitalization: TextCapitalization.sentences,
+                        onTap: () {},
+                        onChanged: (responsable) {},
+                        decoration: const InputDecoration(
+                          hintText: 'Comentario',
+                          hintMaxLines: 3,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black38),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black45, width: 2)),
+                        ),
+                      ),
+                    ),
+
+                    //lugar
+                    Container(
+                      margin: const EdgeInsets.all(18),
+                      child: TextField(
+                        textCapitalization: TextCapitalization.sentences,
+                        onTap: () {},
+                        onChanged: (responsable) {},
+                        decoration: const InputDecoration(
+                          hintText: 'Lugar',
+                          hintMaxLines: 3,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black38),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.black45, width: 2)),
+                        ),
+                      ),
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        MaterialButton(
+                            color: Colors.amber,
+                            child: Text(
+                              'Foto'.toUpperCase(),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                            onPressed: () {}),
+                        MaterialButton(
+                            color: Colors.greenAccent[400],
+                            child: Text(
+                              'Guardar'.toUpperCase(),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                            onPressed: () {})
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   Widget interactionMenuWidget() {
