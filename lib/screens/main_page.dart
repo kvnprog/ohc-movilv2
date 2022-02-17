@@ -192,6 +192,7 @@ class _MainClassState extends State<MainClass> {
 
              ListView(
                shrinkWrap: true,
+               scrollDirection: Axis.vertical,
                children: [
                  InteractionMenu(nombre: widget.nombre.toString(), acciones: widget.acciones!, isNewMenuRequest: true, btnsave: true, tipo: "1", func: (){setState(() {});}),
                ],
