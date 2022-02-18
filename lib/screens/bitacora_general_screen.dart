@@ -71,7 +71,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bitácora general'),
+        title: const Text('Bitácora de actividades'),
       ),
       body: FutureBuilder(
           future: bitacora(),
