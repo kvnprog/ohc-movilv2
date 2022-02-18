@@ -254,210 +254,15 @@ class _UsersActiveState extends State<UsersActive> {
               ),
               onTap: () async {
                 print(widget.nombre);
-                String usuario =
-                    await checarusuario(widget.codigo, widget.nombre[0]);
+                String usuario = await checarusuario(widget.codigo, widget.nombre[0]);
                 //print('soy el usuario $usuario');
 
                 showDialog(
                     context: context,
                     barrierDismissible: false,
                     builder: (context) {
-                      return Container(
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100))),
-                        child: Stack(children: [
-                          AlertDialog(
-                            title: const Text(
-                              'Ingresar con contraseña',
-                              textAlign: TextAlign.center,
-                            ),
-                            content: SizedBox(
-                              height: 150,
-                              child: Column(
-                                children: [
-                                  //campo usuario
-                                  TextFormField(
-                                    autocorrect: false,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Usuario',
-                                      hintMaxLines: 3,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black38),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.black45, width: 2)),
-                                    ),
-                                    onChanged: (value) =>
-                                        loginForm.usuario = value,
-                                  ),
-
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 180,
-                                        height: 60,
-                                        child: Column(
-                                          children: [
-                                            //campo password
-                                            TextFormField(
-                                                autocorrect: false,
-                                                obscureText: true,
-                                                keyboardType: TextInputType
-                                                    .visiblePassword,
-                                                textCapitalization:
-                                                    TextCapitalization
-                                                        .characters,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  hintText: 'Contraseña',
-                                                  hintMaxLines: 3,
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.black38),
-                                                  ),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .black45,
-                                                                  width: 2)),
-                                                ),
-                                                onChanged: (value) =>
-                                                    loginForm.password = value,
-                                                validator: (value) {
-                                                  return (value != null &&
-                                                          value.length >= 6)
-                                                      ? null
-                                                      : 'La contraseña debe ser de 6 caracteres';
-                                                }),
-                                          ],
-                                        ),
-                                      ),
-
-                                      IconButton(
-                                        iconSize: 20,
-                                        onPressed: activobtn ? null : () async {
-                                                
-                                                var url = Uri.parse(
-                                                    "${connect.serverName()}traer_acciones.php");
-                                                activobtn = true;
-                                                setState(() {});
-
-                                              /* if(cargaActiva){
-                                                    barProgress(context);
-                                              } */
-                                                var respuesta = await http
-                                                    .post(url, body: {});
-                                                //print(respuesta.body);
-
-                                                PlacesArrayAvailableData
-                                                    dataList =
-                                                    PlacesArrayAvailableData();
-                                                await dataList
-                                                    .inicializar(widget.codigo);
-
-                                                await loginForm.isValidForms();
-
-                                                // print(usuario);
-
-                                                if (loginForm.isLoading ==
-                                                        true &&
-                                                    loginForm.usuario ==
-                                                        usuario) {
-                                                  var url = Uri.parse(
-                                                      "${connect.serverName()}crear_entrada.php");
-                                                  varChanged = 1;
-                                                  // await Future.delayed(
-                                                  //     Duration(seconds: 5));
-
-                                                  var entrada = await http
-                                                      .post(url, body: {
-                                                    'usuario': usuario
-                                                  });
-                                                  activobtn = false;
-                                                  setState(() {});
-
-                                                  varChanged = 0;
-
-                                                  // print(varChanged);
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        //builder: (BuildContext context) => HomeToursScreen(
-                                                        builder: (BuildContext
-                                                                context) =>
-
-                                                            /*     MenuHome(
-                                                      //builder: (BuildContext context) => HomeToursScreen(
-                                                      builder:
-                                                          (BuildContext
-                                                                  context) =>
-                                                          
-                                                          MenuHome(
-                                                                  acciones:
-                                                                      respuesta
-                                                                          .body,
-                                                                  usuario:
-                                                                      usuario,
-                                                                  dataList:
-                                                                      dataList,
-                                                                  nombre: widget
-                                                                      .nombre,
-                                                                  entrada:
-                                                                      entrada
-                                                                          .body,
-                                                                  codigo: widget
-                                                                      .codigo),*/
-                                                            MainClass(
-                                                                acciones:
-                                                                    respuesta
-                                                                        .body,
-                                                                usuario:
-                                                                    usuario,
-                                                                dataList:
-                                                                    dataList,
-                                                                nombre: widget
-                                                                    .nombre,
-                                                                entrada: entrada
-                                                                    .body,
-                                                                codigo: widget
-                                                                    .codigo)),
-                                                  );
-                                                } else {
-                                                  _showToast(context,
-                                                      'Contraseña o Dispositivo Equivocado');
-                                                }
-                                              },
-                                        icon: const Icon(Icons.login, size: 40),
-                                        focusColor: Colors.transparent,
-                                        splashColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                  child: const Text(
-                                    'Cancelar',
-                                    style: TextStyle(color: Colors.black87),
-                                  ),
-                                  onPressed: () => Navigator.of(context).pop()),
-                            ],
-                          ),
-                          if (varChanged == 1) prueba()
-                        ]),
-                      );
-                    });
+                      return ProgresBarLogin(codigo: widget.codigo, usuario: usuario, nombre: widget.nombre.toString(), loginForm: loginForm,);
+                });
               }),
         ),
       ),
@@ -472,14 +277,6 @@ class _UsersActiveState extends State<UsersActive> {
      }
     );
     
-  }
-
-  Widget prueba() {
-    setState(() {});
-
-    print('entré aquí');
-    return Center(
-        child: Image.asset('assets/loading-38.gif', color: Colors.black));
   }
 
   Future loadImageProgress() {
@@ -542,4 +339,216 @@ class _UsersActiveState extends State<UsersActive> {
   }
 
   void alertPassword(BuildContext context) {}
+}
+
+
+class ProgresBarLogin extends StatefulWidget {
+  String codigo;
+  String usuario;
+  String nombre;
+  LoginFormProvider loginForm;
+
+  ProgresBarLogin({
+    Key? key,
+    required this.codigo,
+    required this.usuario,
+    required this.nombre,
+    required this.loginForm
+
+  }) : super(key: key);
+
+  @override
+  State<ProgresBarLogin> createState() => _ProgresBarLoginState();
+}
+
+class _ProgresBarLoginState extends State<ProgresBarLogin> {
+  
+  @override
+  Widget build(BuildContext context) {
+    int varChanged = 0;
+
+
+    return Container(
+      decoration: const BoxDecoration(
+      borderRadius:
+      BorderRadius.all(Radius.circular(100))),
+      child: Stack(children: [
+      AlertDialog(
+      title: const Text(
+      'Ingresar con contraseña',
+      textAlign: TextAlign.center,
+      ),
+      content: SizedBox(
+      height: 150,
+      child: Column(
+      children: [
+      //campo usuario
+      TextFormField(
+      autocorrect: false,
+      decoration: const InputDecoration(
+      hintText: 'Usuario',
+      hintMaxLines: 3,
+      enabledBorder: OutlineInputBorder(
+      borderSide:
+      BorderSide(color: Colors.black38),
+      ),
+      focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+      color: Colors.black45, width: 2)),
+      ),
+      onChanged: (value) =>
+      widget.loginForm.usuario = value,
+      ),
+
+      const SizedBox(height: 10),
+      Row(
+      children: [
+      SizedBox(
+      width: 180,
+      height: 60,
+      child: Column(
+      children: [
+      //campo password
+      TextFormField(
+      autocorrect: false,
+      obscureText: true,
+      keyboardType: TextInputType
+      .visiblePassword,
+      textCapitalization:
+      TextCapitalization
+      .characters,
+      decoration:
+      const InputDecoration(
+      hintText: 'Contraseña',
+      hintMaxLines: 3,
+      enabledBorder:
+      OutlineInputBorder(
+      borderSide: BorderSide(
+      color: Colors.black38),
+      ),
+      focusedBorder:
+      OutlineInputBorder(
+      borderSide:
+      BorderSide(
+      color: Colors
+      .black45,
+      width: 2
+      )),
+      ),
+      onChanged: (value) =>
+      widget.loginForm.password = value,
+      validator: (value) {
+      return (value != null &&
+      value.length >= 6)
+      ? null
+      : 'La contraseña debe ser de 6 caracteres';
+      }),
+      ],
+      ),
+      ),
+
+      IconButton(
+      iconSize: 20,
+      onPressed: activobtn ? null : () async {
+                                                
+      var url = Uri.parse(
+      "${connect.serverName()}traer_acciones.php");
+      activobtn = true;
+      setState(() {});
+        var respuesta = await http
+        .post(url, body: {});
+        //print(respuesta.body);
+
+        PlacesArrayAvailableData
+        dataList = PlacesArrayAvailableData();
+        await dataList.inicializar(widget.codigo);
+
+        await widget.loginForm.isValidForms();
+
+        // print(usuario);
+
+        if (widget.loginForm.isLoading ==
+        true &&
+        widget.loginForm.usuario == widget.usuario) {
+        var url = Uri.parse(
+        "${connect.serverName()}crear_entrada.php");
+        varChanged = 1;
+        // await Future.delayed(
+        //     Duration(seconds: 5));
+
+        var entrada = await http
+        .post(url, body: {
+        'usuario': widget.usuario
+        });
+        activobtn = false;
+        setState(() {});
+
+        varChanged = 0;
+
+        // print(varChanged);
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+        //builder: (BuildContext context) => HomeToursScreen(
+        builder: (BuildContext
+        context) =>
+
+        MainClass(
+        acciones:
+        respuesta
+        .body,
+        usuario:
+        widget.usuario,
+        dataList:
+        dataList,
+        nombre: widget
+        .nombre,
+        entrada: entrada
+        .body,
+        codigo: widget
+        .codigo)),
+        );
+        } else {
+        _showToast(context,
+        'Contraseña o Dispositivo Equivocado');
+    }
+    },
+    icon: const Icon(Icons.login, size: 40),
+    focusColor: Colors.transparent,
+    splashColor: Colors.transparent,
+    hoverColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+    )
+    ],
+    ),
+    
+    ],
+    ),
+    ),
+    actions: <Widget>[
+    TextButton(
+    child: const Text(
+    'Cancelar',
+    style: TextStyle(color: Colors.black87),
+    ),
+    onPressed: () => Navigator.of(context).pop()),
+    ],
+    ),
+        
+    ]),
+    );
+  }
+
+
+  void _showToast(BuildContext context, String texto) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.amber,
+      content: Text(
+        texto,
+        textAlign: TextAlign.center,
+      ),
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
 }

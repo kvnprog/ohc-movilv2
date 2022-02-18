@@ -31,6 +31,7 @@ class MainClass extends StatefulWidget {
   double height = 100.0;
 
   ConectionData conectionData = ConectionData();
+  bool isCharging = true;
 }
 
 class _MainClassState extends State<MainClass> {
@@ -50,22 +51,32 @@ class _MainClassState extends State<MainClass> {
                   'Salir',
                   style: TextStyle(color: Colors.black),
                 ),
+                widget.isCharging?
                 IconButton(
                     onPressed: () async {
-                      var url = Uri.parse(
-                          "${widget.conectionData.serverName()}crear_salida.php");
-                      var entrada =
-                          await http.post(url, body: {'index': widget.entrada});
+                      widget.isCharging = false;
+                      setState(() {});
+                      var url = Uri.parse("${widget.conectionData.serverName()}crear_salida.php");
+                      var entrada = await http.post(url, body: {'index': widget.entrada});
+                      widget.isCharging = true;
                       print(entrada.body);
                       //var url = Uri.parse("${widget.conectionData.serverName()}crear_salida.php");
                       //var entrada = await http.post(url, body: {'index': widget.entrada});
+                      
                       Navigator.of(context).pop('login');
                     },
                     icon: const Icon(
                       Icons.logout,
                       color: Colors.black,
                       size: 30,
-                    )),
+                    ))
+                :Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: const CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                    color: Colors.black,
+                  ),
+                )
               ],
             ),
           ],
@@ -182,100 +193,20 @@ class _MainClassState extends State<MainClass> {
     );
   }
 
+   barProgress(BuildContext context) async{
+    return showDialog(context: context,
+     builder: (context){
+       return const Center(child: CircularProgressIndicator());
+     }
+    );
+    
+  }
+
   showDialogFunction(BuildContext context) {
     return showDialog(
         context: context,
         builder: (context) {
-          return Center(
-            child: Container(
-              margin: const EdgeInsets.all(30),
-              width: 350,
-              height: 350,
-              child: Material(
-                shadowColor: Colors.amber,
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 40),
-                      child: const Text(
-                        'Crear CheckPoint',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            textBaseline: null,
-                            fontStyle: FontStyle.normal,
-                            decoration: TextDecoration.none,
-                            fontWeight: FontWeight.normal),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-
-                    //comentario
-                    Container(
-                      margin: const EdgeInsets.all(18),
-                      child: TextField(
-                        textCapitalization: TextCapitalization.sentences,
-                        onTap: () {},
-                        onChanged: (responsable) {},
-                        decoration: const InputDecoration(
-                          hintText: 'Comentario',
-                          hintMaxLines: 3,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black38),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.black45, width: 2)),
-                        ),
-                      ),
-                    ),
-
-                    //lugar
-                    Container(
-                      margin: const EdgeInsets.all(18),
-                      child: TextField(
-                        textCapitalization: TextCapitalization.sentences,
-                        onTap: () {},
-                        onChanged: (responsable) {},
-                        decoration: const InputDecoration(
-                          hintText: 'Lugar',
-                          hintMaxLines: 3,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black38),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.black45, width: 2)),
-                        ),
-                      ),
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        MaterialButton(
-                            color: Colors.amber,
-                            child: Text(
-                              'Foto'.toUpperCase(),
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                            onPressed: () {}),
-                        MaterialButton(
-                            color: Colors.greenAccent[400],
-                            child: Text(
-                              'Guardar'.toUpperCase(),
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                            onPressed: () {})
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+          return CheckPointWidget();
         });
   }
 
