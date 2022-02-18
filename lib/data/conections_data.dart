@@ -65,7 +65,7 @@ class ConectionData {
                 Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-                  height: 350,
+                  height: 300,
                   child: ListView(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
