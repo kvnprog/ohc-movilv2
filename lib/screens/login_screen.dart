@@ -339,17 +339,17 @@ class _UsersActiveState extends State<UsersActive> {
                                           ],
                                         ),
                                       ),
-
                                       IconButton(
                                         iconSize: 20,
-                                        onPressed: activobtn ? null : () async {
-                                                
+                                        onPressed: activobtn
+                                            ? null
+                                            : () async {
                                                 var url = Uri.parse(
                                                     "${connect.serverName()}traer_acciones.php");
                                                 activobtn = true;
                                                 setState(() {});
 
-                                              /* if(cargaActiva){
+                                                /* if(cargaActiva){
                                                     barProgress(context);
                                               } */
                                                 var respuesta = await http
@@ -364,7 +364,7 @@ class _UsersActiveState extends State<UsersActive> {
 
                                                 await loginForm.isValidForms();
 
-                                                // print(usuario);
+                                                print(usuario);
 
                                                 if (loginForm.isLoading ==
                                                         true &&
@@ -462,16 +462,14 @@ class _UsersActiveState extends State<UsersActive> {
         ),
       ),
     );
-  
   }
 
-  barProgress(BuildContext context) async{
-    return showDialog(context: context,
-     builder: (context){
-       return const Center(child: CircularProgressIndicator());
-     }
-    );
-    
+  barProgress(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
   }
 
   Widget prueba() {

@@ -32,7 +32,7 @@ class LoginFormProvider extends ChangeNotifier {
       "direccion": direccion
     });
     // final List json = jsonDecode(respuesta.body.toString());
-
+    print(respuesta.body);
     return respuesta.body;
   }
 
