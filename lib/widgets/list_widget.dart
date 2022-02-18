@@ -55,7 +55,7 @@ class _ListWidgetState extends State<ListWidget> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bitácora de recorridos'),
+        title: const Text('Bitácora de Incidencias'),
         elevation: 0,
       ),
       body: Container(
