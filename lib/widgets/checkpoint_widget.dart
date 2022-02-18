@@ -33,6 +33,9 @@ class CheckPointWidget extends StatefulWidget {
 }
 
 class _CheckPointWidgetState extends State<CheckPointWidget> {
+  bool btnactivo = false;
+  bool btnload = true;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -117,70 +120,98 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                 children: [
                   MaterialButton(
                       color: Colors.amber,
-                      child: Text(
-                        'Foto'.toUpperCase(),
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DisplayPictureScreen(),
-                          ),
-                        ).then((value) {
-                          if (value == null) {
-                            if (dfotopreview != '') {
-                              print("imagen ${dfotopreview}");
-                            }
-                          } else {
-                            dfotopreview = value;
-                          }
+                      child: btnload
+                          ? btnactivo
+                              ? Center(
+                                  child: Text(
+                                    'checkpoint guardado'.toUpperCase(),
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                )
+                              : Text(
+                                  'foto'.toUpperCase(),
+                                  style: const TextStyle(color: Colors.black),
+                                )
+                          : const CircularProgressIndicator(),
+                      onPressed: btnactivo
+                          ? null
+                          : () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const DisplayPictureScreen(),
+                                ),
+                              ).then((value) {
+                                if (value == null) {
+                                  if (dfotopreview != '') {
+                                    print("imagen ${dfotopreview}");
+                                  }
+                                } else {
+                                  dfotopreview = value;
+                                }
 
-                          // print(widget.index);
-                          // var acciones = json.decode(widget.acciones);
-                          // // var acciones = ['', '', ''];
-                          // for (var element in acciones) {
-                          //   _actionType.remove(element);
-                          // }
-                          setState(() {});
-                        });
-                      }),
+                                // print(widget.index);
+                                // var acciones = json.decode(widget.acciones);
+                                // // var acciones = ['', '', ''];
+                                // for (var element in acciones) {
+                                //   _actionType.remove(element);
+                                // }
+                                setState(() {});
+                              });
+                            }),
                   MaterialButton(
                       color: Colors.greenAccent[400],
-                      child: Text(
-                        'Guardar'.toUpperCase(),
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                      onPressed: () async {
-                        LocationPermission permission;
+                      child: btnload
+                          ? btnactivo
+                              ? Text(
+                                  ''.toUpperCase(),
+                                  style: const TextStyle(color: Colors.black),
+                                )
+                              : Text(
+                                  'Guardar'.toUpperCase(),
+                                  style: const TextStyle(color: Colors.black),
+                                )
+                          : const CircularProgressIndicator(),
+                      onPressed: btnactivo
+                          ? null
+                          : () async {
+                              LocationPermission permission;
+                              btnload = false;
+                              btnactivo = true;
+                              setState(() {});
+                              permission =
+                                  await _geolocatorPlatform.requestPermission();
+                              final position = await _geolocatorPlatform
+                                  .getCurrentPosition();
+                              var url = Uri.parse(
+                                  "${connect.serverName()}check_point.php");
+                              //   print("soy yo ${widget.tipo}");
+                              if (dfotopreview != '') {
+                                dimageBytes =
+                                    File(dfotopreview).readAsBytesSync();
+                                dbase64Image = base64Encode(dimageBytes!);
+                              } else {
+                                dbase64Image = '';
+                              }
 
-                        setState(() {});
-                        permission =
-                            await _geolocatorPlatform.requestPermission();
-                        final position =
-                            await _geolocatorPlatform.getCurrentPosition();
-                        var url =
-                            Uri.parse("${connect.serverName()}check_point.php");
-                        //   print("soy yo ${widget.tipo}");
-                        if (dfotopreview != '') {
-                          dimageBytes = File(dfotopreview).readAsBytesSync();
-                          dbase64Image = base64Encode(dimageBytes!);
-                        } else {
-                          dbase64Image = '';
-                        }
+                              //     if (widget.tipo == "Recorrido") {
+                              await http.post(url, body: {
+                                "recorrido": widget.entrada,
+                                "latitude": position.latitude.toString(),
+                                "longitude": position.longitude.toString(),
+                                "comentario": dcomentario.text,
+                                "lugar": dlugar.text,
+                                "imagen": dbase64Image
+                              });
+                              btnload = true;
 
-                        //     if (widget.tipo == "Recorrido") {
-                        await http.post(url, body: {
-                          "recorrido": widget.entrada,
-                          "latitude": position.latitude.toString(),
-                          "longitude": position.longitude.toString(),
-                          "comentario": dcomentario.text,
-                          "lugar": dlugar.text,
-                          "imagen": dbase64Image
-                        });
+                              dcomentario.text = "";
+                              dlugar.text = "";
+                              dfotopreview = "";
 
-                        setState(() {});
-                      })
+                              setState(() {});
+                            })
                 ],
               ),
             ],
