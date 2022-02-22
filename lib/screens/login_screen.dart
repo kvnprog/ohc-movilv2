@@ -463,7 +463,6 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
                                     body: {'usuario': widget.usuario});
                                 activobtn = false;
                                 setState(() {});
-
                                 varChanged = 0;
 
                                 // print(varChanged);
@@ -481,6 +480,8 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
                                               codigo: widget.codigo)),
                                 );
                               } else {
+                                activobtn = false;
+                                setState(() {});
                                 _showToast(context,
                                     'Contraseña o Dispositivo Equivocado');
                               }
