@@ -9,6 +9,21 @@ class ProviderListener extends ChangeNotifier{
   Places? itemIsReady;
   Places? itemCanceledIsReady;
 
+
+  bool? tourStared;
+  bool? tourFinished;
+  bool? tourStatus;
+
+  set setTourStatus( bool staturArgs){
+    tourStatus = staturArgs;
+  }
+
+  get getTourStatus{
+    print('el status es $tourStatus');
+    return tourStatus;
+  }
+
+
   set placeSelected ( Places placeSelected ){
     _mplaceItem = placeSelected;
   }
