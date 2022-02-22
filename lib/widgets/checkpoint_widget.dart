@@ -74,78 +74,72 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                     ),
                   ),
 
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Column(
                     children: [
-                      const Text('Iniciar Recorrido'),
-                      Column(
-                        children: [
-                          if (status != null)
-                            (!status!)
-                                ? const Text('Detenido')
-                                : const Text('Iniciado'),
-                          Switch(
-                            value: (status == null)
-                                ? status = false
-                                : status = status!,
-                            onChanged: (value) {
-                              setState(() {
-                                print(value);
-                                if (status == null) {
-                                  status = value;
-                                } else {
-                                  (!status!) ? status = true : status = false;
-                                }
-                              });
-                            },
-                            activeColor: Colors.green,
-                          ),
-                        ],
+                      Switch(
+                        value: (status == null)
+                            ? status = false
+                            : status = status!,
+                        onChanged: (value) {
+                          setState(() {
+                            if (status == null) {
+                              status = value;
+                            } else {
+                              (!status!) ? status = true : status = false;
+                            }
+                          });
+                        },
+                        activeColor: Colors.green,
                       ),
+                      const Text('Iniciar Recorrido'),
                     ],
                   ),
-                  //comentario
-                  Container(
-                    margin: const EdgeInsets.all(18),
-                    child: TextField(
-                      textCapitalization: TextCapitalization.sentences,
-                      onTap: () {},
-                      onChanged: (responsable) {},
-                      controller: dcomentario,
-                      decoration: const InputDecoration(
-                        hintText: 'Comentario',
-                        hintMaxLines: 3,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black38),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black45, width: 2)),
-                      ),
-                    ),
-                  ),
 
-                  //lugar
-                  Container(
-                    margin: const EdgeInsets.all(18),
-                    child: TextField(
-                      textCapitalization: TextCapitalization.sentences,
-                      onTap: () {},
-                      onChanged: (responsable) {},
-                      controller: dlugar,
-                      decoration: const InputDecoration(
-                        hintText: 'Lugar',
-                        hintMaxLines: 3,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black38),
+                  if (status != null)
+                    if (status == true)
+                      //comentario
+                      Container(
+                        margin: const EdgeInsets.all(18),
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          onTap: () {},
+                          onChanged: (responsable) {},
+                          controller: dcomentario,
+                          decoration: const InputDecoration(
+                            hintText: 'Comentario',
+                            hintMaxLines: 3,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black38),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.black45, width: 2)),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black45, width: 2)),
                       ),
-                    ),
-                  ),
+
+                  if (status != null)
+                    if (status == true)
+                      //lugar
+                      Container(
+                        margin: const EdgeInsets.all(18),
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          onTap: () {},
+                          onChanged: (responsable) {},
+                          controller: dlugar,
+                          decoration: const InputDecoration(
+                            hintText: 'Lugar',
+                            hintMaxLines: 3,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black38),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.black45, width: 2)),
+                          ),
+                        ),
+                      ),
                   // (dfotopreview == '')
                   //     ? (const Text(''))
                   //     : (Transform.rotate(
@@ -156,109 +150,114 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                   //               File(dfotopreview),
                   //             )))),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      MaterialButton(
-                          color: Colors.amber,
-                          child: btnload
-                              ? btnactivo
-                                  ? Center(
-                                      child: Text(
-                                        'checkpoint guardado'.toUpperCase(),
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                    )
-                                  : Text(
-                                      'foto'.toUpperCase(),
-                                      style:
-                                          const TextStyle(color: Colors.black),
-                                    )
-                              : const CircularProgressIndicator(),
-                          onPressed: btnactivo
-                              ? null
-                              : () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const DisplayPictureScreen(),
-                                    ),
-                                  ).then((value) {
-                                    if (value == null) {
+                  if (status != null)
+                    if (status == true)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          MaterialButton(
+                              color: Colors.amber,
+                              child: btnload
+                                  ? btnactivo
+                                      ? Center(
+                                          child: Text(
+                                            'checkpoint guardado'.toUpperCase(),
+                                            style: const TextStyle(
+                                                color: Colors.black),
+                                          ),
+                                        )
+                                      : Text(
+                                          'foto'.toUpperCase(),
+                                          style: const TextStyle(
+                                              color: Colors.black),
+                                        )
+                                  : const CircularProgressIndicator(),
+                              onPressed: btnactivo
+                                  ? null
+                                  : () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const DisplayPictureScreen(),
+                                        ),
+                                      ).then((value) {
+                                        if (value == null) {
+                                          if (dfotopreview != '') {
+                                            print("imagen ${dfotopreview}");
+                                          }
+                                        } else {
+                                          dfotopreview = value;
+                                        }
+
+                                        // print(widget.index);
+                                        // var acciones = json.decode(widget.acciones);
+                                        // // var acciones = ['', '', ''];
+                                        // for (var element in acciones) {
+                                        //   _actionType.remove(element);
+                                        // }
+                                        setState(() {});
+                                      });
+                                    }),
+                          MaterialButton(
+                              color: Colors.greenAccent[400],
+                              child: btnload
+                                  ? btnactivo
+                                      ? Text(
+                                          ''.toUpperCase(),
+                                          style: const TextStyle(
+                                              color: Colors.black),
+                                        )
+                                      : Text(
+                                          'Guardar'.toUpperCase(),
+                                          style: const TextStyle(
+                                              color: Colors.black),
+                                        )
+                                  : const CircularProgressIndicator(),
+                              onPressed: btnactivo
+                                  ? null
+                                  : () async {
+                                      LocationPermission permission;
+                                      btnload = false;
+                                      btnactivo = true;
+                                      setState(() {});
+                                      permission = await _geolocatorPlatform
+                                          .requestPermission();
+                                      final position = await _geolocatorPlatform
+                                          .getCurrentPosition();
+                                      var url = Uri.parse(
+                                          "${connect.serverName()}check_point.php");
+                                      //   print("soy yo ${widget.tipo}");
                                       if (dfotopreview != '') {
-                                        print("imagen ${dfotopreview}");
+                                        dimageBytes = File(dfotopreview)
+                                            .readAsBytesSync();
+                                        dbase64Image =
+                                            base64Encode(dimageBytes!);
+                                      } else {
+                                        dbase64Image = '';
                                       }
-                                    } else {
-                                      dfotopreview = value;
-                                    }
 
-                                    // print(widget.index);
-                                    // var acciones = json.decode(widget.acciones);
-                                    // // var acciones = ['', '', ''];
-                                    // for (var element in acciones) {
-                                    //   _actionType.remove(element);
-                                    // }
-                                    setState(() {});
-                                  });
-                                }),
-                      MaterialButton(
-                          color: Colors.greenAccent[400],
-                          child: btnload
-                              ? btnactivo
-                                  ? Text(
-                                      ''.toUpperCase(),
-                                      style:
-                                          const TextStyle(color: Colors.black),
-                                    )
-                                  : Text(
-                                      'Guardar'.toUpperCase(),
-                                      style:
-                                          const TextStyle(color: Colors.black),
-                                    )
-                              : const CircularProgressIndicator(),
-                          onPressed: btnactivo
-                              ? null
-                              : () async {
-                                  LocationPermission permission;
-                                  btnload = false;
-                                  btnactivo = true;
-                                  setState(() {});
-                                  permission = await _geolocatorPlatform
-                                      .requestPermission();
-                                  final position = await _geolocatorPlatform
-                                      .getCurrentPosition();
-                                  var url = Uri.parse(
-                                      "${connect.serverName()}check_point.php");
-                                  //   print("soy yo ${widget.tipo}");
-                                  if (dfotopreview != '') {
-                                    dimageBytes =
-                                        File(dfotopreview).readAsBytesSync();
-                                    dbase64Image = base64Encode(dimageBytes!);
-                                  } else {
-                                    dbase64Image = '';
-                                  }
-                                  print(status);
-                                  //     if (widget.tipo == "Recorrido") {
-                                  await http.post(url, body: {
-                                    "recorrido": widget.entrada,
-                                    "latitude": position.latitude.toString(),
-                                    "longitude": position.longitude.toString(),
-                                    "comentario": dcomentario.text,
-                                    "lugar": dlugar.text,
-                                    "imagen": dbase64Image
-                                  });
-                                  btnload = true;
+                                      //     if (widget.tipo == "Recorrido") {
+                                      await http.post(url, body: {
+                                        "recorrido": widget.entrada,
+                                        "latitude":
+                                            position.latitude.toString(),
+                                        "longitude":
+                                            position.longitude.toString(),
+                                        "comentario": dcomentario.text,
+                                        "lugar": dlugar.text,
+                                        "imagen": dbase64Image
+                                      });
+                                      btnload = true;
 
-                                  dcomentario.text = "";
-                                  dlugar.text = "";
-                                  dfotopreview = "";
+                                      dcomentario.text = "";
+                                      dlugar.text = "";
+                                      dfotopreview = "";
 
-                                  setState(() {});
-                                })
-                    ],
-                  ),
+                                      setState(() {});
+                                    })
+                        ],
+                      ),
                 ],
               ),
             ),
