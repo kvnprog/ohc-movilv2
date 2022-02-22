@@ -82,7 +82,7 @@ class _ListWidgetState extends State<ListWidget> {
 
   Widget lista_incidencias(List<dynamic> datos) {
     return Column(children: [
-      Container(
+      SizedBox(
         height: 130,
         width: double.infinity,
         child: GridView.count(
@@ -90,7 +90,7 @@ class _ListWidgetState extends State<ListWidget> {
             mainAxisSpacing: 3,
             crossAxisSpacing: 5,
             shrinkWrap: true,
-
+      
             crossAxisCount: 2,
             children: [
                   filterWidget(filtro1, 9, 'Quién captura', 0),
@@ -102,7 +102,7 @@ class _ListWidgetState extends State<ListWidget> {
         )
       ),
       Container(
-          height: 500,
+          height: 580,
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -117,143 +117,150 @@ class _ListWidgetState extends State<ListWidget> {
   Widget filterWidget(var filterName, int index, String filterTitle, int tipo) {
     // print('yo soy el filtro $filterName');
 
-    return Container(
-      //margin: const EdgeInsets.only(top: 20),
-      child: Column(
-        children: [
-          Text(
-            filterTitle,
-            style: const TextStyle(color: Colors.white),
-          ),
-          Container(
-            height: 40,
-            width: 200,
-            decoration: BoxDecoration(
-                color: Colors.grey[600],
-                borderRadius: const BorderRadius.all(Radius.circular(3))),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButton<String>(
-                  value: filterName,
-                  items: getItemsDropDown(index, filterTitle),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  dropdownColor: Colors.amber[200],
-                  icon: const Icon(
-                    Icons.arrow_drop_down_rounded,
-                    color: Colors.black,
-                  ),
-                  underline: Container(
-                    color: Colors.white,
-                  ),
-                  onChanged: (opt) {
-                    setState(() {
-                      switch (index) {
-                        case 9:
-                          {
-                            filtro1 = opt;
-                            filtradoArray = [];
-                            elementsArray = totalArray;
-                            for (var element in elementsArray!) {
-                              if (element[index] == opt) {
-                                filtradoArray.add(element);
-                                // print("entre");
-                              }
-                            }
-                            pintarfiltro = 1;
-                            elementsArray = [];
-                            elementsArray = filtradoArray;
-                            print(filtradoArray);
-                            setState(() {});
-                          }
-                          break;
-
-                        case 1:
-                          {
-                            filtro3 = opt;
-                            filtradoArray = [];
-                            elementsArray = totalArray;
-                            for (var element in elementsArray!) {
-                              if (element[index] == opt) {
-                                filtradoArray.add(element);
-                                // print("entre");
-                              }
-                            }
-                            pintarfiltro = 1;
-                            elementsArray = [];
-                            elementsArray = filtradoArray;
-                            print(filtradoArray);
-                            setState(() {});
-                            // for (var element in elementsArray!) {
-                            //   // if (element[index] == opt) {
-                            //   //   filtradoArray.add(element[index]);
-                            //   // }
-                            //   print(element[index]);
-                            // }
-                          }
-                          break;
-
-                        case 2:
-                          {
-                            if (tipo == 3) {
-                              filtro4 = opt;
-                            } else {
-                              filtro5 = opt;
-                            }
-
-                            filtradoArray = [];
-                            elementsArray = totalArray;
-                            for (var element in elementsArray!) {
-                              var separador =
-                                  element[index].toString().split(" ");
-
-                              // print(element[index]);
-                              if (element[index] != null) {
-                                if (separador[0] == opt ||
-                                    separador[1] == opt) {
-                                  filtradoArray.add(element);
-                                  // print("entre");
+    return Column(
+      children: [
+        Text(
+          filterTitle,
+          style: const TextStyle(color: Colors.white),
+        ),
+        Container(
+          height: 40,
+          width: 200,
+          decoration: BoxDecoration(
+              color: Colors.grey[600],
+              borderRadius: const BorderRadius.all(Radius.circular(3))),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: 
+            
+            ListView(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              children: [
+                ClipRect(
+                  child: DropdownButton<String>(
+                      value: filterName,
+                      items: getItemsDropDown(index, filterTitle),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      dropdownColor: Colors.amber[200],
+                      icon: const Icon(
+                        Icons.arrow_drop_down_rounded,
+                        color: Colors.black,
+                      ),
+                      underline: Container(
+                        color: Colors.white,
+                      ),
+                      onChanged: (opt) {
+                        setState(() {
+                          switch (index) {
+                            case 9:
+                              {
+                                filtro1 = opt;
+                                filtradoArray = [];
+                                elementsArray = totalArray;
+                                for (var element in elementsArray!) {
+                                  if (element[index] == opt) {
+                                    filtradoArray.add(element);
+                                    // print("entre");
+                                  }
                                 }
+                                pintarfiltro = 1;
+                                elementsArray = [];
+                                elementsArray = filtradoArray;
+                                print(filtradoArray);
+                                setState(() {});
                               }
-                            }
-                            pintarfiltro = 1;
-                            elementsArray = [];
-                            elementsArray = filtradoArray;
-                            print(filtradoArray);
-                            setState(() {});
-                            print(opt);
-                          }
-                          break;
-
-                        case 3:
-                          {
-                            filtro2 = opt;
-                            filtradoArray = [];
-                            elementsArray = totalArray;
-                            for (var element in elementsArray!) {
-                              if (element[index] == opt) {
-                                filtradoArray.add(element);
-                                // print("entre");
+                              break;
+                
+                            case 1:
+                              {
+                                filtro3 = opt;
+                                filtradoArray = [];
+                                elementsArray = totalArray;
+                                for (var element in elementsArray!) {
+                                  if (element[index] == opt) {
+                                    filtradoArray.add(element);
+                                    // print("entre");
+                                  }
+                                }
+                                pintarfiltro = 1;
+                                elementsArray = [];
+                                elementsArray = filtradoArray;
+                                print(filtradoArray);
+                                setState(() {});
+                                // for (var element in elementsArray!) {
+                                //   // if (element[index] == opt) {
+                                //   //   filtradoArray.add(element[index]);
+                                //   // }
+                                //   print(element[index]);
+                                // }
                               }
-                            }
-                            pintarfiltro = 1;
-                            elementsArray = [];
-                            elementsArray = filtradoArray;
-                            print(filtradoArray);
-                            setState(() {});
+                              break;
+                
+                            case 2:
+                              {
+                                if (tipo == 3) {
+                                  filtro4 = opt;
+                                } else {
+                                  filtro5 = opt;
+                                }
+                
+                                filtradoArray = [];
+                                elementsArray = totalArray;
+                                for (var element in elementsArray!) {
+                                  var separador =
+                                      element[index].toString().split(" ");
+                
+                                  // print(element[index]);
+                                  if (element[index] != null) {
+                                    if (separador[0] == opt ||
+                                        separador[1] == opt) {
+                                      filtradoArray.add(element);
+                                      // print("entre");
+                                    }
+                                  }
+                                }
+                                pintarfiltro = 1;
+                                elementsArray = [];
+                                elementsArray = filtradoArray;
+                                print(filtradoArray);
+                                setState(() {});
+                                print(opt);
+                              }
+                              break;
+                
+                            case 3:
+                              {
+                                filtro2 = opt;
+                                filtradoArray = [];
+                                elementsArray = totalArray;
+                                for (var element in elementsArray!) {
+                                  if (element[index] == opt) {
+                                    filtradoArray.add(element);
+                                    // print("entre");
+                                  }
+                                }
+                                pintarfiltro = 1;
+                                elementsArray = [];
+                                elementsArray = filtradoArray;
+                                print(filtradoArray);
+                                setState(() {});
+                              }
+                              break;
+                
+                            default:
+                              {
+                                return null;
+                              }
                           }
-                          break;
-
-                        default:
-                          {
-                            return null;
-                          }
-                      }
-                    });
-                  }),
+                        });
+                      }),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
