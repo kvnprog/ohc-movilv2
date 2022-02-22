@@ -20,6 +20,7 @@ String dresultado = '';
 List<int>? dimageBytes;
 String? dbase64Image;
 bool? status;
+String id_check_list = '';
 
 final dcomentario = TextEditingController();
 final dlugar = TextEditingController();
@@ -80,14 +81,21 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                         value: (status == null)
                             ? status = false
                             : status = status!,
-                        onChanged: (value) {
-                          setState(() {
-                            if (status == null) {
-                              status = value;
+                        onChanged: (value) async {
+                          if (status == null) {
+                            status = value;
+                          } else {
+                            if (!status!) {
+                              status = true;
+                              var url = Uri.parse(
+                                  "${connect.serverName()}check_point_list.php");
+                              var resultado = await http.post(url, body: {});
+                              id_check_list = resultado.body;
                             } else {
-                              (!status!) ? status = true : status = false;
+                              status = false;
                             }
-                          });
+                          }
+                          setState(() {});
                         },
                         activeColor: Colors.green,
                       ),
@@ -246,7 +254,8 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                                             position.longitude.toString(),
                                         "comentario": dcomentario.text,
                                         "lugar": dlugar.text,
-                                        "imagen": dbase64Image
+                                        "imagen": dbase64Image,
+                                        "id_check_list": id_check_list
                                       });
                                       btnload = true;
 
