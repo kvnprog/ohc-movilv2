@@ -81,36 +81,31 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                 ),
               ),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Column(
                 children: [
-                  const Text('Iniciar Recorrido'),
-                  Column(
-                    children: [
-                          
-                    if(status != null)
-                    (!status!) ? const Text('Detenido') : const Text('Iniciado'),
-                    
-                    Switch(
-                      value: (status == null) ? status = false : status = status!,
-                      onChanged: (value) {
-                        setState(() {
-                          if(status == null){
-                            status = value;
-                          }else{
-                            (!status!) ? status = true : status = false;
-                          }
+                        
+                Switch(
+                  value: (status == null) ? status = false : status = status!,
+                  onChanged: (value) {
+                    setState(() {
+                      if(status == null){
+                        status = value;
+                      }else{
+                        (!status!) ? status = true : status = false;
+                      }
 
-                        });
-                      },
-                      activeColor: Colors.green,
-                    ),
+                    });
+                  },
+                  activeColor: Colors.green,
+                ),
 
-                    ],
-                  ),
+                const Text('Iniciar Recorrido'),
+
                 ],
               ),
+
+              if(status != null)
+              if(status == true)
               //comentario
               Container(
                 margin: const EdgeInsets.all(18),
@@ -132,6 +127,8 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                 ),
               ),
 
+              if(status != null)
+              if(status == true)
               //lugar
               Container(
                 margin: const EdgeInsets.all(18),
@@ -162,6 +159,8 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
               //               File(dfotopreview),
               //             )))),
 
+              if(status != null)
+              if(status == true)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -261,6 +260,7 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                             })
                 ],
               ),
+            
             ],
           ),
         ),
