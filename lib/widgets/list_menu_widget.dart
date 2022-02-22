@@ -87,7 +87,7 @@ class ListMenuItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Captura: ${shortName[0]} ${shortName[2]}',
+                      'Captura: ${shortName[0]} ${shortName[1]}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
