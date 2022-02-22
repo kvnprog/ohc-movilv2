@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:recorridos_app/services/provider_listener_service.dart';
 import 'package:recorridos_app/widgets/checkpoint_widget.dart';
 import 'package:recorridos_app/widgets/interaction_menu_widget.dart';
 import 'package:recorridos_app/widgets/list_widget.dart';
@@ -16,6 +19,7 @@ String dfotopreview = '';
 String dresultado = '';
 List<int>? dimageBytes;
 String? dbase64Image;
+bool? status;
 
 final dcomentario = TextEditingController();
 final dlugar = TextEditingController();
@@ -24,25 +28,38 @@ ConectionData conectionData = ConectionData();
 
 class CheckPointWidget extends StatefulWidget {
   final String? entrada;
-  CheckPointWidget({Key? key, required this.entrada}) : super(key: key);
+
+  CheckPointWidget({
+    Key? key, 
+    required this.entrada
+
+  }) : super(key: key);
 
   @override
   State<CheckPointWidget> createState() => _CheckPointWidgetState();
 
   Color color = Colors.green;
+  String prueba = 'nada';
 }
 
 class _CheckPointWidgetState extends State<CheckPointWidget> {
   bool btnactivo = false;
   bool btnload = true;
+  bool? activeStatus;
 
+  
   @override
   Widget build(BuildContext context) {
-    return Center(
+    
+    return  ChangeNotifierProvider(
+      create: (_)=>ProviderListener(),
+      child: Consumer<ProviderListener>(
+        builder: (context, provider, child) => 
+    Center(
       child: Container(
         margin: const EdgeInsets.all(30),
         width: 350,
-        height: 350,
+        height: 450,
         child: Material(
           shadowColor: Colors.amber,
           borderRadius: BorderRadius.circular(20),
@@ -64,6 +81,36 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                 ),
               ),
 
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Text('Iniciar Recorrido'),
+                  Column(
+                    children: [
+                          
+                    if(status != null)
+                    (!status!) ? const Text('Detenido') : const Text('Iniciado'),
+                    
+                    Switch(
+                      value: (status == null) ? status = false : status = status!,
+                      onChanged: (value) {
+                        setState(() {
+                          if(status == null){
+                            status = value;
+                          }else{
+                            (!status!) ? status = true : status = false;
+                          }
+
+                        });
+                      },
+                      activeColor: Colors.green,
+                    ),
+
+                    ],
+                  ),
+                ],
+              ),
               //comentario
               Container(
                 margin: const EdgeInsets.all(18),
@@ -218,8 +265,10 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  ),  
+);
+}
 }
 
 class DisplayPictureScreen extends StatefulWidget {
