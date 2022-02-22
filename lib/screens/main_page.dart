@@ -171,12 +171,12 @@ class _MainClassState extends State<MainClass> {
                     onTap: () => showDialogFunction(context)),
               ],
             ),
-            SizedBox(
-              width: 500,
-              height: 630,
-              child: Container(
+            
+            Expanded(
+              child: SizedBox(
+                width: 500,
+                height: 630,
                 child: ListView(
-                  shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   children: [
                     InteractionMenu(
