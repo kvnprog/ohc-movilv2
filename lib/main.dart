@@ -127,8 +127,7 @@ class _MyAppState extends State<MyApp> {
 
 Future<bool> checar_codigo(valor) async {
   ConectionData connect = ConectionData();
-  var url =
-      Uri.parse("${connect.serverName()}checar_codigo.php");
+  var url = Uri.parse("${connect.serverName()}checar_codigo.php");
   var resultado = await http.post(url, body: {
     "codigo": "$valor",
   });
@@ -213,7 +212,6 @@ class AlertPage extends StatelessWidget {
                           if (await checar_codigo(code)) {
                             _saveData();
                           } else {}
-
                           // _saveData();
                         }),
                   ),
