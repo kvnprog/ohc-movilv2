@@ -211,68 +211,77 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                 borderRadius: const BorderRadius.all(Radius.circular(3))),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: DropdownButton<String>(
-                  value: mList[opcion],
-                  items: getItemsDropDown(datos, filterName, opcion),
-                  //items: getItemsDropDown(index, filterTitle),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  dropdownColor: Colors.amber[200],
-                  icon: const Icon(
-                    Icons.arrow_drop_down_rounded,
-                    color: Colors.black,
-                  ),
-                  underline: Container(
-                    color: Colors.white,
-                  ),
-                  onChanged: (opt) {
-                    // print(opt);
-                    switch (opcion) {
-                      case 0:
-                        Map<dynamic, dynamic> arrayfiltro = Map();
-                        arrayfiltro['entradas'] = List<dynamic>;
-                        List<dynamic> datos = [];
-                        // arrayfiltro = arrayrespaldo!;
-                        widget.nameValue = opt;
-                        for (var valor in arrayrespaldo!['entradas']) {
-                          if (valor[5] == opt) {
-                            datos.add(valor);
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                children: [
+                  ClipRect(
+                    child: DropdownButton<String>(
+                        value: mList[opcion],
+                        items: getItemsDropDown(datos, filterName, opcion),
+                        //items: getItemsDropDown(index, filterTitle),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        dropdownColor: Colors.amber[200],
+                        icon: const Icon(
+                          Icons.arrow_drop_down_rounded,
+                          color: Colors.black,
+                        ),
+                        underline: Container(
+                          color: Colors.white,
+                        ),
+                        onChanged: (opt) {
+                          // print(opt);
+                          switch (opcion) {
+                            case 0:
+                              Map<dynamic, dynamic> arrayfiltro = Map();
+                              arrayfiltro['entradas'] = List<dynamic>;
+                              List<dynamic> datos = [];
+                              // arrayfiltro = arrayrespaldo!;
+                              widget.nameValue = opt;
+                              for (var valor in arrayrespaldo!['entradas']) {
+                                if (valor[5] == opt) {
+                                  datos.add(valor);
+                                }
+                              }
+                              arrayfiltro['entradas'] = datos;
+                              arrayfinal = arrayfiltro;
+
+                              setState(() {});
+                              break;
+
+                            case 1:
+                              Map<dynamic, dynamic> arrayfiltro = Map();
+                              arrayfiltro['entradas'] = List<dynamic>;
+                              List<dynamic> datos = [];
+                              DateTime dia = DateTime.now();
+                              widget.hourValue = opt;
+                              // print(DateTime.now());
+                              DateTime diasdespues = dia
+                                  .subtract(Duration(hours: int.parse(opt!)));
+                              for (var valor in arrayrespaldo!['entradas']) {
+                                DateTime dia2 = DateTime.parse(valor[2]);
+                                print(
+                                    "primero ${diasdespues.microsecondsSinceEpoch}");
+                                print("despues ${dia2.microsecondsSinceEpoch}");
+                                if (diasdespues.microsecondsSinceEpoch <
+                                    dia2.microsecondsSinceEpoch) {
+                                  datos.add(valor);
+                                }
+                              }
+
+                              arrayfiltro['entradas'] = datos;
+                              arrayfinal = arrayfiltro;
+                              print(arrayfinal);
+                              setState(() {});
+
+                              break;
                           }
-                        }
-                        arrayfiltro['entradas'] = datos;
-                        arrayfinal = arrayfiltro;
-
-                        setState(() {});
-                        break;
-
-                      case 1:
-                        Map<dynamic, dynamic> arrayfiltro = Map();
-                        arrayfiltro['entradas'] = List<dynamic>;
-                        List<dynamic> datos = [];
-                        DateTime dia = DateTime.now();
-                        widget.hourValue = opt;
-                        // print(DateTime.now());
-                        DateTime diasdespues =
-                            dia.subtract(Duration(hours: int.parse(opt!)));
-                        for (var valor in arrayrespaldo!['entradas']) {
-                          DateTime dia2 = DateTime.parse(valor[2]);
-                          print(
-                              "primero ${diasdespues.microsecondsSinceEpoch}");
-                          print("despues ${dia2.microsecondsSinceEpoch}");
-                          if (diasdespues.microsecondsSinceEpoch <
-                              dia2.microsecondsSinceEpoch) {
-                            datos.add(valor);
-                          }
-                        }
-
-                        arrayfiltro['entradas'] = datos;
-                        arrayfinal = arrayfiltro;
-                        print(arrayfinal);
-                        setState(() {});
-
-                        break;
-                    }
-                    // print(arrayrespaldo!['entradas']);
-                  }),
+                          // print(arrayrespaldo!['entradas']);
+                        }),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

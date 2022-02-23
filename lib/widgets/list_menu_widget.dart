@@ -50,6 +50,9 @@ class ListMenuItem extends StatelessWidget {
       route = datos![7];
     }
 
+    List<String> shortName = datos![9].toString().split(" ");
+    
+
     return GestureDetector(
       onTap: () {
         print(datos![7]);
@@ -84,7 +87,7 @@ class ListMenuItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Captura: ${datos![9]}',
+                      'Captura: ${shortName[0]} ${shortName[1]}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
