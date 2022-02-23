@@ -35,7 +35,14 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
   
   @override
   Widget build(BuildContext context) {
-    
+    var myDate;
+
+    if(widget.checkpoint.length > 0){
+      var check = widget.checkpoint.toList();
+      var iter = check[0];
+      myDate = iter['fechahora'];
+    }
+
     return Container(
       margin: const EdgeInsets.all(8),
       width: 50,
@@ -102,7 +109,7 @@ class _ListBitacoraWidgetState extends State<ListBitacoraWidget> {
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                            child: Text('${widget.userName.toString().toLowerCase()} realizo un checkpoint', style: const TextStyle(
+                            child: Text('${widget.userName.toString().toLowerCase()} realizo un checkpoint a las ${DateDataConvert(dateFormat: myDate).hourData}', style: const TextStyle(
                               fontSize: 18
                             ),),
                           )
