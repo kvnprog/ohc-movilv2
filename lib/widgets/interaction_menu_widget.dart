@@ -63,7 +63,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
 
   bool isAccident = false;
   String accidentText = 'No';
-  String isActive = 'No';
+  String isActive = 'Si';
 
   //metodo de traer acciones
 
@@ -224,7 +224,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 ),
               ),
               const SizedBox(height: 15),
-              
               TextField(
                 controller: accion,
                 textCapitalization: TextCapitalization.sentences,
@@ -257,7 +256,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
-              
               (fotopreview == '')
                   ? (const Text(''))
                   : (Transform.rotate(
@@ -275,14 +273,16 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     Text(isActive),
                     Switch(
                       value: activeStatus,
+                      inactiveThumbColor: Colors.red[900],
                       onChanged: (value) {
                         setState(() {
                           if (activeStatus) {
                             activeStatus = false;
-                            isActive = 'No';
+
+                            isActive = 'Sí';
                           } else {
                             activeStatus = true;
-                            isActive = 'Sí';
+                            isActive = 'No';
                           }
                         });
                       },
@@ -355,11 +355,11 @@ class _InteractionMenuState extends State<InteractionMenu> {
                     child: widget.btnsave
                         ? btnload
                             ? Row(
-                              children: const [
-                                Icon(Icons.delete),
-                                Text('Borrar')
-                              ],
-                            )
+                                children: const [
+                                  Icon(Icons.delete),
+                                  Text('Borrar')
+                                ],
+                              )
                             : const SizedBox(
                                 child: CircularProgressIndicator(
                                   backgroundColor: Colors.white,
@@ -462,11 +462,11 @@ class _InteractionMenuState extends State<InteractionMenu> {
                         widget.btnsave
                             ? btnload
                                 ? Row(
-                                  children: const[
-                                    Icon(Icons.save),
-                                    Text('Guardar')
-                                  ],
-                                )
+                                    children: const [
+                                      Icon(Icons.save),
+                                      Text('Guardar')
+                                    ],
+                                  )
                                 : const SizedBox(
                                     child: CircularProgressIndicator(
                                       backgroundColor: Colors.white,
