@@ -22,14 +22,14 @@ class ListMenuItem extends StatelessWidget {
 //hora
     List<String> fechaHora = datos![2].toString().split(" ");
     List<String> horaWithouthSeconds = fechaHora[1].split(":");
-    String hour = horaWithouthSeconds[0]+":"+horaWithouthSeconds[1];
+    String hour = horaWithouthSeconds[0] + ":" + horaWithouthSeconds[1];
 
 //fecha
-  List<String> fecha = fechaHora[0].split("-");
-  DateConverter dateConverter = DateConverter();
-  String convertedDate = dateConverter.convert(fecha);
-  
-    for(var date in datos!){
+    List<String> fecha = fechaHora[0].split("-");
+    DateConverter dateConverter = DateConverter();
+    String convertedDate = dateConverter.convert(fecha);
+
+    for (var date in datos!) {
       print(date);
     }
 
@@ -54,11 +54,11 @@ class ListMenuItem extends StatelessWidget {
     }
 
     List<String> shortName = datos![0].toString().split(" ");
-    
+
     bool checkBoxStatus;
-    
+
     status == 'Abierta' ? checkBoxStatus = true : checkBoxStatus = false;
-    
+
     return GestureDetector(
       onTap: () {
         print(datos![7]);
@@ -122,7 +122,7 @@ class ListMenuItem extends StatelessWidget {
                         color: Colors.grey[200],
                       ),
                     ),
-                     Text(
+                    Text(
                       'Hora: $hour',
                       style: TextStyle(
                         fontSize: 15,
@@ -132,26 +132,20 @@ class ListMenuItem extends StatelessWidget {
 
                     Row(
                       children: [
-
-                          Text(
-                            'Status: $status',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey[200],
-                            ),
-                          ), 
-
-                          Checkbox(
+                        Text(
+                          'Status: $status',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey[200],
+                          ),
+                        ),
+                        Checkbox(
                             value: checkBoxStatus,
                             fillColor: MaterialStateProperty.all(Colors.blue),
-                            onChanged: (val){
-                              
-                            }
-                          )
-
+                            onChanged: (val) {})
                       ],
                     ),
-                    
+
                     Text(
                       'Captura: ${shortName[0]} ${shortName[1]}',
                       style: TextStyle(
