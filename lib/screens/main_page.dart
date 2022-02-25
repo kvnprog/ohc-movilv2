@@ -67,8 +67,10 @@ class _MainClassState extends State<MainClass> {
                           setState(() {});
                           var url = Uri.parse(
                               "${widget.conectionData.serverName()}crear_salida.php");
-                          var entrada = await http
-                              .post(url, body: {'index': widget.entrada});
+                          var entrada = await http.post(url, body: {
+                            'index': widget.entrada,
+                            'usuario': widget.usuario
+                          });
                           widget.isCharging = true;
                           print(entrada.body);
                           //var url = Uri.parse("${widget.conectionData.serverName()}crear_salida.php");
@@ -171,7 +173,6 @@ class _MainClassState extends State<MainClass> {
                     onTap: () => showDialogFunction(context)),
               ],
             ),
-            
             Expanded(
               child: SizedBox(
                 width: 500,
@@ -216,7 +217,8 @@ class _MainClassState extends State<MainClass> {
     return showDialog(
         context: context,
         builder: (context) {
-          return CheckPointWidget(entrada: widget.entrada);
+          return CheckPointWidget(
+              entrada: widget.entrada, usuario: widget.usuario);
         });
   }
 

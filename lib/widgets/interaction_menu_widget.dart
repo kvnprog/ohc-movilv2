@@ -398,7 +398,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "longitude": position.longitude.toString(),
                           "latitude": position.latitude.toString(),
                           "status": isActive,
-                          "accidente": _opcionSeleccionada
+                          "accidente": _opcionSeleccionada,
                         });
 
                         print(resultado.body);

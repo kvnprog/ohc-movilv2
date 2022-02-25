@@ -29,8 +29,9 @@ ConectionData conectionData = ConectionData();
 
 class CheckPointWidget extends StatefulWidget {
   final String? entrada;
-
-  CheckPointWidget({Key? key, required this.entrada}) : super(key: key);
+  final String? usuario;
+  CheckPointWidget({Key? key, required this.entrada, required this.usuario})
+      : super(key: key);
 
   @override
   State<CheckPointWidget> createState() => _CheckPointWidgetState();
@@ -255,7 +256,8 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                                         "comentario": dcomentario.text,
                                         "lugar": dlugar.text,
                                         "imagen": dbase64Image,
-                                        "id_check_list": id_check_list
+                                        "id_check_list": id_check_list,
+                                        "usuario": widget.usuario
                                       });
                                       btnload = true;
 

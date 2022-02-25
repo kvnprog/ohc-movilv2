@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AuthBackground extends StatelessWidget {
-
   final Widget childr;
 
-  const AuthBackground({
-    Key? key,
-     required this.childr
-  }) : super(key: key);
+  const AuthBackground({Key? key, required this.childr}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +13,8 @@ class AuthBackground extends StatelessWidget {
       child: Stack(
         children: [
           const _PurpleBox(),
-
           const _HeaderIcon(),
-
           childr,
-
         ],
       ),
     );
@@ -38,11 +31,23 @@ class _HeaderIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     // SafeArea es por si un dispositivo tiene un notch, el contenido se siga viendo bien
     return SafeArea(
-        child: Container(
-        width: double.infinity,
-        margin: const EdgeInsets.only(top: 10),
-        child: const Icon(Icons.person_pin, color: Colors.white, size: 100)
-        ),
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(top: 10),
+            child: const Image(
+              image: AssetImage('assets/ohc.png'),
+              height: 150,
+            ),
+          ),
+          const Text(
+            'OHC',
+            textScaleFactor: 5,
+            style: TextStyle(color: Colors.white),
+          )
+        ],
+      ),
     );
   }
 }
@@ -52,7 +57,6 @@ class _PurpleBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
@@ -61,13 +65,12 @@ class _PurpleBox extends StatelessWidget {
 
       //burbujas de fondo
       child: Stack(
-        children: const[
-          Positioned(child: _Bubble(), top: 60, left: 10,),
-          Positioned(child: _Bubble(), top: -40, left: -30,),
-          Positioned(child: _Bubble(), top: -50, right: -20,),
-          Positioned(child: _Bubble(), top: 90, left: 150,),
-          Positioned(child: _Bubble(), bottom: 50, right: 30,),
-          Positioned(child: _Bubble(), bottom: -50, left: 30,),
+        children: const [
+          Positioned(
+            child: _Bubble(),
+            top: 70,
+            left: 145,
+          ),
         ],
       ),
     );
@@ -75,13 +78,10 @@ class _PurpleBox extends StatelessWidget {
 
   BoxDecoration _buildBoxDecoration() {
     return const BoxDecoration(
-      gradient: LinearGradient(
-        colors: [
-          Color.fromRGBO(255, 195, 0, 1),
-          Color.fromRGBO(255, 195, 0, 1)
-        ]
-      )
-    );
+        gradient: LinearGradient(colors: [
+      Color.fromRGBO(0, 191, 255, 1),
+      Color.fromRGBO(0, 191, 255, 1)
+    ]));
   }
 }
 
@@ -94,9 +94,8 @@ class _Bubble extends StatelessWidget {
       width: 100,
       height: 100,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        color: const Color.fromRGBO(255, 255, 255, 0.3)
-      ),
+          borderRadius: BorderRadius.circular(100),
+          color: const Color.fromRGBO(255, 255, 255, 1)),
     );
   }
 }
