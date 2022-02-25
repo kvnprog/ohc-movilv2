@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:recorridos_app/helpers/helpers.dart';
 import 'package:recorridos_app/widgets/widgets.dart';
+import 'package:http/http.dart' as http;
+import 'package:recorridos_app/data/conections_data.dart';
 
-class ListMenuItem extends StatelessWidget {
+class ListMenuItem extends StatefulWidget {
   List<dynamic>? datos;
 
   ListMenuItem({
@@ -12,15 +14,21 @@ class ListMenuItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ListMenuItem> createState() => _ListMenuItemState();
+}
+
+class _ListMenuItemState extends State<ListMenuItem> {
+  bool checkBoxStatus = false;
+  @override
   Widget build(BuildContext context) {
-    var index = datos!.getRange(0, datos!.length);
+    var index = widget.datos!.getRange(0, widget.datos!.length);
     connect;
     String description;
     String status = 'No disponible';
     String route;
 
 //hora
-    List<String> fechaHora = datos![2].toString().split(" ");
+    List<String> fechaHora = widget.datos![2].toString().split(" ");
     List<String> horaWithouthSeconds = fechaHora[1].split(":");
     String hour = horaWithouthSeconds[0] + ":" + horaWithouthSeconds[1];
 
@@ -29,39 +37,35 @@ class ListMenuItem extends StatelessWidget {
     DateConverter dateConverter = DateConverter();
     String convertedDate = dateConverter.convert(fecha);
 
-    for (var date in datos!) {
-      print(date);
+    for (var date in widget.datos!) {
+      // print(date);
     }
 
-    if (datos![3] != null) {
+    if (widget.datos![3] != null) {
       description =
-          'La persona ${datos![0]} registró una incidencia a las $hour el día $convertedDate, en ${datos![1]} poniendo como infractor de la incidencia a ${datos![3]}, declarando que: ${datos![8]}.';
+          'La persona ${widget.datos![0]} registró una incidencia a las $hour el día $convertedDate, en ${widget.datos![1]} poniendo como infractor de la incidencia a ${widget.datos![3]}, declarando que: ${widget.datos![8]}.';
     } else {
       description =
-          'La persona ${datos![0]} registró una incidencia a las $hour el día $convertedDate, en ${datos![1]}, declarando que: ${datos![8]}.';
+          'La persona ${widget.datos![0]} registró una incidencia a las $hour el día $convertedDate, en ${widget.datos![1]}, declarando que: ${widget.datos![8]}.';
     }
 
-    if (datos![4] == 'Sí' || datos![4] == 'Si') {
+    if (widget.datos![4] == 'Sí') {
       status = 'Abierta';
     } else {
       status = 'Cerrada';
     }
 
-    if (datos![7] == null || datos![7] == '') {
+    if (widget.datos![7] == null || widget.datos![7] == '') {
       route = 'false';
     } else {
-      route = datos![7];
+      route = widget.datos![7];
     }
 
-    List<String> shortName = datos![0].toString().split(" ");
-
-    bool checkBoxStatus;
-
-    status == 'Abierta' ? checkBoxStatus = true : checkBoxStatus = false;
+    List<String> shortName = widget.datos![0].toString().split(" ");
 
     return GestureDetector(
       onTap: () {
-        print(datos![7]);
+        // print(widget.datos![7]);
         connect.dialog(
             context, 'Descripción de la incidencia', description, route);
       },
@@ -93,7 +97,7 @@ class ListMenuItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Tipo: ${datos![9]}',
+                      'Tipo: ${widget.datos![9]}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -101,7 +105,7 @@ class ListMenuItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Responsable: ${datos![3]}',
+                      'Responsable: ${widget.datos![3]}',
                       style: TextStyle(
                         color: Colors.grey[200],
                         fontSize: 15,
@@ -109,7 +113,7 @@ class ListMenuItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Lugar: ${datos![1]}',
+                      'Lugar: ${widget.datos![1]}',
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.grey[200],
@@ -139,10 +143,24 @@ class ListMenuItem extends StatelessWidget {
                             color: Colors.grey[200],
                           ),
                         ),
-                        Checkbox(
-                            value: checkBoxStatus,
-                            fillColor: MaterialStateProperty.all(Colors.blue),
-                            onChanged: (val) {})
+                        (status == 'Cerrada')
+                            ? Text('')
+                            : Checkbox(
+                                value: checkBoxStatus,
+                                fillColor:
+                                    MaterialStateProperty.all(Colors.blue),
+                                onChanged: (val) async {
+                                  // print(checkBoxStatus);
+                                  var url = Uri.parse(
+                                      "${connect.serverName()}cerrar_incidencia.php");
+                                  var respuesta = await http.post(url,
+                                      body: {"index": widget.datos![10]});
+                                  print(respuesta.body);
+                                  setState(() {
+                                    checkBoxStatus = true;
+                                    widget.datos![4] = 'No';
+                                  });
+                                })
                       ],
                     ),
 

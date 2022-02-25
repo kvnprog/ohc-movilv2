@@ -28,7 +28,7 @@ class _ListWidgetState extends State<ListWidget> {
 
   Future<String> incidencias() async {
     var url = Uri.parse(
-        "${widget.connect.serverName()}traer_incidencias_celular.php");
+        "${widget.connect.serverName()}traer_incidencias_celular_pruebas.php");
     var respuesta = await http.post(url, body: {"codigo": widget.codigo});
 
     return respuesta.body;
@@ -52,7 +52,6 @@ class _ListWidgetState extends State<ListWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bitácora de Incidencias'),
@@ -83,24 +82,21 @@ class _ListWidgetState extends State<ListWidget> {
   Widget lista_incidencias(List<dynamic> datos) {
     return Column(children: [
       SizedBox(
-        height: 130,
-        width: double.infinity,
-        child: GridView.count(
-            childAspectRatio: 3,
-            mainAxisSpacing: 3,
-            crossAxisSpacing: 5,
-            shrinkWrap: true,
-      
-            crossAxisCount: 2,
-            children: [
-                  filterWidget(filtro1, 9, 'Quién captura', 0),
-                  filterWidget(filtro2, 3, 'Responsable', 1),
-                  filterWidget(filtro3, 1, 'Lugar', 2),
-                  filterWidget(filtro4, 2, 'fecha', 3),
-                  filterWidget(filtro5, 2, 'Hora', 4),
-            ]
-        )
-      ),
+          height: 130,
+          width: double.infinity,
+          child: GridView.count(
+              childAspectRatio: 3,
+              mainAxisSpacing: 3,
+              crossAxisSpacing: 5,
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              children: [
+                filterWidget(filtro1, 9, 'Quién captura', 0),
+                filterWidget(filtro2, 3, 'Responsable', 1),
+                filterWidget(filtro3, 1, 'Lugar', 2),
+                filterWidget(filtro4, 2, 'fecha', 3),
+                filterWidget(filtro5, 2, 'Hora', 4),
+              ])),
       Container(
           height: 580,
           child: ListView.builder(
@@ -131,9 +127,7 @@ class _ListWidgetState extends State<ListWidget> {
               borderRadius: const BorderRadius.all(Radius.circular(3))),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: 
-            
-            ListView(
+            child: ListView(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               children: [
@@ -171,7 +165,7 @@ class _ListWidgetState extends State<ListWidget> {
                                 setState(() {});
                               }
                               break;
-                
+
                             case 1:
                               {
                                 filtro3 = opt;
@@ -196,7 +190,7 @@ class _ListWidgetState extends State<ListWidget> {
                                 // }
                               }
                               break;
-                
+
                             case 2:
                               {
                                 if (tipo == 3) {
@@ -204,13 +198,13 @@ class _ListWidgetState extends State<ListWidget> {
                                 } else {
                                   filtro5 = opt;
                                 }
-                
+
                                 filtradoArray = [];
                                 elementsArray = totalArray;
                                 for (var element in elementsArray!) {
                                   var separador =
                                       element[index].toString().split(" ");
-                
+
                                   // print(element[index]);
                                   if (element[index] != null) {
                                     if (separador[0] == opt ||
@@ -228,7 +222,7 @@ class _ListWidgetState extends State<ListWidget> {
                                 print(opt);
                               }
                               break;
-                
+
                             case 3:
                               {
                                 filtro2 = opt;
@@ -247,7 +241,7 @@ class _ListWidgetState extends State<ListWidget> {
                                 setState(() {});
                               }
                               break;
-                
+
                             default:
                               {
                                 return null;
@@ -264,10 +258,10 @@ class _ListWidgetState extends State<ListWidget> {
     );
   }
 
-  List<DropdownMenuItem<String>> getItemsDropDown( int index, String filterTitle) {
-    List<DropdownMenuItem<String>> itemsAvailable = []; 
+  List<DropdownMenuItem<String>> getItemsDropDown(
+      int index, String filterTitle) {
+    List<DropdownMenuItem<String>> itemsAvailable = [];
     if (index == 2) {
-
       Map datos = new Map();
       List<dynamic> arreglo = [];
       for (var element in totalArray) {
@@ -276,18 +270,17 @@ class _ListWidgetState extends State<ListWidget> {
           if (filterTitle == 'fecha') {
             datos[fechahora[0]] = fechahora[0];
           } else {
-             datos[fechahora[1]] = fechahora[1];
+            datos[fechahora[1]] = fechahora[1];
           }
         }
       }
-    
+
       datos.forEach((key, value) {
         itemsAvailable.add(DropdownMenuItem(
           child: Text(value.toString()),
           value: value,
         ));
       });
-
     } else {
       Map datos = new Map();
       List<dynamic> arreglo = [];
