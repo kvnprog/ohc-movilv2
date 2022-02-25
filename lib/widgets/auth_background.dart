@@ -33,17 +33,25 @@ class _HeaderIcon extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(top: 10),
-            child: const Image(
-              image: AssetImage('assets/ohc.png'),
-              height: 150,
+
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(80)
+              ),  
+              margin: const EdgeInsets.only(top: 10),
+              child: const Image(
+                image: AssetImage('assets/ohc.png'),
+                height: 150,
+              ),
             ),
           ),
+
+          const SizedBox( height: 20, ),
           const Text(
             'OHC',
-            textScaleFactor: 5,
+            textScaleFactor: 3,
             style: TextStyle(color: Colors.white),
           )
         ],
@@ -66,11 +74,12 @@ class _PurpleBox extends StatelessWidget {
       //burbujas de fondo
       child: Stack(
         children: const [
-          Positioned(
-            child: _Bubble(),
-            top: 70,
-            left: 145,
-          ),
+          Positioned(child: _Bubble(), top: 40, bottom: 200, left: -30,),
+          Positioned(child: _Bubble(), top: 150, bottom: 90, right: 10,),
+          Positioned(child: _Bubble(), bottom: -30, left: -40,),
+          Positioned(child: _Bubble(), top: 149, left: 80,),
+          Positioned(child: _Bubble(), top: 1, right: 40,),
+          Positioned(child: _Bubble(), bottom: -40, right: -20,),
         ],
       ),
     );
@@ -86,16 +95,23 @@ class _PurpleBox extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({Key? key}) : super(key: key);
+  const _Bubble({Key? key
+  
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return bubbleDesign(1);
+  }
+
+  Widget bubbleDesign(double index){
     return Container(
       width: 100,
       height: 100,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: const Color.fromRGBO(255, 255, 255, 1)),
+          color:  const Color.fromRGBO(255, 255, 255, 190)),
     );
   }
 }
+

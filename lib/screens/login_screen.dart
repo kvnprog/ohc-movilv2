@@ -437,11 +437,8 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
                     ),
                     IconButton(
                       iconSize: 20,
-                      onPressed: activobtn
-                          ? null
-                          : () async {
-                              var url = Uri.parse(
-                                  "${connect.serverName()}traer_acciones.php");
+                      onPressed: activobtn ? null : () async {
+                              var url = Uri.parse("${connect.serverName()}traer_acciones.php");
                               activobtn = true;
                               setState(() {});
                               var respuesta = await http.post(url, body: {});
@@ -455,8 +452,7 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
 
                               // print(usuario);
 
-                              if (widget.loginForm.isLoading == true &&
-                                  widget.loginForm.usuario == widget.usuario) {
+                              if (widget.loginForm.isLoading == true && widget.loginForm.usuario == widget.usuario) {
                                 var url = Uri.parse(
                                     "${connect.serverName()}crear_entrada.php");
                                 varChanged = 1;
@@ -472,7 +468,7 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
                                 varChanged = 0;
 
                                 // print(varChanged);
-                                Navigator.push(
+                                var goHome = Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       //builder: (BuildContext context) => HomeToursScreen(
@@ -485,13 +481,15 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
                                               entrada: entrada.body,
                                               codigo: widget.codigo)),
                                 );
+                                await goHome;
+                                Navigator.of(context).pop();
                               } else {
                                 activobtn = false;
                                 setState(() {});
                                 _showToast(context,
                                     'Contraseña o Dispositivo Equivocado');
                               }
-                            },
+                      },
                       icon: const Icon(Icons.login, size: 40),
                       focusColor: Colors.transparent,
                       splashColor: Colors.transparent,

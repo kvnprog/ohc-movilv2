@@ -245,7 +245,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                   }
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Descripción de acción inmediata',
+                  hintText: 'Acción inmediata',
                   icon: Icon(
                     Icons.warning,
                     color: Colors.black,

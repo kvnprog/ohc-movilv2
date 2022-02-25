@@ -59,6 +59,7 @@ class _ListWidgetState extends State<ListWidget> {
       ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FutureBuilder<String>(
                 future: incidencias(),
@@ -71,7 +72,9 @@ class _ListWidgetState extends State<ListWidget> {
                     }
                     return lista_incidencias(elementsArray!);
                   }
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                        child: Image.asset('assets/loading-38.gif', color: Colors.white,)
+                      );
                 }),
           ],
         ),
