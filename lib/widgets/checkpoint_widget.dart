@@ -117,7 +117,8 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                         ),
                       ),
 
-                      const Text('Iniciar Recorrido'),
+                      (!status!) ? const Text('Iniciar Recorrido') 
+                      : const Text('Detener Recorrido'),
                     ],
                   ),
 
@@ -225,14 +226,11 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                                         setState(() {});
                                       });
                                     }),
-                          GestureDetector(
-                            child: Container(
-                              width: 80,
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
+
+                            MaterialButton(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                              shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(100.0) ),
+                              color: Colors.greenAccent[400],
                               child: btnload
                                   ? btnactivo
                                       ? Text(
@@ -240,22 +238,56 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                                           style: const TextStyle(
                                               color: Colors.black),
                                         )
-                                      : Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Checkpoint'.toUpperCase(),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w700),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
+                                      : Text(
+                                          'Checkpoint'.toUpperCase(),
+                                          style: const TextStyle(
+                                              color: Colors.black),
                                         )
                                   : const CircularProgressIndicator(),
-                            ),
-                          )
+                              onPressed: btnactivo
+                                  ? null
+                                  : () async {
+                                      LocationPermission permission;
+                                      btnload = false;
+                                      btnactivo = true;
+                                      setState(() {});
+                                      permission = await _geolocatorPlatform
+                                          .requestPermission();
+                                      final position = await _geolocatorPlatform
+                                          .getCurrentPosition();
+                                      var url = Uri.parse(
+                                          "${connect.serverName()}check_point.php");
+                                      //   print("soy yo ${widget.tipo}");
+                                      if (dfotopreview != '') {
+                                        dimageBytes = File(dfotopreview)
+                                            .readAsBytesSync();
+                                        dbase64Image =
+                                            base64Encode(dimageBytes!);
+                                      } else {
+                                        dbase64Image = '';
+                                      }
+
+                                      //     if (widget.tipo == "Recorrido") {
+                                      await http.post(url, body: {
+                                        "recorrido": widget.entrada,
+                                        "latitude":
+                                            position.latitude.toString(),
+                                        "longitude":
+                                            position.longitude.toString(),
+                                        "comentario": dcomentario.text,
+                                        "lugar": dlugar.text,
+                                        "imagen": dbase64Image,
+                                        "id_check_list": id_check_list
+                                      });
+                                      btnload = true;
+
+                                      dcomentario.text = "";
+                                      dlugar.text = "";
+                                      dfotopreview = "";
+
+                                      setState(() {});
+                                    })
+
                         ],
                       ),
                 ],
