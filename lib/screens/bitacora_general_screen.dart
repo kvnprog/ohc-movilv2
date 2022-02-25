@@ -144,11 +144,15 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                         ],
                       );
                     } else {
-                      return CircularProgressIndicator();
+                      return  Center(
+                        child: Image.asset('assets/loading-38.gif', color: Colors.white,)
+                      );
                     }
                   });
             } else {
-              return CircularProgressIndicator();
+              return  Center(
+                child: Image.asset('assets/loading-38.gif', color: Colors.white,)
+              );
             }
           }),
     );
