@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,8 @@ class CheckPointWidget extends StatefulWidget {
 
   Color color = Colors.green;
   String prueba = 'nada';
+
+  bool isLoading = false;
 }
 
 class _CheckPointWidgetState extends State<CheckPointWidget> {
@@ -78,28 +81,42 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
 
                   Column(
                     children: [
+                      (!widget.isLoading) ? 
                       Switch(
-                        value: (status == null)
-                            ? status = false
-                            : status = status!,
-                        onChanged: (value) async {
+                        value: (status == null) ? status = false : status = status!,
+                        onChanged: (value) async{
+                          widget.isLoading = true;
                           if (status == null) {
                             status = value;
                           } else {
                             if (!status!) {
-                              status = true;
-                              var url = Uri.parse(
-                                  "${connect.serverName()}check_point_list.php");
+                              setState(() {
+                                status = true;
+                              });
+                              var url = Uri.parse("${connect.serverName()}check_point_list.php");
                               var resultado = await http.post(url, body: {});
+
                               id_check_list = resultado.body;
+                              widget.isLoading = false;
                             } else {
                               status = false;
+                              widget.isLoading = false;
                             }
                           }
-                          setState(() {});
+                         setState(() {
+                           
+                         });
                         },
                         activeColor: Colors.green,
+                      )
+                      : Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        child: const CircularProgressIndicator(
+                          color: Colors.black,
+                          backgroundColor: Colors.blue,
+                        ),
                       ),
+
                       const Text('Iniciar Recorrido'),
                     ],
                   ),
@@ -248,6 +265,10 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
         ),
       ),
     );
+  }
+
+  imageProv(){
+    return Image.asset('assets/loading-38.gif');
   }
 }
 
