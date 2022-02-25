@@ -29,6 +29,9 @@ class ListMenuItem extends StatelessWidget {
   DateConverter dateConverter = DateConverter();
   String convertedDate = dateConverter.convert(fecha);
   
+    for(var date in datos!){
+      print(date);
+    }
 
     if (datos![3] != null) {
       description =
@@ -50,9 +53,12 @@ class ListMenuItem extends StatelessWidget {
       route = datos![7];
     }
 
-    List<String> shortName = datos![9].toString().split(" ");
+    List<String> shortName = datos![0].toString().split(" ");
     
-
+    bool checkBoxStatus;
+    
+    status == 'Abierta' ? checkBoxStatus = true : checkBoxStatus = false;
+    
     return GestureDetector(
       onTap: () {
         print(datos![7]);
@@ -78,7 +84,7 @@ class ListMenuItem extends StatelessWidget {
                 const Image(
                     image: AssetImage('assets/file.png'),
                     width: 60,
-                    color: Colors.amber),
+                    color: Colors.blue),
 
                 const SizedBox(width: 10),
                 //parte derecha
@@ -87,7 +93,7 @@ class ListMenuItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Captura: ${shortName[0]} ${shortName[1]}',
+                      'Tipo: ${datos![9]}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -97,8 +103,9 @@ class ListMenuItem extends StatelessWidget {
                     Text(
                       'Responsable: ${datos![3]}',
                       style: TextStyle(
-                        fontSize: 15,
                         color: Colors.grey[200],
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                     Text(
@@ -109,7 +116,7 @@ class ListMenuItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Fecha: $convertedDate',
+                      'Fecha: ${fechaHora[0]}',
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.grey[200],
@@ -122,20 +129,37 @@ class ListMenuItem extends StatelessWidget {
                         color: Colors.grey[200],
                       ),
                     ),
+
+                    Row(
+                      children: [
+
+                          Text(
+                            'Status: $status',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey[200],
+                            ),
+                          ), 
+
+                          Checkbox(
+                            value: checkBoxStatus,
+                            fillColor: MaterialStateProperty.all(Colors.blue),
+                            onChanged: (val){
+                              
+                            }
+                          )
+
+                      ],
+                    ),
+                    
                     Text(
-                      'Status: $status',
+                      'Captura: ${shortName[0]} ${shortName[1]}',
                       style: TextStyle(
-                        fontSize: 15,
                         color: Colors.grey[200],
+                        fontSize: 15,
                       ),
                     ),
-                    Text(
-                      'Ubicación: ${datos![5]},${datos![6]}',
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[200],
-                      ),
-                    ),
+                    //la ubicación es: long datos![5] y lat datos![6]
                   ],
                 )
               ],

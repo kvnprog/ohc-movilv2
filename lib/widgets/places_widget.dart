@@ -39,7 +39,7 @@ class _PlacesInteractionState extends State<PlacesInteraction> {
   }
 
   late Color color;
-  Color? colorActive = Colors.amber;
+  Color? colorActive = Colors.blue;
   Color colorEnabled = Colors.grey;
 
   @override

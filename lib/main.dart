@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
         ),
         useLoader: false,
         photoSize: 205.0,
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.blue,
         loadingText: const Text(
           'Cargando...',
           style: TextStyle(fontSize: 10),
@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
       ),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[850],
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.amber),
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
       ),
     );
   }
@@ -207,7 +207,7 @@ class AlertPage extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 12),
                     child: MaterialButton(
                         child: const Text('Aceptar'),
-                        color: Colors.amber,
+                        color: Colors.blue,
                         onPressed: () async {
                           if (await checar_codigo(code)) {
                             _saveData();

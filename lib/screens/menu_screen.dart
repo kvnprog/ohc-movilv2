@@ -60,7 +60,7 @@ class _MenuHomeState extends State<MenuHome> {
                 children: <Widget>[
                   DrawerHeader(
                       decoration: const BoxDecoration(
-                        color: Colors.amber,
+                        color: Colors.blue,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,7 +194,7 @@ class _MenuHomeState extends State<MenuHome> {
             )),
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.grey[850],
-          appBarTheme: const AppBarTheme(backgroundColor: Colors.amber),
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.blue),
         ),
       ),
     );

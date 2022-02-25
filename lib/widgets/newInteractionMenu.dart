@@ -38,14 +38,14 @@ class _NewInteractionMenuState extends State<NewInteractionMenu> {
                   hintText: 'Ingrese un comentario',
                   icon: Icon(
                     Icons.comment_sharp,
-                    color: Colors.amber,
+                    color: Colors.blue,
                   ),
                   hintMaxLines: 3,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.amber),
+                    borderSide: BorderSide(color: Colors.blue),
                   ),
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.amber, width: 2)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2)),
                 ),
               ),
             ],

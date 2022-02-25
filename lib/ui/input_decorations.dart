@@ -11,13 +11,13 @@ class InputDecorations {
   return InputDecoration(
                     enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.amber
+                      color: Colors.blue
                       ),
                   ),
 
                   focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.amber,
+                      color: Colors.blue,
                       width: 2
                     )
                   ),

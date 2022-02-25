@@ -199,9 +199,7 @@ class _MainClassState extends State<MainClass> {
       ),
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.grey[850],
-          appBarTheme: const AppBarTheme(backgroundColor: Colors.amber),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-              backgroundColor: Colors.amber)),
+      ),
     );
   }
 

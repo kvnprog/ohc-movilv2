@@ -91,7 +91,7 @@ class ConectionData {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        color: Colors.amber,
+                        color: Colors.blue,
                         child: Text('Cerrar'.toUpperCase()),
                       ),
                     ),

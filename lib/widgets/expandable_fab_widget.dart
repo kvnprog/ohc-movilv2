@@ -104,7 +104,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           elevation: 4.0,
           child: InkWell(
             onTap: _toggle,
-            splashColor: Colors.amber,
+            splashColor: Colors.blue,
             child: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Icon(Icons.close, color: Colors.black),
@@ -138,7 +138,7 @@ class _ExpandableFabState extends State<ExpandableFab>
               Icons.add,
               color: Colors.black,
             ),
-            backgroundColor: Colors.amber,
+            backgroundColor: Colors.blue,
           ),
         ),
       ),
