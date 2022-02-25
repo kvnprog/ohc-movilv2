@@ -55,7 +55,7 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
             width: 350,
             height: 450,
             child: Material(
-              shadowColor: Colors.amber,
+              shadowColor: Colors.blue,
               borderRadius: BorderRadius.circular(20),
               color: Colors.white,
               child: Column(
@@ -63,7 +63,7 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                   Container(
                     margin: const EdgeInsets.only(top: 10, bottom: 40),
                     child: const Text(
-                      'Crear CheckPoint',
+                      'Recorrido',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -164,7 +164,7 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           MaterialButton(
-                              color: Colors.amber,
+                              color: Colors.blue,
                               child: btnload
                                   ? btnactivo
                                       ? Center(
@@ -207,64 +207,39 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                                         setState(() {});
                                       });
                                     }),
-                          MaterialButton(
-                              color: Colors.greenAccent[400],
-                              child: btnload
-                                  ? btnactivo
-                                      ? Text(
+
+                                    GestureDetector(
+                                      child: Container(
+                                        width: 80,
+                                        height: 80,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius: BorderRadius.all(Radius.circular(50))
+                                        ),
+
+                                        child: btnload ? btnactivo ? Text(
                                           ''.toUpperCase(),
                                           style: const TextStyle(
                                               color: Colors.black),
                                         )
-                                      : Text(
-                                          'Guardar'.toUpperCase(),
-                                          style: const TextStyle(
-                                              color: Colors.black),
+                                        : Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Checkpoint'.toUpperCase(),
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
                                         )
-                                  : const CircularProgressIndicator(),
-                              onPressed: btnactivo
-                                  ? null
-                                  : () async {
-                                      LocationPermission permission;
-                                      btnload = false;
-                                      btnactivo = true;
-                                      setState(() {});
-                                      permission = await _geolocatorPlatform
-                                          .requestPermission();
-                                      final position = await _geolocatorPlatform
-                                          .getCurrentPosition();
-                                      var url = Uri.parse(
-                                          "${connect.serverName()}check_point.php");
-                                      //   print("soy yo ${widget.tipo}");
-                                      if (dfotopreview != '') {
-                                        dimageBytes = File(dfotopreview)
-                                            .readAsBytesSync();
-                                        dbase64Image =
-                                            base64Encode(dimageBytes!);
-                                      } else {
-                                        dbase64Image = '';
-                                      }
-
-                                      //     if (widget.tipo == "Recorrido") {
-                                      await http.post(url, body: {
-                                        "recorrido": widget.entrada,
-                                        "latitude":
-                                            position.latitude.toString(),
-                                        "longitude":
-                                            position.longitude.toString(),
-                                        "comentario": dcomentario.text,
-                                        "lugar": dlugar.text,
-                                        "imagen": dbase64Image,
-                                        "id_check_list": id_check_list
-                                      });
-                                      btnload = true;
-
-                                      dcomentario.text = "";
-                                      dlugar.text = "";
-                                      dfotopreview = "";
-
-                                      setState(() {});
-                                    })
+                                          : const CircularProgressIndicator(),
+                                      ),
+                                    )
+                        
                         ],
                       ),
                 ],

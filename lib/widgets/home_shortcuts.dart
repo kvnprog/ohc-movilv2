@@ -44,7 +44,7 @@ class ShortCutAccess extends StatelessWidget {
                   textAlign: TextAlign.center,
                   ),
                 ),
-                Icon(shortcutIcon, size: 50, color: Colors.amber,)
+                Icon(shortcutIcon, size: 50, color: Colors.blue,)
               ],
             ),
           ),

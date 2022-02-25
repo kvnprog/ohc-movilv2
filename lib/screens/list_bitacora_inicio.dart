@@ -60,7 +60,7 @@ class _BitacoraInicioState extends State<BitacoraInicio> {
                     minLeadingWidth: 2.0,
                     textColor: Colors.black,
                     selectedTileColor: Colors.white,
-                    selectedColor: Colors.amber,
+                    selectedColor: Colors.blue,
                     onTap: mostrarlista
                         ? () {
                             print("algo");

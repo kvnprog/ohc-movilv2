@@ -142,7 +142,7 @@ class _ListWidgetState extends State<ListWidget> {
                       value: filterName,
                       items: getItemsDropDown(index, filterTitle),
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      dropdownColor: Colors.amber[200],
+                      dropdownColor: Colors.blue[200],
                       icon: const Icon(
                         Icons.arrow_drop_down_rounded,
                         color: Colors.black,

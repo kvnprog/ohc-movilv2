@@ -192,39 +192,6 @@ class _InteractionMenuState extends State<InteractionMenu> {
               ),
               const SizedBox(height: 15),
               TextField(
-                controller: accion,
-                textCapitalization: TextCapitalization.sentences,
-                onTap: () {
-                  var acciones = json.decode(widget.acciones);
-                  // var acciones = ['', '', ''];
-                  for (var element in acciones) {
-                    _actionType.remove(element);
-                  }
-                },
-                onChanged: (accion) {
-                  // print(widget.index);
-                  var acciones = json.decode(widget.acciones);
-                  // var acciones = ['', '', ''];
-                  for (var element in acciones) {
-                    _actionType.remove(element);
-                  }
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Descripción de acción inmediata',
-                  icon: Icon(
-                    Icons.warning,
-                    color: Colors.black,
-                  ),
-                  hintMaxLines: 3,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black38),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black45, width: 2)),
-                ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
                 controller: comentario,
                 textCapitalization: TextCapitalization.sentences,
                 onTap: () {
@@ -256,6 +223,41 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       borderSide: BorderSide(color: Colors.black45, width: 2)),
                 ),
               ),
+              const SizedBox(height: 15),
+              
+              TextField(
+                controller: accion,
+                textCapitalization: TextCapitalization.sentences,
+                onTap: () {
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                onChanged: (accion) {
+                  // print(widget.index);
+                  var acciones = json.decode(widget.acciones);
+                  // var acciones = ['', '', ''];
+                  for (var element in acciones) {
+                    _actionType.remove(element);
+                  }
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Descripción de acción inmediata',
+                  icon: Icon(
+                    Icons.warning,
+                    color: Colors.black,
+                  ),
+                  hintMaxLines: 3,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black38),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black45, width: 2)),
+                ),
+              ),
+              
               (fotopreview == '')
                   ? (const Text(''))
                   : (Transform.rotate(
@@ -322,7 +324,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                             });
                           }
                         : (null),
-                    color: Colors.amber,
+                    color: Colors.blue,
                     elevation: 1,
                     child: Row(
                       children: const [
@@ -348,11 +350,16 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           }
                         : (null),
                     disabledColor: Colors.red,
-                    color: Colors.orange[400],
+                    color: Colors.blue[400],
                     elevation: 1,
                     child: widget.btnsave
                         ? btnload
-                            ? const Icon(Icons.delete)
+                            ? Row(
+                              children: const [
+                                Icon(Icons.delete),
+                                Text('Borrar')
+                              ],
+                            )
                             : const SizedBox(
                                 child: CircularProgressIndicator(
                                   backgroundColor: Colors.white,
@@ -448,13 +455,18 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       setState(() {});
                     },
                     disabledColor: Colors.greenAccent[400],
-                    color: Colors.amber,
+                    color: Colors.blue,
                     elevation: 1,
                     child: Row(
                       children: [
                         widget.btnsave
                             ? btnload
-                                ? const Icon(Icons.save_sharp)
+                                ? Row(
+                                  children: const[
+                                    Icon(Icons.save),
+                                    Text('Guardar')
+                                  ],
+                                )
                                 : const SizedBox(
                                     child: CircularProgressIndicator(
                                       backgroundColor: Colors.white,
@@ -488,14 +500,14 @@ class _InteractionMenuState extends State<InteractionMenu> {
                 height: 38,
                 width: 350,
                 decoration: const BoxDecoration(
-                    color: Colors.amber,
+                    color: Colors.blue,
                     borderRadius: BorderRadius.all(Radius.circular(3.0))),
                 child: Center(
                   child: DropdownButton(
                       value: _opcionSeleccionada,
                       items: getItemsDropDown(),
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      dropdownColor: Colors.amber[200],
+                      dropdownColor: Colors.blue[200],
                       icon: const Icon(
                         Icons.warning_outlined,
                         color: Colors.black,

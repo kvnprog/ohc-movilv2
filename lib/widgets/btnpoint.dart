@@ -74,7 +74,7 @@ class _BtnPointState extends State<BtnPoint> {
                               print(recorrido);
                               print(position);
                             },
-                      backgroundColor: btnnull ? Colors.grey : Colors.amber,
+                      backgroundColor: btnnull ? Colors.grey : Colors.blue,
                       child: btnnull
                           ? const Icon(Icons.block_outlined)
                           : const Icon(Icons.flag),
@@ -111,7 +111,7 @@ class _BtnPointState extends State<BtnPoint> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   MaterialButton(
-                      color: Colors.amber,
+                      color: Colors.blue,
                       child: const Text('Foto'),
                       onPressed: () {
                         Navigator.push(
@@ -136,7 +136,7 @@ class _BtnPointState extends State<BtnPoint> {
                   MaterialButton(
                       color: Colors.green,
                       child: const Text('Guardar'),
-                      disabledColor: btnnull ? Colors.grey : Colors.amber,
+                      disabledColor: btnnull ? Colors.grey : Colors.blue,
                       onPressed: btnnull
                           ? null
                           : () async {

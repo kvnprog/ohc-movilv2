@@ -113,7 +113,7 @@ class _LoginFormState extends State<_LoginForm> {
 
   void _showToast(BuildContext context, String texto) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.amber,
+      backgroundColor: Colors.blue,
       content: Text(
         texto,
         textAlign: TextAlign.center,
@@ -318,7 +318,7 @@ class _UsersActiveState extends State<UsersActive> {
 
   void _showToast(BuildContext context, String texto) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.amber,
+      backgroundColor: Colors.blue,
       content: Text(
         texto,
         textAlign: TextAlign.center,
@@ -512,7 +512,7 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
 
   void _showToast(BuildContext context, String texto) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.amber,
+      backgroundColor: Colors.blue,
       content: Text(
         texto,
         textAlign: TextAlign.center,
