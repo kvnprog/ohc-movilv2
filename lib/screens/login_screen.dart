@@ -463,8 +463,10 @@ class _ProgresBarLoginState extends State<ProgresBarLogin> {
                                 // await Future.delayed(
                                 //     Duration(seconds: 5));
 
-                                var entrada = await http.post(url,
-                                    body: {'usuario': widget.usuario});
+                                var entrada = await http.post(url, body: {
+                                  'usuario': widget.usuario,
+                                  'codigo': widget.codigo
+                                });
                                 activobtn = false;
                                 setState(() {});
                                 varChanged = 0;

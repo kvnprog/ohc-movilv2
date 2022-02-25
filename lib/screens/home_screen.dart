@@ -206,6 +206,7 @@ class _HomeToursScreenState extends State<HomeToursScreen> {
                 func: () {
                   setState(() {});
                 },
+                codigo: 'algo',
                 recorrido: recorrido,
                 usuario: widget.usuario,
                 nombre: widget.nombre!,

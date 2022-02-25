@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 Map? arrayrespaldo;
 bool cargar = true;
-Map arrayfinal = Map();
+List<dynamic> arrayfinal = [];
 
 class BitacoraGeneral extends StatefulWidget {
   List userArray;
@@ -77,76 +77,77 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
           future: bitacora(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print(cargar);
+              // print(snapshot.data);
               if (cargar) {
                 arrayfinal = jsonDecode(snapshot.data.toString());
-                arrayrespaldo = arrayfinal;
+                // arrayrespaldo = arrayfinal;
                 cargar = false;
+                print(arrayfinal);
               }
-
+              return Text('algo');
               // print(arrayfinal);
               // print(snapshot.data);
               // print(arrayfinal['entradas']);
 
-              return FutureBuilder(
-                  future: usuarios(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      // print(snapshot.data);
-                      List<dynamic> usuariosjson =
-                          jsonDecode(snapshot.data.toString());
-                      List<dynamic> usuarios = [];
-                      for (var usuario in usuariosjson) {
-                        usuarios.add(usuario[0]);
-                      }
+              // return FutureBuilder(
+              //     future: usuarios(),
+              //     builder: (context, snapshot) {
+              //       if (snapshot.hasData) {
+              //         // print(snapshot.data);
+              //         List<dynamic> usuariosjson =
+              //             jsonDecode(snapshot.data.toString());
+              //         List<dynamic> usuarios = [];
+              //         for (var usuario in usuariosjson) {
+              //           usuarios.add(usuario[0]);
+              //         }
 
-                      return Column(
-                        children: [
-                          SizedBox(
-                              height: 100,
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  children: [
-                                    filterWidget(opcion1, filtro1, 0, 'Nombre',
-                                        usuarios),
-                                    const SizedBox(width: 20),
-                                    filterWidget(opcion2, filtro2, 0, 'Hora',
-                                        [1, 2, 8, 12, 24, 48, 72]),
-                                  ],
-                                ),
-                              )),
-                          SizedBox(
-                            height: 600,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: arrayfinal['entradas'].length,
-                              itemBuilder: (BuildContext context, index) {
-                                // print(snapshot.data);
+              //         return Column(
+              //           children: [
+              //             SizedBox(
+              //                 height: 100,
+              //                 width: double.infinity,
+              //                 child: Padding(
+              //                   padding: const EdgeInsets.only(left: 8.0),
+              //                   child: ListView(
+              //                     scrollDirection: Axis.horizontal,
+              //                     shrinkWrap: true,
+              //                     children: [
+              //                       filterWidget(opcion1, filtro1, 0, 'Nombre',
+              //                           usuarios),
+              //                       const SizedBox(width: 20),
+              //                       filterWidget(opcion2, filtro2, 0, 'Hora',
+              //                           [1, 2, 8, 12, 24, 48, 72]),
+              //                     ],
+              //                   ),
+              //                 )),
+              //             SizedBox(
+              //               height: 600,
+              //               child: ListView.builder(
+              //                 shrinkWrap: true,
+              //                 itemCount: arrayfinal['entradas'].length,
+              //                 itemBuilder: (BuildContext context, index) {
+              //                   // print(snapshot.data);
 
-                                // return Text("${arrayfinal['entradas'][index]}");
-                                return ListBitacoraWidget(
-                                  // user: user,
-                                  userName: arrayfinal['entradas'][index][5],
-                                  start: arrayfinal['entradas'][index][2],
-                                  end: arrayfinal['entradas'][index][3],
-                                  incidencias: arrayfinal['entradas'][index][4],
-                                  checkpoint: arrayfinal['entradas'][index][6],
-                                  // contentActivity: textGenerator(arrayList, index),
-                                );
-                              },
-                              reverse: false,
-                            ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  });
+              //                   // return Text("${arrayfinal['entradas'][index]}");
+              //                   return ListBitacoraWidget(
+              //                     // user: user,
+              //                     userName: arrayfinal['entradas'][index][5],
+              //                     start: arrayfinal['entradas'][index][2],
+              //                     end: arrayfinal['entradas'][index][3],
+              //                     incidencias: arrayfinal['entradas'][index][4],
+              //                     checkpoint: arrayfinal['entradas'][index][6],
+              //                     // contentActivity: textGenerator(arrayList, index),
+              //                   );
+              //                 },
+              //                 reverse: false,
+              //               ),
+              //             ),
+              //           ],
+              //         );
+              //       } else {
+              //         return CircularProgressIndicator();
+              //       }
+              //     });
             } else {
               return CircularProgressIndicator();
             }
@@ -245,7 +246,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                                 }
                               }
                               arrayfiltro['entradas'] = datos;
-                              arrayfinal = arrayfiltro;
+                              // arrayfinal = arrayfiltro;
 
                               setState(() {});
                               break;
@@ -271,7 +272,7 @@ class _BitacoraGeneralState extends State<BitacoraGeneral> {
                               }
 
                               arrayfiltro['entradas'] = datos;
-                              arrayfinal = arrayfiltro;
+                              // arrayfinal = arrayfiltro;
                               print(arrayfinal);
                               setState(() {});
 

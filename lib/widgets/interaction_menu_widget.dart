@@ -30,6 +30,7 @@ class InteractionMenu extends StatefulWidget {
   bool btnsave;
   bool isNewMenuRequest;
   String tipo;
+  String codigo;
 
   InteractionMenu(
       {Key? key,
@@ -37,6 +38,7 @@ class InteractionMenu extends StatefulWidget {
       this.usuario,
       this.recorrido,
       this.estado,
+      required this.codigo,
       required this.nombre,
       required this.acciones,
       required this.isNewMenuRequest,
@@ -374,8 +376,8 @@ class _InteractionMenuState extends State<InteractionMenu> {
                   //guardar la incidencia
                   MaterialButton(
                     onPressed: () async {
-                      print(recorrido);
-                      print(lugar);
+                      // print(recorrido);
+                      // print(lugar);
                       LocationPermission permission;
 
                       permission =
@@ -394,11 +396,12 @@ class _InteractionMenuState extends State<InteractionMenu> {
                         //     if (widget.tipo == "Recorrido") {
                         String nombre_bd = widget.nombre.replaceAll('[', '');
                         nombre_bd = nombre_bd.replaceAll(']', '');
+                        print("{$widget.codigo} soy yo");
                         var resultado = await http.post(url, body: {
                           "responsable": "${responsable.text}",
                           "comentario": "${comentario.text}",
                           "imagen": base64Image,
-                          "usuario": nombre_bd,
+                          "usuario": widget.usuario,
                           "recorrido": widget.recorrido,
                           "tipo_inc": "${accion.text}",
                           "lugar": "${lugar.text}",
@@ -406,9 +409,11 @@ class _InteractionMenuState extends State<InteractionMenu> {
                           "latitude": position.latitude.toString(),
                           "status": isActive,
                           "accidente": _opcionSeleccionada,
+                          "codigo": widget.codigo,
+                          "nombre": nombre_bd
                         });
 
-                        print(resultado.body);
+                        // print(resultado.body);
                       }
                       //     } else {
                       //       await http.post(url, body: {
@@ -449,7 +454,7 @@ class _InteractionMenuState extends State<InteractionMenu> {
                       responsable.text = '';
                       accion.text = '';
                       lugar.text = '';
-                      isActive = 'No';
+                      isActive = 'Sí';
                       activeStatus = false;
 
                       setState(() {});

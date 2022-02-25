@@ -69,7 +69,8 @@ class _MainClassState extends State<MainClass> {
                               "${widget.conectionData.serverName()}crear_salida.php");
                           var entrada = await http.post(url, body: {
                             'index': widget.entrada,
-                            'usuario': widget.usuario
+                            'usuario': widget.usuario,
+                            'codigo': widget.codigo
                           });
                           widget.isCharging = true;
                           print(entrada.body);
@@ -187,6 +188,8 @@ class _MainClassState extends State<MainClass> {
                         isNewMenuRequest: true,
                         btnsave: true,
                         tipo: "1",
+                        codigo: widget.codigo!,
+                        usuario: widget.usuario,
                         func: () {
                           setState(() {});
                         }),
@@ -198,7 +201,7 @@ class _MainClassState extends State<MainClass> {
         ),
       ),
       theme: ThemeData(
-          scaffoldBackgroundColor: Colors.grey[850],
+        scaffoldBackgroundColor: Colors.grey[850],
       ),
     );
   }
@@ -216,7 +219,9 @@ class _MainClassState extends State<MainClass> {
         context: context,
         builder: (context) {
           return CheckPointWidget(
-              entrada: widget.entrada, usuario: widget.usuario);
+              entrada: widget.entrada,
+              usuario: widget.usuario,
+              codigo: widget.codigo);
         });
   }
 
@@ -235,6 +240,8 @@ class _MainClassState extends State<MainClass> {
               isNewMenuRequest: true,
               btnsave: true,
               tipo: "1",
+              codigo: widget.codigo!,
+              usuario: widget.usuario,
               func: () {
                 setState(() {});
               }),

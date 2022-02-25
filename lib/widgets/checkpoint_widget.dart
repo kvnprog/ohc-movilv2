@@ -31,7 +31,12 @@ ConectionData conectionData = ConectionData();
 class CheckPointWidget extends StatefulWidget {
   final String? entrada;
   final String? usuario;
-  CheckPointWidget({Key? key, required this.entrada, required this.usuario})
+  final String? codigo;
+  CheckPointWidget(
+      {Key? key,
+      required this.entrada,
+      required this.usuario,
+      required this.codigo})
       : super(key: key);
 
   @override
@@ -81,44 +86,46 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
 
                   Column(
                     children: [
-                      (!widget.isLoading) ? 
-                      Switch(
-                        value: (status == null) ? status = false : status = status!,
-                        onChanged: (value) async{
-                          widget.isLoading = true;
-                          if (status == null) {
-                            status = value;
-                          } else {
-                            if (!status!) {
-                              setState(() {
-                                status = true;
-                              });
-                              var url = Uri.parse("${connect.serverName()}check_point_list.php");
-                              var resultado = await http.post(url, body: {});
+                      (!widget.isLoading)
+                          ? Switch(
+                              value: (status == null)
+                                  ? status = false
+                                  : status = status!,
+                              onChanged: (value) async {
+                                widget.isLoading = true;
+                                if (status == null) {
+                                  status = value;
+                                } else {
+                                  if (!status!) {
+                                    setState(() {
+                                      status = true;
+                                    });
+                                    var url = Uri.parse(
+                                        "${connect.serverName()}check_point_list.php");
+                                    var resultado =
+                                        await http.post(url, body: {});
 
-                              id_check_list = resultado.body;
-                              widget.isLoading = false;
-                            } else {
-                              status = false;
-                              widget.isLoading = false;
-                            }
-                          }
-                         setState(() {
-                           
-                         });
-                        },
-                        activeColor: Colors.green,
-                      )
-                      : Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: const CircularProgressIndicator(
-                          color: Colors.black,
-                          backgroundColor: Colors.blue,
-                        ),
-                      ),
-
-                      (!status!) ? const Text('Iniciar Recorrido') 
-                      : const Text('Detener Recorrido'),
+                                    id_check_list = resultado.body;
+                                    widget.isLoading = false;
+                                  } else {
+                                    status = false;
+                                    widget.isLoading = false;
+                                  }
+                                }
+                                setState(() {});
+                              },
+                              activeColor: Colors.green,
+                            )
+                          : Container(
+                              margin: const EdgeInsets.only(bottom: 12),
+                              child: const CircularProgressIndicator(
+                                color: Colors.black,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                      (!status!)
+                          ? const Text('Iniciar Recorrido')
+                          : const Text('Detener Recorrido'),
                     ],
                   ),
 
@@ -226,10 +233,11 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                                         setState(() {});
                                       });
                                     }),
-
-                            MaterialButton(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                              shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(100.0) ),
+                          MaterialButton(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100.0)),
                               color: Colors.greenAccent[400],
                               child: btnload
                                   ? btnactivo
@@ -277,7 +285,8 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
                                         "comentario": dcomentario.text,
                                         "lugar": dlugar.text,
                                         "imagen": dbase64Image,
-                                        "id_check_list": id_check_list
+                                        "id_check_list": id_check_list,
+                                        "codigo": widget.codigo
                                       });
                                       btnload = true;
 
@@ -287,7 +296,6 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
 
                                       setState(() {});
                                     })
-
                         ],
                       ),
                 ],
@@ -299,7 +307,7 @@ class _CheckPointWidgetState extends State<CheckPointWidget> {
     );
   }
 
-  imageProv(){
+  imageProv() {
     return Image.asset('assets/loading-38.gif');
   }
 }
