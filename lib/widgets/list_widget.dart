@@ -94,7 +94,8 @@ class _ListWidgetState extends State<ListWidget> {
               shrinkWrap: true,
               crossAxisCount: 2,
               children: [
-                filterWidget(filtro1, 9, 'Quién captura', 0),
+                //filterWidget(filtro1, 9, 'Quién captura', 0),
+                filterWidget(filtro1, 9, 'Tipo', 0),
                 filterWidget(filtro2, 3, 'Responsable', 1),
                 filterWidget(filtro3, 1, 'Lugar', 2),
                 filterWidget(filtro4, 2, 'fecha', 3),
