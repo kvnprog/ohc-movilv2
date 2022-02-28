@@ -48,121 +48,96 @@ class _MainClassState extends State<MainClass> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Home',
-      home: Scaffold(
-        appBar: AppBar(
-          actions: [
-            Row(
-              children: [
-                const Text(
-                  'Salir',
-                  style: TextStyle(color: Colors.black),
-                ),
-                widget.isCharging
-                    ? IconButton(
-                        onPressed: () async {
-                          widget.isCharging = false;
-                          setState(() {});
-                          var url = Uri.parse(
-                              "${widget.conectionData.serverName()}crear_salida.php");
-                          var entrada = await http.post(url, body: {
-                            'index': widget.entrada,
-                            'usuario': widget.usuario,
-                            'codigo': widget.codigo
-                          });
-                          widget.isCharging = true;
-                          print(entrada.body);
-                          //var url = Uri.parse("${widget.conectionData.serverName()}crear_salida.php");
-                          //var entrada = await http.post(url, body: {'index': widget.entrada});
-
-                          Navigator.of(context).pop('login');
-                        },
-                        icon: const Icon(
-                          Icons.logout,
-                          color: Colors.black,
-                          size: 30,
-                        ))
-                    : Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        child: const CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          color: Colors.black,
-                        ),
-                      )
-              ],
-            ),
-          ],
-          title: const Text('Home'),
-        ),
-        body: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  child: Column(
-                    children: const [
-                      Icon(Icons.file_copy, size: 65, color: Colors.white),
-                      Text(
-                        'Incidencias',
-                        overflow: TextOverflow.visible,
-                        softWrap: false,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
+    return WillPopScope(
+      onWillPop: () {
+        return Future(() => false);
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Home',
+        home: Scaffold(
+          appBar: AppBar(
+            actions: [
+              Row(
+                children: [
+                  const Text(
+                    'Salir',
+                    style: TextStyle(color: Colors.black),
                   ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => ListWidget(
-                              codigo: widget.codigo,
-                            )));
-                  },
-                ),
-                GestureDetector(
-                  child: Column(
-                    children: const [
-                      Icon(
-                        Icons.file_present_rounded,
-                        size: 65,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        'Actividades',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: null,
-                        semanticsLabel: '...',
-                        textWidthBasis: TextWidthBasis.parent,
-                        style: TextStyle(fontSize: 15, color: Colors.white),
-                      )
-                    ],
+                  widget.isCharging
+                      ? IconButton(
+                          onPressed: () async {
+                            widget.isCharging = false;
+                            setState(() {});
+                            var url = Uri.parse(
+                                "${widget.conectionData.serverName()}crear_salida.php");
+                            var entrada = await http.post(url, body: {
+                              'index': widget.entrada,
+                              'usuario': widget.usuario,
+                              'codigo': widget.codigo
+                            });
+                            widget.isCharging = true;
+                            print(entrada.body);
+                            //var url = Uri.parse("${widget.conectionData.serverName()}crear_salida.php");
+                            //var entrada = await http.post(url, body: {'index': widget.entrada});
+    
+                            Navigator.of(context).pop('login');
+                          },
+                          icon: const Icon(
+                            Icons.logout,
+                            color: Colors.black,
+                            size: 30,
+                          ))
+                      : Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: const CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                            color: Colors.black,
+                          ),
+                        )
+                ],
+              ),
+            ],
+            title: const Text('Home'),
+          ),
+          body: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    child: Column(
+                      children: const [
+                        Icon(Icons.file_copy, size: 65, color: Colors.white),
+                        Text(
+                          'Incidencias',
+                          overflow: TextOverflow.visible,
+                          softWrap: false,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => ListWidget(
+                                codigo: widget.codigo,
+                              )));
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => BitacoraGeneral(
-                            userArray: userArray,
-                            user: widget.usuario.toString(),
-                            userName: widget.nombre,
-                            codigo: widget.codigo
-                            //codigo: widget.codigo
-                            )));
-                  },
-                ),
-                GestureDetector(
+                  GestureDetector(
                     child: Column(
                       children: const [
                         Icon(
-                          Icons.flag,
+                          Icons.file_present_rounded,
                           size: 65,
                           color: Colors.white,
                         ),
                         Text(
-                          'CheckPoint',
+                          'Actividades',
                           overflow: TextOverflow.ellipsis,
                           maxLines: null,
                           semanticsLabel: '...',
@@ -171,37 +146,67 @@ class _MainClassState extends State<MainClass> {
                         )
                       ],
                     ),
-                    onTap: () => showDialogFunction(context)),
-              ],
-            ),
-            Expanded(
-              child: SizedBox(
-                width: 500,
-                height: 630,
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    InteractionMenu(
-                        recorrido: widget.entrada,
-                        nombre: widget.nombre.toString(),
-                        acciones: widget.acciones!,
-                        isNewMenuRequest: true,
-                        btnsave: true,
-                        tipo: "1",
-                        codigo: widget.codigo!,
-                        usuario: widget.usuario,
-                        func: () {
-                          setState(() {});
-                        }),
-                  ],
-                ),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => BitacoraGeneral(
+                              userArray: userArray,
+                              user: widget.usuario.toString(),
+                              userName: widget.nombre,
+                              codigo: widget.codigo
+                              //codigo: widget.codigo
+                              )));
+                    },
+                  ),
+                  GestureDetector(
+                      child: Column(
+                        children: const [
+                          Icon(
+                            Icons.flag,
+                            size: 65,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'CheckPoint',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: null,
+                            semanticsLabel: '...',
+                            textWidthBasis: TextWidthBasis.parent,
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      onTap: () => showDialogFunction(context)),
+                ],
               ),
-            )
-          ],
+              Expanded(
+                child: SizedBox(
+                  width: 500,
+                  height: 630,
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      InteractionMenu(
+                          recorrido: widget.entrada,
+                          nombre: widget.nombre.toString(),
+                          acciones: widget.acciones!,
+                          isNewMenuRequest: true,
+                          btnsave: true,
+                          tipo: "1",
+                          codigo: widget.codigo!,
+                          usuario: widget.usuario,
+                          func: () {
+                            setState(() {});
+                          }),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[850],
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.grey[850],
+        ),
       ),
     );
   }
